@@ -1,0 +1,3 @@
+<metadata width="300" height="150" title="Data about picture" ok="OK" cancel="Cancel">
+	<input type="textarea" rows="4" name="opis" label="Picture description" />	
+</metadata>

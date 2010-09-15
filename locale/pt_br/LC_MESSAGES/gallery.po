@@ -1,0 +1,197 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-09-08 21:16-0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /controllers/albums_controller.php:25;105
+#: /views/albums/index.ctp:3
+msgid "Albums"
+msgstr "Albuns"
+
+#: /controllers/albums_controller.php:58;73
+msgid "Album is saved."
+msgstr "Album salvo"
+
+#: /controllers/albums_controller.php:61;76
+msgid "Album could not be saved. Please try again."
+msgstr "Album não pode ser salvo. Por favor tente novamente."
+
+#: /controllers/albums_controller.php:68
+msgid "Invalid album."
+msgstr "Album inválido."
+
+#: /controllers/albums_controller.php:89
+msgid "Invalid ID for album."
+msgstr "ID do album inválido."
+
+#: /controllers/albums_controller.php:98
+msgid "Album is deleted, and whole directory with images."
+msgstr "Album e suas fotos foram excluidos com sucesso."
+
+#: /controllers/albums_controller.php:121;133;143
+msgid "Album inválido. Por favor tente denovo."
+msgstr ""
+
+#: /controllers/albums_controller.php:137
+msgid "Album"
+msgstr "Album"
+
+#: /controllers/albums_controller.php:146
+msgid "Manage your photos in album"
+msgstr "Gerencie suas fotos no album"
+
+#: /controllers/albums_controller.php:175
+msgid "Invalid photo. Please try again."
+msgstr "Foto inválida. Por favor tente novamente."
+
+#: /controllers/albums_controller.php:181
+msgid "Problem to remove photo. Please try again."
+msgstr "Problemas para remover foto. Por favor tente novamente."
+
+#: /controllers/photos_controller.php:54
+msgid "Gallery pictures"
+msgstr ""
+
+#: /controllers/photos_controller.php:70
+msgid "Add pictures"
+msgstr ""
+
+#: /controllers/photos_controller.php:146
+msgid "Edit pictures"
+msgstr ""
+
+#: /controllers/photos_controller.php:149
+msgid "Invalid pictures."
+msgstr ""
+
+#: /controllers/photos_controller.php:154
+msgid "Picture is saved."
+msgstr ""
+
+#: /controllers/photos_controller.php:157
+msgid "Picture could not be saved. Please try again."
+msgstr ""
+
+#: /controllers/photos_controller.php:175
+msgid "Invalid picture ID."
+msgstr ""
+
+#: /controllers/photos_controller.php:185
+msgid "Picture is deleted from gallery."
+msgstr ""
+
+#: /views/albums/admin_add.ctp:2
+msgid "Add album"
+msgstr "Adicionar album"
+
+
+
+#: /views/albums/admin_add.ctp:8
+#: /views/albums/admin_edit.ctp:9
+#: /views/photos/admin_edit.ctp:13
+#: /views/photos/admin_index.ctp:14
+msgid "Description"
+msgstr "Descrição"
+
+#: /views/albums/admin_edit.ctp:2
+msgid "Edit album"
+msgstr "Editar Album"
+
+#: /views/albums/admin_index.ctp:6
+#: /views/elements/admin_menu.ctp:4
+msgid "New album"
+msgstr "Novo album"
+
+#: /views/albums/admin_index.ctp:14
+msgid "Order number"
+msgstr "Ordem"
+
+
+
+
+
+#: /views/albums/admin_index.ctp:25
+msgid "Photos in album"
+msgstr "Fotos no album"
+
+#: /views/albums/admin_index.ctp:27
+#: /views/photos/admin_index.ctp:21
+msgid "Edit"
+msgstr "Editar"
+
+#: /views/albums/admin_index.ctp:28
+#: /views/photos/admin_index.ctp:22
+msgid "Delete"
+msgstr "Excluir"
+
+
+msgid "view album"
+msgstr "ver album"
+
+
+
+#: /views/albums/admin_index.ctp:28
+msgid "Jeste li sigurni?"
+msgstr ""
+
+#: /views/albums/admin_index.ctp:46
+#: /views/photos/admin_index.ctp:43
+msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr ""
+
+#: /views/albums/admin_upload.ctp:11;26
+msgid "remove"
+msgstr "remover"
+
+#: /views/albums/admin_upload.ctp:30
+msgid "Drop files here to upload"
+msgstr "Solte aqui os arquivos para enviar"
+
+#: /views/albums/admin_upload.ctp:31
+msgid "Add new photos"
+msgstr "Adicionar novas fotos"
+
+#: /views/albums/admin_upload.ctp:39
+msgid "cancel"
+msgstr "cancelar"
+
+#: /views/albums/index.ctp:4
+msgid "No albums found."
+msgstr "Nenhum album encontrado"
+
+#: /views/elements/admin_menu.ctp:1
+#: /views/photos/admin_edit.ctp:9
+msgid "Gallery"
+msgstr "Galeria"
+
+#: /views/elements/admin_menu.ctp:3
+msgid "List albums"
+msgstr "Listar albuns"
+
+#: /views/elements/admin_menu.ctp:5
+msgid "Gallery settings"
+msgstr "Configurar galeria"
+
+#: /views/elements/gallery_album.ctp:18
+msgid "No photos in the album"
+msgstr "Nenhuma foto no album"
+
+#: /views/photos/admin_index.ctp:6
+msgid "Add new pictures"
+msgstr "Adicionar nova foto"
+
+#: /views/photos/admin_index.ctp:22
+msgid "Jesi siguran?"
+msgstr ""
+
