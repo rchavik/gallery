@@ -13,7 +13,7 @@ Create album and upload any photos, you can access the albums in http://yoursite
 
 Eg.:
 
-<p>View my carnival photo album in Brazil</p> [Gallery:my_carnival_brazil_album] <a href="http://www.brazilcarnival.com/"><strong>visit http://www.brazilcarnival.com/</strong></a>
+[Gallery:my_carnival_brazil_album] 
 
 Author: Edinei L. Cipriani
 E-mail: <phpedinei@gmail.com>
