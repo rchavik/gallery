@@ -13,6 +13,7 @@
                                             $paginator->sort('id'),
 											__d('gallery','Order number', true),
                                             __('Title', true),
+                                            __('Type', true),
 											$paginator->sort('status'),                                            
                                               __('Actions', true),
                                              ));
@@ -31,6 +32,7 @@
                         $album['Album']['id'],
 						$album['Album']['position'],
                         $album['Album']['description'],
+                        $album['Album']['type'],
 					    $layout->status($album['Album']['status']),
                        $actions,
                       );
