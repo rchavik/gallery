@@ -21,7 +21,7 @@ CREATE  TABLE IF NOT EXISTS `photos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `album_id` INT NOT NULL ,
   `title` VARCHAR(45) NULL ,
-  `descrition` TEXT NULL ,
+  `description` TEXT NULL ,
   `small` VARCHAR(255) NULL ,
   `large` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`) ,
