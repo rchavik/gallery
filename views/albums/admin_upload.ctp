@@ -1,7 +1,18 @@
 <div class="users index">
     <h2><?php echo $title_for_layout; ?></h2>
 
-	<h3><?php echo sprintf(__d('gallery', 'Album: %s', true), $album['Album']['title']); ?></h3>
+	<?php
+	$editUrl = $this->Html->link($album['Album']['title'], array(
+		'plugin' => 'gallery',
+		'controller' => 'albums',
+		'action' => 'edit',
+		$album['Album']['id'],
+		)
+	);
+	?>
+
+	<h3><?php echo sprintf(__d('gallery', 'Album: %s', true), $editUrl); ?></h3>
+
     <div id="upload">
 
     </div>
