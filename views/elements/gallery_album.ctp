@@ -19,6 +19,7 @@ foreach($album['Photo'] as $photo) {
 	switch ($albumType) {
 	case 'nivo-slider':
 		$title = empty($photo['title']) ? false : $photo['title'];
+		$options = Set::merge(array('rel' => $urlSmall), $options);
 		if ($title) {
 			$options = Set::merge(array('title' => $title), $options);
 		}
