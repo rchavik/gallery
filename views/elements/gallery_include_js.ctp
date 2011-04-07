@@ -1,20 +1,17 @@
 <?php
 
-$albumType = empty($album['Album']['type']) ? 'gallery' : $album['Album']['type'];
+$jslibs = Configure::read('Gallery.jslibs');
 
-switch ($albumType) {
-
-case 'nivo-slider':
+if (false !== strpos($jslibs, 'nivo-slider')) {
 	echo $html->script('/gallery/js/jquery.nivo.slider', false);
 	echo $html->css('/gallery/css/nivo-slider', false);
 	echo $html->css('/gallery/css/nivo-style', false);
-	break;
+}
 
-case 'gallery':
-default:
+if (false !== strpos($jslibs, 'galleria')) {
 	echo $html->script('/gallery/js/galleria', false);
-?>
-<script> Galleria.loadTheme('<?php echo $this->Html->url('/gallery/js/themes/classic/galleria.classic.js'); ?>');</script>
-<?php
-	break;
-};
+	$code = sprintf('Galleria.loadTheme(\'%s\')',
+		$this->Html->url('/gallery/js/themes/classic/galleria.classic.js')
+		);
+	echo $this->Html->scriptBlock($code, array('inline' => false));
+}
