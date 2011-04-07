@@ -59,6 +59,7 @@ class GalleryActivation {
     	$controller->Setting->write('Gallery.max_width_thumb', '120', array('editable' => 1));
     	$controller->Setting->write('Gallery.max_height_thumb', '80', array('editable' => 1));
     	$controller->Setting->write('Gallery.quality', '90', array('editable' => '1'));
+    	$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider', array('editable' => '1'));
     }
 /**
  * onDeactivate will be called if this returns true
@@ -104,6 +105,7 @@ class GalleryActivation {
     	$controller->Setting->deleteKey('Gallery.max_width_thumb');
     	$controller->Setting->deleteKey('Gallery.max_height_thumb');
     	$controller->Setting->deleteKey('Gallery.quality');
+    	$controller->Setting->deleteKey('Gallery.jslibs');
     }
 }
 ?>

@@ -20,7 +20,7 @@ class AlbumsController extends GalleryAppController {
  */
     var $name = 'Albums';
 
-    var $gallery_types = array('gallery' => 'Gallery', 'nivo-slider' => 'Slideshow (Nivo Slider)');
+    var $jslibs = array('galleria' => 'Galleria', 'nivo-slider' => 'Slideshow (Nivo Slider)');
 
 
     function admin_index() {
@@ -54,7 +54,7 @@ class AlbumsController extends GalleryAppController {
                 $this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.', true));
             }
         }
-        $this->set('types', $this->gallery_types);
+        $this->set('types', $this->jslibs);
     }
 
     function admin_edit($id = null) {
@@ -72,7 +72,7 @@ class AlbumsController extends GalleryAppController {
         }
 
        	$this->data = $this->Album->read(null, $id);
-        $this->set('types', $this->gallery_types);
+        $this->set('types', $this->jslibs);
     }
 
     function admin_delete($id = null) {
