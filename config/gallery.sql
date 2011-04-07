@@ -10,6 +10,7 @@ CREATE  TABLE IF NOT EXISTS `albums` (
   `slug` VARCHAR(45) NOT NULL ,
   `description` TEXT NULL ,
   `type` VARCHAR(15) NOT NULL,
+  `params` TEXT,
   `status` TINYINT(1)  NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;

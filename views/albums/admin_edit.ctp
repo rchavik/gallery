@@ -8,6 +8,7 @@
             echo $form->input('slug');
 			echo $form->input('description',array('label' => __('Description', true)));
 			echo $form->input('type',array('label' => __('Type', true)));
+			echo $form->input('params',array('label' => __('Parameters', true)));
 			echo $form->input('status');
         ?>
         </fieldset>

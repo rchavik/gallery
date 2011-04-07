@@ -9,24 +9,30 @@
 	$albumType = $album['Album']['type'];
 ?>
 <div id="<?php echo $albumId; ?>">
-<?php foreach($album['Photo'] as $photo): ?>
 <?php
+foreach($album['Photo'] as $photo) {
+	$options = array();
 	$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
 	$urlSmall = $this->Html->url('/img/photos/' . $photo['small']);
+	$config = $this->Gallery->getAlbumJsParams($album);
+
 	switch ($albumType) {
 	case 'nivo-slider':
-?>
-		<img src="<?php echo $urlLarge; ?>">
-<?php
+		$title = empty($photo['title']) ? false : $photo['title'];
+		if ($title) {
+			$options = Set::merge(array('title' => $title), $options);
+		}
+		echo $this->Html->image($urlLarge, $options);
 		break; 
+
 	case 'gallery':
 	default:
-	?>
-		<a href="<?php echo $urlLarge; ?>"><img src="<?php echo $urlSmall; ?>"></a>
-	<?php	break;
+		$imgTag = $this->Html->image($urlSmall);
+		echo $this->Html->tag('a', $imgTag, array('href' => $urlLarge));
+		break;
 	}
-	?>
-<?php endforeach; ?>
+}
+?>
 </div>
 
 <?php
@@ -34,13 +40,13 @@
 	switch ($albumType) {
 	case 'nivo-slider':
 ?>
-<script> $(function(){ $('#' + '<?php echo $albumId; ?>').nivoSlider(); }); </script>
+<script> $(function(){ $('#' + '<?php echo $albumId; ?>').nivoSlider(<?php echo $config; ?>); }); </script>
 <?php
 		break;
 	case 'gallery':
 	default:
 ?>
-<script> $(function(){ $('#' + '<?php echo $albumId; ?>').galleria(); }); </script>
+<script> $(function(){ $('#' + '<?php echo $albumId; ?>').galleria(<?php echo $config; ?>); }); </script>
 <?php
 		break;
 }

@@ -50,6 +50,20 @@ class GalleryHelper extends AppHelper {
 		return  $this->Layout->View->element('gallery_album', array('plugin' => 'gallery', 'slug' => $matches[1], 'cache' => array('key' => $matches[1], 'time' => '5 mins')));
 	}
 
+	public function getAlbumJsParams($album) {
+		if (empty($album['Album']['params'])) return false;
+		$params = $album['Album']['params'];
+		$params = str_replace("\r", '', $params);
+		$config = array();
+		$lines = explode("\n", $params);
+		for ($i = 0, $ii = count($lines); $i < $ii; $i++) {
+			$line = str_replace(' ', '', $lines[$i]);
+			parse_str($line, $arr);
+			$config += $arr;
+		}
+		return json_encode($config);
+	}
+
 }
 
 ?>
