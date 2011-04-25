@@ -5,11 +5,9 @@
 <?php if(isset($album['Photo']) && count($album['Photo'])): ?>
 
 <?php
-	$albumId = 'gallery-' . $album['Album']['id'];
-	$albumType = $album['Album']['type'];
-?>
-<div id="<?php echo $albumId; ?>">
-<?php
+$albumId = 'gallery-' . $album['Album']['id'];
+$albumType = $album['Album']['type'];
+$out = '';
 foreach($album['Photo'] as $photo) {
 	$options = array();
 	$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
@@ -23,34 +21,56 @@ foreach($album['Photo'] as $photo) {
 		if ($title) {
 			$options = Set::merge(array('title' => $title), $options);
 		}
-		echo $this->Html->image($urlLarge, $options);
+		$out .= $this->Html->image($urlLarge, $options);
 		break; 
-
+		
+	case 'DDSlider':
+		$title = empty($photo['title']) ? false : $photo['title'];
+		$options = Set::merge(array('rel' => $urlSmall), $options);
+		if ($title) {
+			$options = Set::merge(array('title' => $title), $options);
+		}
+		$out .= $this->Html->tag('li', $this->Html->image($urlLarge, $options));
+		break; 
+		
 	case 'gallery':
 	default:
 		$imgTag = $this->Html->image($urlSmall);
-		echo $this->Html->tag('a', $imgTag, array('href' => $urlLarge));
+		$out .= $this->Html->tag('a', $imgTag, array('href' => $urlLarge));
 		break;
 	}
 }
-?>
-</div>
 
-<?php
+switch ($albumType) {
 
-	switch ($albumType) {
-	case 'nivo-slider':
-?>
-<script> $(function(){ $('#' + '<?php echo $albumId; ?>').nivoSlider(<?php echo $config; ?>); }); </script>
-<?php
-		break;
-	case 'gallery':
-	default:
-?>
-<script> $(function(){ $('#' + '<?php echo $albumId; ?>').galleria(<?php echo $config; ?>); }); </script>
-<?php
-		break;
+case 'DDSlider':
+	echo $this->Html->tag('ul', $out, array('id' => $albumId));
+	break;
+
+default:
+	echo $this->Html->tag('div', $out, array('id' => $albumId));
+	break;
 }
+
+switch ($albumType) {
+case 'nivo-slider':
+	$initializer = 'nivoSlider'; break;
+
+case 'DDSlider':
+	$initializer = 'DDSlider'; break;
+
+case 'gallery':
+default:
+	$initializer = 'galleria'; break;
+}
+
+$js = sprintf('$(function(){ $(\'#%s\').%s(%s); })',
+	$albumId,
+	$initializer,
+	$config
+	);
+
+echo $this->Html->scriptBlock($js);
 ?>
 
 <?php else: ?>

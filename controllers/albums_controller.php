@@ -20,7 +20,7 @@ class AlbumsController extends GalleryAppController {
  */
     var $name = 'Albums';
 
-    var $jslibs = array('galleria' => 'Galleria', 'nivo-slider' => 'Slideshow (Nivo Slider)');
+    var $jslibs = array('galleria' => 'Galleria', 'nivo-slider' => 'Slideshow (Nivo Slider)', 'DDSlider' => 'DDSlider');
 
 
     function admin_index() {

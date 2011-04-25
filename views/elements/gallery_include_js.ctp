@@ -8,6 +8,12 @@ if (false !== strpos($jslibs, 'nivo-slider')) {
 	echo $html->css('/gallery/css/nivo-style', false);
 }
 
+if (false !== strpos($jslibs, 'DDSlider')) {
+	echo $html->script('/gallery/js/jquery.DDSlider', false);
+	echo $html->css('/gallery/css/DDSlider', false);
+}
+
+
 if (false !== strpos($jslibs, 'galleria')) {
 	echo $html->script('/gallery/js/galleria', false);
 	$code = sprintf('Galleria.loadTheme(\'%s\')',
