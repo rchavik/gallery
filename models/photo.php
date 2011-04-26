@@ -17,7 +17,7 @@ class Photo extends AppModel {
  * @var string
  * @access public
  */
-    var $name = 'Photo';	
+	var $name = 'Photo';	
 
 
 	var $dir = '';
@@ -28,12 +28,12 @@ class Photo extends AppModel {
  * @var array
  * @access public
  */
-    var $belongsTo = array(
+	var $belongsTo = array(
 		'Album' => array(
 			'className' => 'Gallery.album',
 			'foreignKey' => 'album_id'
 		)
-    );
+	);
 
 	function __construct(){
 		parent::__construct();
@@ -61,9 +61,9 @@ class Photo extends AppModel {
 	
 	function upload($data){
 		$max_width = Configure::read('Gallery.max_width');
-    	$thumb_width = Configure::read('Gallery.max_width_thumb');
-    	$thumb_height = Configure::read('Gallery.max_height_thumb');
-    	$thumb_quality = Configure::read('Gallery.quality');
+		$thumb_width = Configure::read('Gallery.max_width_thumb');
+		$thumb_height = Configure::read('Gallery.max_height_thumb');
+		$thumb_quality = Configure::read('Gallery.quality');
 		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 	   	$uploader = new qqFileUploader();
 		$result = $uploader->handleUpload($this->dir);
@@ -322,23 +322,23 @@ class Photo extends AppModel {
 	if(empty($imagetype)) return false;
 		switch($imagetype)
 		{
-			case IMAGETYPE_GIF    : return 'gif';
-			case IMAGETYPE_JPEG    : return 'jpg';
-			case IMAGETYPE_PNG    : return 'png';
-			case IMAGETYPE_SWF    : return 'swf';
-			case IMAGETYPE_PSD    : return 'psd';
-			case IMAGETYPE_BMP    : return 'bmp';
+			case IMAGETYPE_GIF	: return 'gif';
+			case IMAGETYPE_JPEG	: return 'jpg';
+			case IMAGETYPE_PNG	: return 'png';
+			case IMAGETYPE_SWF	: return 'swf';
+			case IMAGETYPE_PSD	: return 'psd';
+			case IMAGETYPE_BMP	: return 'bmp';
 			case IMAGETYPE_TIFF_II : return 'tiff';
 			case IMAGETYPE_TIFF_MM : return 'tiff';
-			case IMAGETYPE_JPC    : return 'jpc';
-			case IMAGETYPE_JP2    : return 'jp2';
-			case IMAGETYPE_JPX    : return 'jpf';
-			case IMAGETYPE_JB2    : return 'jb2';
-			case IMAGETYPE_SWC    : return 'swc';
-			case IMAGETYPE_IFF    : return 'aiff';
-			case IMAGETYPE_WBMP    : return 'wbmp';
-			case IMAGETYPE_XBM    : return 'xbm';
-			default                : return false;
+			case IMAGETYPE_JPC	: return 'jpc';
+			case IMAGETYPE_JP2	: return 'jp2';
+			case IMAGETYPE_JPX	: return 'jpf';
+			case IMAGETYPE_JB2	: return 'jb2';
+			case IMAGETYPE_SWC	: return 'swc';
+			case IMAGETYPE_IFF	: return 'aiff';
+			case IMAGETYPE_WBMP	: return 'wbmp';
+			case IMAGETYPE_XBM	: return 'xbm';
+			default				: return false;
 		}
 	}
 }

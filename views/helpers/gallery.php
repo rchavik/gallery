@@ -19,9 +19,9 @@ class GalleryHelper extends AppHelper {
  * @access public
  */
 
-    var $helpers = array(
-        'Layout'
-    );
+	var $helpers = array(
+		'Layout'
+	);
 
 
 /**
@@ -33,7 +33,7 @@ class GalleryHelper extends AppHelper {
 		if(ClassRegistry::getObject('view')){
 			echo $this->Layout->View->element('gallery_include_js', array('plugin' => 'gallery'));
 		}
-    }
+	}
 
 
 /**

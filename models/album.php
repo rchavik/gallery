@@ -17,15 +17,15 @@ class Album extends AppModel {
  * @var string
  * @access public
  */
-    var $name = 'Album';
+	var $name = 'Album';
 	
 	
-    var $validate = array(
-        'slug' => array(
-            'rule' => 'isUnique',
-            'message' => 'Slug is alredy in use.',
-        ),
-    );
+	var $validate = array(
+		'slug' => array(
+			'rule' => 'isUnique',
+			'message' => 'Slug is alredy in use.',
+		),
+	);
 
 /**
  * Model associations: hasMany
@@ -33,21 +33,21 @@ class Album extends AppModel {
  * @var array
  * @access public
  */
-    var $hasMany = array(            
-            'Photo' => array('className' => 'Gallery.photo',
-                                'foreignKey' => 'album_id',
-                                'dependent' => true,
-                                'conditions' => '',
-                                'fields' => '',
+	var $hasMany = array(			
+			'Photo' => array('className' => 'Gallery.photo',
+								'foreignKey' => 'album_id',
+								'dependent' => true,
+								'conditions' => '',
+								'fields' => '',
 								'order' => 'Photo.title ASC',
-                                'limit' => '',
-                                'offset' => '',
-                                'exclusive' => '',
-                                'finderQuery' => '',
-                                'counterQuery' => ''
-            ),
+								'limit' => '',
+								'offset' => '',
+								'exclusive' => '',
+								'finderQuery' => '',
+								'counterQuery' => ''
+			),
 
-    );	
+	);	
 
 
 }

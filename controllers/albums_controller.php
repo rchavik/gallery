@@ -18,27 +18,27 @@ class AlbumsController extends GalleryAppController {
  * @var string
  * @access public
  */
-    var $name = 'Albums';
+	var $name = 'Albums';
 
-    var $jslibs = array('galleria' => 'Galleria', 'nivo-slider' => 'Slideshow (Nivo Slider)', 'DDSlider' => 'DDSlider');
+	var $jslibs = array('galleria' => 'Galleria', 'nivo-slider' => 'Slideshow (Nivo Slider)', 'DDSlider' => 'DDSlider');
 
 
-    function admin_index() {
-        $this->set('title_for_layout', __d('gallery','Albums', true));
+	function admin_index() {
+		$this->set('title_for_layout', __d('gallery','Albums', true));
 
-        $this->Album->recursive = 0;
+		$this->Album->recursive = 0;
 		$this->paginate = array(
 				'limit' => Configure::read('Gallery.album_limit_pagination'),
 				'order' => 'Album.position ASC');
-        $this->set('albums', $this->paginate());
-    }
+		$this->set('albums', $this->paginate());
+	}
 
-    function admin_add() {
-        if (!empty($this->data)) {
-            $this->Album->create();
-            if(empty($this->data['Album']['slug'])){
-            	$this->data['Album']['slug'] = $this->__make_slug($this->data['Gallery']['naziv']);
-            }
+	function admin_add() {
+		if (!empty($this->data)) {
+			$this->Album->create();
+			if(empty($this->data['Album']['slug'])){
+				$this->data['Album']['slug'] = $this->__make_slug($this->data['Gallery']['naziv']);
+			}
 
 			$this->Album->recursive = -1;
 			$position = $this->Album->find('all',array(
@@ -47,65 +47,65 @@ class AlbumsController extends GalleryAppController {
 
 			$this->data['Album']['position'] = $position[0][0]['position'] + 1;
 
-            if ($this->Album->save($this->data)) {
-                $this->Session->setFlash(__('Album is saved.', true));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.', true));
-            }
-        }
-        $this->set('types', $this->jslibs);
-    }
+			if ($this->Album->save($this->data)) {
+				$this->Session->setFlash(__('Album is saved.', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.', true));
+			}
+		}
+		$this->set('types', $this->jslibs);
+	}
 
-    function admin_edit($id = null) {
-        if (!$id) {
-            $this->Session->setFlash(__('Invalid album.', true));
-            $this->redirect(array('action' => 'index'));
-        }
-        if (!empty($this->data)) {
-            if ($this->Album->save($this->data)) {
-                $this->Session->setFlash(__d('gallery','Album is saved.', true));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.', true));
-            }
-        }
+	function admin_edit($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid album.', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->Album->save($this->data)) {
+				$this->Session->setFlash(__d('gallery','Album is saved.', true));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.', true));
+			}
+		}
 
-       	$this->data = $this->Album->read(null, $id);
-        $this->set('types', $this->jslibs);
-    }
+	   	$this->data = $this->Album->read(null, $id);
+		$this->set('types', $this->jslibs);
+	}
 
-    function admin_delete($id = null) {
-        if (!$id) {
-            $this->Session->setFlash(__d('gallery','Invalid ID for album.', true));
-            $this->redirect(array('action' => 'index'));
-        } else {
-        	$ssluga = $this->Album->findById($id);
-        	$sslug = $ssluga['Album']['slug'];
+	function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__d('gallery','Invalid ID for album.', true));
+			$this->redirect(array('action' => 'index'));
+		} else {
+			$ssluga = $this->Album->findById($id);
+			$sslug = $ssluga['Album']['slug'];
 
 			$dir  = WWW_ROOT . 'img' . DS . $sslug;
-        }
-        if ($this->Album->delete($id, true)) {
-            $this->Session->setFlash(__d('gallery','Album is deleted, and whole directory with images.', true));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->render(false);
-    }
+		}
+		if ($this->Album->delete($id, true)) {
+			$this->Session->setFlash(__d('gallery','Album is deleted, and whole directory with images.', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->render(false);
+	}
 
-    public function index() {
-        $this->set('title_for_layout',__d('gallery',"Albums", true));
+	public function index() {
+		$this->set('title_for_layout',__d('gallery',"Albums", true));
 
-        $this->Album->recursive = -1;
+		$this->Album->recursive = -1;
 		$this->Album->Behaviors->attach('Containable');
-        $this->paginate = array(
+		$this->paginate = array(
 				'conditions' => array('Album.status' => 1),
 				'contain' => array('Photo' => array('limit' => 1)),
 				'limit' => Configure::read('Gallery.album_limit_pagination'),
 				'order' => 'Album.position ASC');
 
 
-        $this->set('albums', $this->paginate());
-    }
+		$this->set('albums', $this->paginate());
+	}
 
 	public function view($slug = null) {
 		if (!$slug) {
@@ -126,8 +126,8 @@ class AlbumsController extends GalleryAppController {
 		}
 
 		$this->set('title_for_layout',__d('gallery',"Album", true) . $album['Album']['title']);
-        $this->set(compact('album'));
-    }
+		$this->set(compact('album'));
+	}
 
 	public function admin_upload($id = null) {
 		if (!$id) {
@@ -158,7 +158,7 @@ class AlbumsController extends GalleryAppController {
 
 	}
 
-    public function admin_delete_photo($id = null) {
+	public function admin_delete_photo($id = null) {
 		$this->layout = 'ajax';
 		$this->autoRender = false;
 
