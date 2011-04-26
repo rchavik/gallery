@@ -1,7 +1,7 @@
 <?php
 /**
  * Gallery Pictures Controller
- * 
+ *
  * Uploading pictures into gallery, and edit them
  *
  * PHP version 5
@@ -15,8 +15,8 @@
  */
 class PhotosController extends GalleryAppController {
 
-    
-   
+
+
 
 }
 ?>

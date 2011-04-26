@@ -17,7 +17,7 @@ class Photo extends AppModel {
  * @var string
  * @access public
  */
-	var $name = 'Photo';	
+	var $name = 'Photo';
 
 
 	var $dir = '';
@@ -45,20 +45,20 @@ class Photo extends AppModel {
 	}
 
 	function beforeDelete(){
-		//$dir =  WWW_ROOT . 'img'. DS . 'photos' . DS;  
+		//$dir =  WWW_ROOT . 'img'. DS . 'photos' . DS;
 		$photo = $this->findById($this->id);
 		unlink($this->dir . $photo['Photo']['small']);
 		unlink($this->dir . $photo['Photo']['large']);
 		return true;
 	}
-	
-	
+
+
 	function beforeSave(){
 
 		$this->data = $this->upload($this->data);
 		return true;
 	}
-	
+
 	function upload($data){
 		$max_width = Configure::read('Gallery.max_width');
 		$thumb_width = Configure::read('Gallery.max_width_thumb');
@@ -67,7 +67,7 @@ class Photo extends AppModel {
 		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 	   	$uploader = new qqFileUploader();
 		$result = $uploader->handleUpload($this->dir);
-		
+
 		$width = $this->getWidth($this->dir.$result['file']);
 		$height = $this->getHeight($this->dir.$result['file']);
 		if ($width > $max_width){
@@ -84,18 +84,18 @@ class Photo extends AppModel {
 		}else{
 			$this->resizeImage2('resizeCrop', $result['file'], $this->dir, 'thumb_'.$result['file'], $thumb_width, $thumb_height, $thumb_quality);
 		}
-		
+
 		$data['Photo']['small'] = 'thumb_'.$result['file'];
 		$data['Photo']['large'] = $result['file'];
 		return $data;
 	}
-	
-	
+
+
 	function getHeight($image) {
 		$sizes = getimagesize($image);
 		return $sizes[1];
 	}
-	
+
 	function getWidth($image) {
 		$sizes = getimagesize($image);
 		return $sizes[0];
@@ -142,14 +142,14 @@ class Photo extends AppModel {
 		$scale = $thumb_width/$w;
 		$cropped = $this->resizeThumbnailImage($thumbLocation,$imageLocation,$w,$h,$x1,$y1,$scale);
 	}
-	
-	
+
+
 	function resizeImage2($cType = 'resize', $id, $imgFolder, $newName = false, $newWidth=false, $newHeight=false, $quality = 75, $bgcolor = false)
 	{
 		$img = $imgFolder . $id;
-		list($oldWidth, $oldHeight, $type) = getimagesize($img); 
+		list($oldWidth, $oldHeight, $type) = getimagesize($img);
 		$ext = $this->image_type_to_extension($type);
-		
+
 		//check to make sure that the file is writeable, if so, create destination image (temp image)
 		if (is_writeable($imgFolder))
 		{
@@ -168,7 +168,7 @@ class Photo extends AppModel {
 			debug("Run \"chmod 777 on '$imgFolder' folder\"");
 			exit();
 		}
-		
+
 		//check to make sure that something is requested, otherwise there is nothing to resize.
 		//although, could create option for quality only
 		if ($newWidth OR $newHeight)
@@ -190,13 +190,13 @@ class Photo extends AppModel {
 						# within the maxW(newWidth) and maxH(newHeight) (thus some side will be smaller)
 						$widthScale = 2;
 						$heightScale = 2;
-						
+
 						if($newWidth) $widthScale = 	$newWidth / $oldWidth;
 						if($newHeight) $heightScale = $newHeight / $oldHeight;
 						//debug("W: $widthScale  H: $heightScale<br>");
 						if($widthScale < $heightScale) {
 							$maxWidth = $newWidth;
-							$maxHeight = false;							
+							$maxHeight = false;
 						} elseif ($widthScale > $heightScale ) {
 							$maxHeight = $newHeight;
 							$maxWidth = false;
@@ -204,7 +204,7 @@ class Photo extends AppModel {
 							$maxHeight = $newHeight;
 							$maxWidth = $newWidth;
 						}
-						
+
 						if($maxWidth > $maxHeight){
 							$applyWidth = $maxWidth;
 							$applyHeight = ($oldHeight*$applyWidth)/$oldWidth;
@@ -212,8 +212,8 @@ class Photo extends AppModel {
 							$applyHeight = $maxHeight;
 							$applyWidth = ($applyHeight*$oldWidth)/$oldHeight;
 						} else {
-							$applyWidth = $maxWidth; 
-								$applyHeight = $maxHeight;
+							$applyWidth = $maxWidth;
+							$applyHeight = $maxHeight;
 						}
 						//debug("mW: $maxWidth mH: $maxHeight<br>");
 						//debug("aW: $applyWidth aH: $applyHeight<br>");
@@ -225,13 +225,13 @@ class Photo extends AppModel {
 						// -- resize to max, then crop to center
 						$ratioX = $newWidth / $oldWidth;
 						$ratioY = $newHeight / $oldHeight;
-	
-						if ($ratioX < $ratioY) { 
+
+						if ($ratioX < $ratioY) {
 							$startX = round(($oldWidth - ($newWidth / $ratioY))/2);
 							$startY = 0;
 							$oldWidth = round($newWidth / $ratioY);
 							$oldHeight = $oldHeight;
-						} else { 
+						} else {
 							$startX = 0;
 							$startY = round(($oldHeight - ($newHeight / $ratioX))/2);
 							$oldWidth = $oldWidth;
@@ -246,11 +246,11 @@ class Photo extends AppModel {
 						$startX = ($oldWidth - $newWidth)/2;
 						$oldHeight = $newHeight;
 						$applyHeight = $newHeight;
-						$oldWidth = $newWidth; 
+						$oldWidth = $newWidth;
 						$applyWidth = $newWidth;
 						break;
 				}
-				
+
 				switch($ext)
 				{
 					case 'gif' :
@@ -268,20 +268,20 @@ class Photo extends AppModel {
 						return false;
 						break;
 				}
-				
+
 				//create new image
 				$newImage = imagecreatetruecolor($applyWidth, $applyHeight);
-				
+
 				if($bgcolor):
 				//set up background color for new image
 					sscanf($bgcolor, "%2x%2x%2x", $red, $green, $blue);
-					$newColor = ImageColorAllocate($newImage, $red, $green, $blue); 
+					$newColor = ImageColorAllocate($newImage, $red, $green, $blue);
 					imagefill($newImage,0,0,$newColor);
 				endif;
-				
+
 				//put old image on top of new image
 				imagecopyresampled($newImage, $oldImage, 0,0 , $startX, $startY, $applyWidth, $applyHeight, $oldWidth, $oldHeight);
-				
+
 					switch($ext)
 					{
 						case 'gif' :
@@ -298,22 +298,22 @@ class Photo extends AppModel {
 							return false;
 							break;
 					}
-				
+
 				imagedestroy($newImage);
 				imagedestroy($oldImage);
-				
+
 				if(!$newName){
 					unlink($img);
 					rename($dest, $img);
 				}
-				
+
 				return true;
 			}
 
 		} else {
 			return false;
 		}
-		
+
 
 	}
 

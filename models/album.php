@@ -18,8 +18,8 @@ class Album extends AppModel {
  * @access public
  */
 	var $name = 'Album';
-	
-	
+
+
 	var $validate = array(
 		'slug' => array(
 			'rule' => 'isUnique',
@@ -33,7 +33,7 @@ class Album extends AppModel {
  * @var array
  * @access public
  */
-	var $hasMany = array(			
+	var $hasMany = array(
 			'Photo' => array('className' => 'Gallery.photo',
 								'foreignKey' => 'album_id',
 								'dependent' => true,
@@ -47,7 +47,7 @@ class Album extends AppModel {
 								'counterQuery' => ''
 			),
 
-	);	
+	);
 
 
 }
