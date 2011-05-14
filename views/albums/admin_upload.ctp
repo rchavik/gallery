@@ -1,11 +1,23 @@
 <div class="users index">
     <h2><?php echo $title_for_layout; ?></h2>
 
+	<?php
+	$editUrl = $this->Html->link($album['Album']['title'], array(
+		'plugin' => 'gallery',
+		'controller' => 'albums',
+		'action' => 'edit',
+		$album['Album']['id'],
+		)
+	);
+	?>
+
+	<h3><?php echo sprintf(__d('gallery', 'Album: %s', true), $editUrl); ?></h3>
+
     <div id="upload">
 
     </div>
 	<br clear="both" />
-	<div id="return">
+	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
 				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php __d('gallery','remove'); ?></a><?php echo $this->Html->image('photos/'.$photo['small']); ?></div>

@@ -13,6 +13,7 @@
                                             $paginator->sort('id'),
 											__d('gallery','Order number', true),
                                             __('Title', true),
+                                            __('Type', true),
 											$paginator->sort('status'),                                            
                                               __('Actions', true),
                                              ));
@@ -25,12 +26,13 @@
            	$actions .= ' ' . $html->link(__d('gallery','Photos in album', true), array('controller' => 'albums', 'action' => 'upload', $album['Album']['id']));
 			$actions .= ' ' . $layout->adminRowActions($album['Album']['id']);
             $actions .= ' ' . $html->link(__('Edit', true), array('controller' => 'albums', 'action' => 'edit', $album['Album']['id']));
-            $actions .= ' ' . $html->link(__('Delete', true), array('controller' => 'albums', 'action' => 'delete', $album['Album']['id']), null, __('Jeste li sigurni?', true));
+            $actions .= ' ' . $html->link(__('Delete', true), array('controller' => 'albums', 'action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete this album?', true));
 
             $rows[] = array(
                         $album['Album']['id'],
 						$album['Album']['position'],
                         $album['Album']['description'],
+                        $album['Album']['type'],
 					    $layout->status($album['Album']['status']),
                        $actions,
                       );
