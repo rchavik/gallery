@@ -13,6 +13,10 @@ if (false !== strpos($jslibs, 'DDSlider')) {
 	echo $html->css('/gallery/css/DDSlider', false);
 }
 
+if (false !== strpos($jslibs, 'pikachoose')) {
+	echo $html->script('/gallery/js/jquery.pikachoose.full', false);
+	echo $html->css('/gallery/css/pikachoose', false);
+}
 
 if (false !== strpos($jslibs, 'galleria')) {
 	echo $html->script('/gallery/js/galleria', false);

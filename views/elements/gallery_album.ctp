@@ -32,6 +32,15 @@ foreach($album['Photo'] as $photo) {
 		}
 		$out .= $this->Html->tag('li', $this->Html->image($urlLarge, $options));
 		break; 
+	
+	case 'pikachoose':
+		$title = empty($photo['title']) ? false : $photo['title'];
+		$options = Set::merge(array('rel' => $urlSmall), $options);
+		if ($title) {
+			$options = Set::merge(array('title' => $title), $options);
+		}
+		$out .= $this->Html->tag('li', $this->Html->image($urlLarge, $options));
+		break; 
 		
 	case 'gallery':
 	default:
@@ -47,9 +56,14 @@ case 'DDSlider':
 	echo $this->Html->tag('ul', $out, array('id' => $albumId));
 	break;
 
+case 'pikachoose':
+	echo $this->Html->tag('ul', $out, array('id' => $albumId));
+	break;
+	
 default:
 	echo $this->Html->tag('div', $out, array('id' => $albumId));
 	break;
+	
 }
 
 switch ($albumType) {
@@ -58,7 +72,10 @@ case 'nivo-slider':
 
 case 'DDSlider':
 	$initializer = 'DDSlider'; break;
-
+	
+case 'pikachoose':
+	$initializer = 'PikaChoose'; break;
+	
 case 'gallery':
 default:
 	$initializer = 'galleria'; break;
