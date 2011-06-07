@@ -18,6 +18,7 @@ class Photo extends AppModel {
  * @access public
  */
 	var $name = 'Photo';
+	var $useDbConfig = 'gallery';
 
 
 	var $dir = '';

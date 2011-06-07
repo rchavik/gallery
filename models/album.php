@@ -18,6 +18,7 @@ class Album extends AppModel {
  * @access public
  */
 	var $name = 'Album';
+	var $useDbConfig = 'gallery';
 
 
 	var $validate = array(
