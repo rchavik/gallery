@@ -19,6 +19,7 @@ class Album extends AppModel {
  */
 	var $name = 'Album';
 
+	var $useDbConfig = 'gallery';
 
 	var $validate = array(
 		'slug' => array(
