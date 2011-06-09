@@ -24,7 +24,7 @@ class Album extends AppModel {
 	var $validate = array(
 		'slug' => array(
 			'rule' => 'isUnique',
-			'message' => 'Slug is alredy in use.',
+			'message' => 'Slug is already in use.',
 		),
 	);
 
