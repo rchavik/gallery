@@ -1,0 +1,16 @@
+a.gallery-thumb {
+	outline: none;
+}
+
+a.gallery-thumb img {
+	border: 1px solid #BBB;
+	padding: 2px;
+	margin: 5px 10px 5px 0;
+	vertical-align: top;
+}
+
+a.gallery-thumb img.last {
+	margin-right: 0;	
+}
+
+

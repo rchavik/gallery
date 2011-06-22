@@ -23,7 +23,7 @@ foreach($album['Photo'] as $photo) {
 		}
 		$out .= $this->Html->image($urlLarge, $options);
 		break; 
-		
+
 	case 'DDSlider':
 		$title = empty($photo['title']) ? false : $photo['title'];
 		$options = Set::merge(array('rel' => $urlSmall), $options);
@@ -32,7 +32,12 @@ foreach($album['Photo'] as $photo) {
 		}
 		$out .= $this->Html->tag('li', $this->Html->image($urlLarge, $options));
 		break; 
-		
+
+	case 'fancybox':
+		$imgTag = $this->Html->image($urlSmall);
+		$out .= $this->Html->tag('a', $imgTag, array('href' => $urlLarge,  'rel' => $albumId, 'class' => 'gallery-thumb'));
+		break;
+
 	case 'gallery':
 	default:
 		$imgTag = $this->Html->image($urlSmall);
@@ -53,19 +58,30 @@ default:
 }
 
 switch ($albumType) {
-case 'nivo-slider':
-	$initializer = 'nivoSlider'; break;
+	case 'nivo-slider':
+		$initializer = 'nivoSlider';
+		$selector = '#' . $albumId;
+		break;
 
-case 'DDSlider':
-	$initializer = 'DDSlider'; break;
+	case 'DDSlider':
+		$initializer = 'DDSlider';
+		$selector = '#' . $albumId;
+		break;
 
-case 'gallery':
-default:
-	$initializer = 'galleria'; break;
+	case 'fancybox':
+		$initializer = 'fancybox';
+		$selector = 'a[rel=' . $albumId . ']';
+		break;
+
+	case 'gallery':
+	default:
+		$initializer = 'galleria';
+		$selector = '#' . $albumId;
+		break;
 }
 
-$js = sprintf('$(function(){ $(\'#%s\').%s(%s); })',
-	$albumId,
+$js = sprintf('$(function(){ $(\'%s\').%s(%s); })',
+	$selector,
 	$initializer,
 	$config
 	);
@@ -74,6 +90,6 @@ echo $this->Html->scriptBlock($js);
 ?>
 
 <?php else: ?>
-	<?php  __d('gallery','No photos in the album'); ?>
+	<p><?php  __d('gallery','No photos in the album'); ?></p>
 <?php endif;?>
 <?php else: ?>[Gallery:<?php echo $slug; ?>]<?php endif; ?>

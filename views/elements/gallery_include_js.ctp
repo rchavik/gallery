@@ -13,6 +13,12 @@ if (false !== strpos($jslibs, 'DDSlider')) {
 	echo $html->css('/gallery/css/DDSlider', false);
 }
 
+if (false !== strpos($jslibs, 'fancybox')) {
+	echo $html->script('/gallery/js/fancybox', false);
+	echo $html->script('/gallery/js/jquery.mousewheel', false);
+	echo $html->css('/gallery/css/fancybox', false);
+	echo $html->css('/gallery/css/fancybox-style', false);
+}
 
 if (false !== strpos($jslibs, 'galleria')) {
 	echo $html->script('/gallery/js/galleria', false);
