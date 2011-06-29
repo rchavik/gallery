@@ -4,6 +4,8 @@ class FancyboxHelper extends AppHelper {
 
 	var $helpers = array(
 		'Html',
+		'Js',
+		'Gallery.Gallery',
 		);
 
 	function assets($options = array()) {
@@ -22,9 +24,13 @@ class FancyboxHelper extends AppHelper {
 	}
 
 	function photo($album, $photo) {
+		$urlLarge = $this->Html->url('/' . $photo['large']);
+		$urlSmall = $this->Html->url('/' . $photo['small']);
 		$imgTag = $this->Html->image($urlSmall);
-		$out .= $this->Html->tag('a', $imgTag, array('href' => $urlLarge,  'rel' => $albumId, 'class' => 'gallery-thumb'));
-		return $out;
+		return $this->Html->tag('a', $imgTag, array(
+			'href' => $urlLarge,
+			'rel' => 'gallery-' . $album['Album']['id'],
+			'class' => 'gallery-thumb'));
 	}
 
 	function initialize($album) {
