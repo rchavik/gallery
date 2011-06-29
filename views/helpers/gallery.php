@@ -31,6 +31,9 @@ class GalleryHelper extends AppHelper {
  */
 	public function afterRender() {
 		if(ClassRegistry::getObject('view')){
+			if (isset($this->Layout->View->params['admin'])) {
+				return;
+			}
 			echo $this->Layout->View->element('gallery_include_js', array('plugin' => 'gallery'));
 		}
 	}
