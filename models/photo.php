@@ -55,7 +55,6 @@ class Photo extends AppModel {
 		}
 		$this->dir = WWW_ROOT . $this->albumDir;
 		if(!is_dir($this->dir)) {
-			$this->log('creating: ' . $this->dir);
 			mkdir($this->dir, $perm, true);
 		}
 	}
