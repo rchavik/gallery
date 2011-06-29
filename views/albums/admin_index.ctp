@@ -10,13 +10,14 @@
     <table cellpadding="0" cellspacing="0">
     <?php
         $tableHeaders =  $html->tableHeaders(array(
-                                            $paginator->sort('id'),
-											__d('gallery','Order number', true),
-                                            __('Title', true),
-                                            __('Type', true),
-											$paginator->sort('status'),                                            
-                                              __('Actions', true),
-                                             ));
+			$paginator->sort('id'),
+			__d('gallery','Order number', true),
+			__d('gallery', 'Title', true),
+			__d('gallery', 'Description', true),
+			__d('gallery', 'Type', true),
+			$paginator->sort('status'),
+			__d('gallery', 'Actions', true),
+			));
         echo $tableHeaders;
 
         $rows = array();
@@ -29,13 +30,14 @@
             $actions .= ' ' . $html->link(__('Delete', true), array('controller' => 'albums', 'action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete this album?', true));
 
             $rows[] = array(
-                        $album['Album']['id'],
-						$album['Album']['position'],
-                        $album['Album']['description'],
-                        $album['Album']['type'],
-					    $layout->status($album['Album']['status']),
-                       $actions,
-                      );
+				$album['Album']['id'],
+				$album['Album']['position'],
+				$album['Album']['title'],
+				$this->Text->truncate($album['Album']['description'], 50),
+				$album['Album']['type'],
+				$layout->status($album['Album']['status']),
+				$actions,
+				);
         }
 
         echo $html->tableCells($rows);

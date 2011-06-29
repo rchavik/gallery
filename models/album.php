@@ -18,13 +18,13 @@ class Album extends AppModel {
  * @access public
  */
 	var $name = 'Album';
-	var $useDbConfig = 'gallery';
 
+	var $useDbConfig = 'gallery';
 
 	var $validate = array(
 		'slug' => array(
 			'rule' => 'isUnique',
-			'message' => 'Slug is alredy in use.',
+			'message' => 'Slug is already in use.',
 		),
 	);
 
@@ -35,21 +35,19 @@ class Album extends AppModel {
  * @access public
  */
 	var $hasMany = array(
-			'Photo' => array('className' => 'Gallery.photo',
-								'foreignKey' => 'album_id',
-								'dependent' => true,
-								'conditions' => '',
-								'fields' => '',
-								'order' => 'Photo.title ASC',
-								'limit' => '',
-								'offset' => '',
-								'exclusive' => '',
-								'finderQuery' => '',
-								'counterQuery' => ''
+		'Photo' => array(
+			'className' => 'Gallery.photo',
+			'foreignKey' => 'album_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => 'Photo.title ASC',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 			),
-
-	);
-
+		);
 
 }
-?>
