@@ -13,6 +13,6 @@ $this->Gallery->initialize($album);
 ?>
 
 <?php else: ?>
-	<?php  __d('gallery','No photos in the album'); ?>
+	<p><?php  __d('gallery','No photos in the album'); ?></p>
 <?php endif;?>
 <?php else: ?>[Gallery:<?php echo $slug; ?>]<?php endif; ?>
