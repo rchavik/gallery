@@ -4,6 +4,8 @@ class GalleriaHelper extends AppHelper {
 
 	var $helpers = array(
 		'Html',
+		'Js',
+		'Gallery.Gallery',
 		);
 
 	function assets($options = array()) {
@@ -13,6 +15,28 @@ class GalleriaHelper extends AppHelper {
 			$this->Html->url('/gallery/js/themes/classic/galleria.classic.js')
 			);
 		$this->Html->scriptBlock($code, $options);
+	}
+
+	function album($album, $photos) {
+		return $this->Html->tag('div', $photos, array(
+			'id' => 'gallery-' . $album['Album']['id'],
+			));
+	}
+
+	function photo($album, $photo) {
+		$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
+		$urlSmall = $this->Html->url('/img/photos/' . $photo['small']);
+		$imgTag = $this->Html->image($urlSmall);
+		return $this->Html->tag('a', $imgTag, array('href' => $urlLarge));
+	}
+
+	function initialize($album) {
+		$config = $this->Gallery->getAlbumJsParams($album);
+		$js = sprintf('$(function(){ $(\'#%s\').galleria(%s); })',
+			'gallery-' . $album['Album']['id'],
+			$config
+			);
+		$this->Js->buffer($js);
 	}
 
 }

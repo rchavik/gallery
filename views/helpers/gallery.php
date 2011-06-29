@@ -33,7 +33,7 @@ class GalleryHelper extends AppHelper {
 		$jslibs = explode(',', $jslibs);
 		$helpers = array();
 		foreach ($jslibs as $jslib) {
-			$class = Inflector::camelize(str_replace('-', '_', $jslib));
+			$class = $this->__helperClassName($jslib);
 			$helpers[] = 'Gallery.' . $class;
 			$this->_jslibs[] = $class;
 		}
@@ -93,6 +93,24 @@ class GalleryHelper extends AppHelper {
 		return json_encode($config);
 	}
 
+	private function __helperClassName($type) {
+		return Inflector::camelize(strtolower(str_replace('-', '_', $type)));
+	}
+
+	public function album($album, $photos) {
+		$class = $this->__helperClassName($album['Album']['type']);
+		return $this->{$class}->album($album, $photos);
+	}
+
+	public function photo($album, $photo) {
+		$class = $this->__helperClassName($album['Album']['type']);
+		return $this->{$class}->photo($album, $photo);
+	}
+
+	public function initialize($album) {
+		$class = $this->__helperClassName($album['Album']['type']);
+		$this->{$class}->initialize($album);
+	}
 }
 
 ?>
