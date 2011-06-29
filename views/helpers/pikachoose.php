@@ -4,6 +4,8 @@ class PikachooseHelper extends AppHelper {
 
 	var $helpers = array(
 		'Html',
+		'Js',
+		'Gallery.Gallery',
 		);
 
 	function assets($options = array()) {
@@ -19,14 +21,14 @@ class PikachooseHelper extends AppHelper {
 	}
 
 	function photo($album, $photo) {
-		$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
-		$urlSmall = $this->Html->url('/img/photos/' . $photo['small']);
+		$urlLarge = $this->Html->url('/' . $photo['large']);
+		$urlSmall = $this->Html->url('/' . $photo['small']);
 		$title = empty($photo['title']) ? false : $photo['title'];
-		$options = Set::merge(array('rel' => $urlSmall), $options);
+		$options = array('rel' => $urlSmall);
 		if ($title) {
 			$options = Set::merge(array('title' => $title), $options);
 		}
-		$out .= $this->Html->tag('li', $this->Html->image($urlLarge, $options));
+		return $this->Html->tag('li', $this->Html->image($urlLarge, $options));
 	}
 
 	function initialize($album) {
