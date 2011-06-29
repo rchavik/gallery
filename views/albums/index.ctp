@@ -1,4 +1,3 @@
-<?php echo $this->element('gallery_include_js', array('plugin' => 'gallery')); ?>
 
 
 	<h2><?php __d('gallery','Albums');?></h2>

@@ -23,6 +23,32 @@ class GalleryHelper extends AppHelper {
 		'Layout'
 	);
 
+/**
+ * A list of gallery/library helpers
+ */
+	var $_jslibs = array();
+
+	function __construct() {
+		$jslibs = Configure::read('Gallery.jslibs');
+		$jslibs = explode(',', $jslibs);
+		$helpers = array();
+		foreach ($jslibs as $jslib) {
+			$class = Inflector::camelize(str_replace('-', '_', $jslib));
+			$helpers[] = 'Gallery.' . $class;
+			$this->_jslibs[] = $class;
+		}
+		$this->helpers = Set::merge($this->helpers, $helpers);
+		parent::__construct();
+	}
+
+/**
+ * Include library css/javascript assets into the document
+ */
+	public function assets($options = array()) {
+		foreach ($this->_jslibs as $jslib) {
+			$this->{$jslib}->assets($options);
+		}
+	}
 
 /**
  * Called after LayoutHelper::setNode()
@@ -34,7 +60,7 @@ class GalleryHelper extends AppHelper {
 			if (isset($this->Layout->View->params['admin'])) {
 				return;
 			}
-			echo $this->Layout->View->element('gallery_include_js', array('plugin' => 'gallery'));
+			echo $this->assets();
 		}
 	}
 
