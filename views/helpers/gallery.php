@@ -94,7 +94,8 @@ class GalleryHelper extends AppHelper {
 	}
 
 	private function __helperClassName($type) {
-		return Inflector::camelize(strtolower(str_replace('-', '_', $type)));
+		$class = Inflector::camelize(strtolower(str_replace('-', '_', $type)));
+		return empty($class) ? 'Galleria' : $class;
 	}
 
 	public function album($album, $photos) {
