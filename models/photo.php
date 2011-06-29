@@ -23,6 +23,8 @@ class Photo extends AppModel {
 
 	var $dir = '';
 
+	var $albumDir = '';
+
 /**
  * Model associations: belongsTo
  *
@@ -36,26 +38,37 @@ class Photo extends AppModel {
 		)
 	);
 
-	function __construct(){
-		parent::__construct();
-		$dir = WWW_ROOT  . 'img' . DS;
-		if(!is_dir($dir.'photos')){
-			mkdir($dir.'photos', 0777);
+	function __construct($id = false, $table = null, $ds = null){
+		parent::__construct($id = false, $table = null, $ds = null);
+		$this->setTargetDirectory();
+	}
+
+	function getTargetDirectory() {
+		return $this->dir;
+	}
+
+	function setTargetDirectory($dir = 'photos', $perm = 0775) {
+		if ($dir == 'photos') {
+			$this->albumDir = 'img' . DS . $dir . DS;
+		} else {
+			$this->albumDir = 'galleries' . DS . $dir . DS;
 		}
-		$this->dir = WWW_ROOT  . 'img' . DS . 'photos' . DS;
+		$this->dir = WWW_ROOT . $this->albumDir;
+		if(!is_dir($this->dir)) {
+			$this->log('creating: ' . $this->dir);
+			mkdir($this->dir, $perm, true);
+		}
 	}
 
 	function beforeDelete(){
-		//$dir =  WWW_ROOT . 'img'. DS . 'photos' . DS;
 		$photo = $this->findById($this->id);
-		unlink($this->dir . $photo['Photo']['small']);
-		unlink($this->dir . $photo['Photo']['large']);
+		unlink(WWW_ROOT . $photo['Photo']['small']);
+		unlink(WWW_ROOT . $photo['Photo']['large']);
 		return true;
 	}
 
-
 	function beforeSave(){
-
+		$this->Behaviors->trigger($this, 'setupAlbumPath', array($this->data['Photo']['album_id']));
 		$this->data = $this->upload($this->data);
 		return true;
 	}
@@ -86,8 +99,8 @@ class Photo extends AppModel {
 			$this->resizeImage2('resizeCrop', $result['file'], $this->dir, 'thumb_'.$result['file'], $thumb_width, $thumb_height, $thumb_quality);
 		}
 
-		$data['Photo']['small'] = 'thumb_'.$result['file'];
-		$data['Photo']['large'] = $result['file'];
+		$data['Photo']['small'] = $this->albumDir . 'thumb_'.$result['file'];
+		$data['Photo']['large'] = $this->albumDir . $result['file'];
 		return $data;
 	}
 

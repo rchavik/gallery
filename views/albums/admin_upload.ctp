@@ -20,7 +20,7 @@
 	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
-				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php __d('gallery','remove'); ?></a><?php echo $this->Html->image('photos/'.$photo['small']); ?></div>
+				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php __d('gallery','remove'); ?></a><?php echo $this->Html->image('/'. $photo['small']); ?></div>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
@@ -35,7 +35,7 @@ function createUploader(){
 			$('.qq-upload-fail').fadeOut(function(){
 				$(this).remove();
 			});
-			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php __d('gallery','remove'); ?></a><img src="<?php echo $this->Html->url('/img/photos/'); ?>'+responseJSON.Photo.small+'" /></div>');
+			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php __d('gallery','remove'); ?></a><img src="/'+responseJSON.Photo.small+'" /></div>');
 		},
 		
 	        template: '<div class="qq-uploader">' + 

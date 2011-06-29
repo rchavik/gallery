@@ -21,8 +21,8 @@ class DdsliderHelper extends AppHelper {
 	}
 
 	function photo($album, $photo) {
-		$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
-		$urlSmall = $this->Html->url('/img/photos/' . $photo['small']);
+		$urlLarge = $this->Html->url('/' . $photo['large']);
+		$urlSmall = $this->Html->url('/' . $photo['small']);
 		$title = empty($photo['title']) ? false : $photo['title'];
 		$options = array('rel' => $urlSmall);
 		if ($title) {

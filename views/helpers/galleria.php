@@ -24,8 +24,8 @@ class GalleriaHelper extends AppHelper {
 	}
 
 	function photo($album, $photo) {
-		$urlLarge = $this->Html->url('/img/photos/' . $photo['large']);
-		$urlSmall = $this->Html->url('/img/photos/' . $photo['small']);
+		$urlLarge = $this->Html->url('/' . $photo['large']);
+		$urlSmall = $this->Html->url('/' . $photo['small']);
 		$imgTag = $this->Html->image($urlSmall);
 		return $this->Html->tag('a', $imgTag, array('href' => $urlLarge));
 	}
