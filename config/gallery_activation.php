@@ -12,6 +12,10 @@
  */
 class GalleryActivation {
 
+	public function beforeActivation(&$controller) {
+		return true;
+	}
+
 /**
  * Called after activating the plugin in ExtensionsPluginsController::admin_toggle()
  *
@@ -39,6 +43,10 @@ class GalleryActivation {
     	$controller->Setting->write('Gallery.quality', '90', array('editable' => '1'));
 		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider', array('editable' => '1'));
     }
+
+	public function beforeDeactivation(&$controller) {
+		return true;
+	}
 
 /**
  * Called after deactivating the plugin in ExtensionsPluginsController::admin_toggle()
