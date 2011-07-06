@@ -11,29 +11,6 @@
  * @link     http://www.croogo.org
  */
 class GalleryActivation {
-/**
- * onActivate will be called if this returns true
- *
- * @param  object $controller Controller
- * @return boolean
- */
-    public function beforeActivation(&$controller) {
-		$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery.sql');
-		if (!empty($sql)) {
-			App::import('Core', 'File');
-			App::import('Model', 'ConnectionManager');
-			$db = ConnectionManager::getDataSource('default');
-
-			$statements = explode(';', $sql);
-
-			foreach ($statements as $statement) {
-				if (trim($statement) != '') {
-					$db->query($statement);
-				}
-			}
-		}
-		return true;
-	}
 
 /**
  * Called after activating the plugin in ExtensionsPluginsController::admin_toggle()
@@ -61,29 +38,6 @@ class GalleryActivation {
     	$controller->Setting->write('Gallery.max_height_thumb', '80', array('editable' => 1));
     	$controller->Setting->write('Gallery.quality', '90', array('editable' => '1'));
 		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider', array('editable' => '1'));
-    }
-
-/**
- * onDeactivate will be called if this returns true
- *
- * @param  object $controller Controller
- * @return boolean
- */
-    public function beforeDeactivation(&$controller) {
-		$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery_deactivate.sql');
-		if (!empty($sql)) {
-			App::import('Core', 'File');
-			App::import('Model', 'ConnectionManager');
-			$db = ConnectionManager::getDataSource('default');
-			$statements = explode(';', $sql);
-
-			foreach ($statements as $statement) {
-				if (trim($statement) != '') {
-					$db->query($statement);
-				}
-			}
-		}
-        return true;
     }
 
 /**
