@@ -18,22 +18,23 @@ class GalleryActivation {
  * @return boolean
  */
     public function beforeActivation(&$controller) {
-       		$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery.sql');
-	        if(!empty($sql)){
-	        	App::import('Core', 'File');
-	        	App::import('Model', 'ConnectionManager');
-	        	$db = ConnectionManager::getDataSource('default');
+		$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery.sql');
+		if (!empty($sql)) {
+			App::import('Core', 'File');
+			App::import('Model', 'ConnectionManager');
+			$db = ConnectionManager::getDataSource('default');
 
-	        	$statements = explode(';', $sql);
+			$statements = explode(';', $sql);
 
-		        foreach ($statements as $statement) {
-		            if (trim($statement) != '') {
-		                $db->query($statement);
-		            }
-		        }
-	        }
+			foreach ($statements as $statement) {
+				if (trim($statement) != '') {
+					$db->query($statement);
+				}
+			}
+		}
 		return true;
-    }
+	}
+
 /**
  * Called after activating the plugin in ExtensionsPluginsController::admin_toggle()
  *
@@ -53,7 +54,7 @@ class GalleryActivation {
 
 
 
-		
+
 		$controller->Setting->write('Gallery.album_limit_pagination', '10', array('editable' => 1, 'title' => 'Albums Per Page'));
 		$controller->Setting->write('Gallery.max_width', '500', array('editable' => 1));
     	$controller->Setting->write('Gallery.max_width_thumb', '120', array('editable' => 1));
@@ -61,6 +62,7 @@ class GalleryActivation {
     	$controller->Setting->write('Gallery.quality', '90', array('editable' => '1'));
 		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider', array('editable' => '1'));
     }
+
 /**
  * onDeactivate will be called if this returns true
  *
@@ -68,24 +70,22 @@ class GalleryActivation {
  * @return boolean
  */
     public function beforeDeactivation(&$controller) {
+		$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery_deactivate.sql');
+		if (!empty($sql)) {
+			App::import('Core', 'File');
+			App::import('Model', 'ConnectionManager');
+			$db = ConnectionManager::getDataSource('default');
+			$statements = explode(';', $sql);
 
-
-
-			$sql = file_get_contents(APP.'plugins'.DS.'gallery'.DS.'config'.DS.'gallery_deactivate.sql');
-	        if(!empty($sql)){
-	        	App::import('Core', 'File');
-	        	App::import('Model', 'ConnectionManager');
-	        	$db = ConnectionManager::getDataSource('default');
-	        	$statements = explode(';', $sql);
-
-		        foreach ($statements as $statement) {
-		            if (trim($statement) != '') {
-		                $db->query($statement);
-		            }
-		        }
-	        }
+			foreach ($statements as $statement) {
+				if (trim($statement) != '') {
+					$db->query($statement);
+				}
+			}
+		}
         return true;
     }
+
 /**
  * Called after deactivating the plugin in ExtensionsPluginsController::admin_toggle()
  *
@@ -95,10 +95,6 @@ class GalleryActivation {
     public function onDeactivation(&$controller) {
         $controller->Croogo->removeAco('Gallery');
 
-
-        // Routes: remove
-
-		
 		$controller->Setting->deleteKey('Gallery.album_limit_pagination');
 		$controller->Setting->deleteKey('Gallery.max_width');
     	$controller->Setting->deleteKey('Gallery.max_width_thumb');
