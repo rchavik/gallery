@@ -42,14 +42,14 @@ class GalleryActivation {
  */
     public function onActivation(&$controller) {
         // ACL: set ACOs with permissions
-		$controller->Croogo->addAco('Albums');
-        $controller->Croogo->addAco('Albums/index', array('registered', 'public')); 
-        $controller->Croogo->addAco('Albums/view', array('registered', 'public'));
-        $controller->Croogo->addAco('Albums/admin_index', array('admin'));
-		$controller->Croogo->addAco('Albums/admin_add', array('admin'));
-		$controller->Croogo->addAco('Albums/admin_edit', array('admin'));
-		$controller->Croogo->addAco('Photos');
-		$controller->Croogo->addAco('Photos/admin_upload', array('admin','public','registered'));
+		$controller->Croogo->addAco('Gallery/Albums');
+        $controller->Croogo->addAco('Gallery/Albums/index', array('registered', 'public'));
+        $controller->Croogo->addAco('Gallery/Albums/view', array('registered', 'public'));
+        $controller->Croogo->addAco('Gallery/Albums/admin_index', array('admin'));
+		$controller->Croogo->addAco('Gallery/Albums/admin_add', array('admin'));
+		$controller->Croogo->addAco('Gallery/Albums/admin_edit', array('admin'));
+		$controller->Croogo->addAco('Gallery/Photos');
+		$controller->Croogo->addAco('Gallery/Photos/admin_upload', array('admin','public','registered'));
 
 
 
@@ -93,8 +93,7 @@ class GalleryActivation {
  * @return void
  */
     public function onDeactivation(&$controller) {
-        $controller->Croogo->removeAco('Albums'); // ExampleController ACO and it's actions will be removed
-        $controller->Croogo->removeAco('Photos');
+        $controller->Croogo->removeAco('Gallery');
 
 
         // Routes: remove
