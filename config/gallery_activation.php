@@ -24,13 +24,11 @@ class GalleryActivation {
  */
 	public function onActivation(&$controller) {
 		// ACL: set ACOs with permissions
-		$controller->Croogo->addAco('Gallery/Albums');
 		$controller->Croogo->addAco('Gallery/Albums/index', array('registered', 'public'));
 		$controller->Croogo->addAco('Gallery/Albums/view', array('registered', 'public'));
 		$controller->Croogo->addAco('Gallery/Albums/admin_index', array('admin'));
 		$controller->Croogo->addAco('Gallery/Albums/admin_add', array('admin'));
 		$controller->Croogo->addAco('Gallery/Albums/admin_edit', array('admin'));
-		$controller->Croogo->addAco('Gallery/Photos');
 		$controller->Croogo->addAco('Gallery/Photos/admin_upload', array('admin','public','registered'));
 
 
