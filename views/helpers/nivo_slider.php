@@ -25,7 +25,7 @@ class NivoSliderHelper extends AppHelper {
 		$title = empty($photo['title']) ? false : $photo['title'];
 		$urlLarge = $this->Html->url('/' . $photo['large']);
 		$urlSmall = $this->Html->url('/' . $photo['small']);
-		$options = Set::merge(array('rel' => $urlSmall), $options);
+		$options = array('rel' => $urlSmall);
 		if ($title) {
 			$options = Set::merge(array('title' => $title), $options);
 		}
