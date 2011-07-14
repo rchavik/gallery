@@ -15,6 +15,9 @@
  */
 class PhotosController extends GalleryAppController {
 
+	var $actsAs = array(
+		'Containable',
+		);
 
 
 

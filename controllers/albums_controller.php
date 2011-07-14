@@ -20,6 +20,10 @@ class AlbumsController extends GalleryAppController {
  */
 	var $name = 'Albums';
 
+	var $actsAs = array(
+		'Containable',
+		);
+
 	var $jslibs = array(
 		'DDSlider' => 'DDSlider',
 		'fancybox' => 'FancyBox',
