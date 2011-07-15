@@ -35,9 +35,11 @@ class NivoSliderHelper extends AppHelper {
 
 	function initialize($album) {
 		$config = $this->Gallery->getAlbumJsParams($album);
-		$js = sprintf('$(function(){ $(\'#%s\').nivoSlider(%s); })',
+		$milliSecs = 2000;
+		$js = sprintf('setTimeout(function() { $(\'#%s\').nivoSlider(%s); }, %d)',
 			'gallery-' . $album['Album']['id'],
-			$config
+			$config,
+			$milliSecs
 			);
 		$this->Js->buffer($js);
 	}

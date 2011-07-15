@@ -33,7 +33,7 @@ class PikachooseHelper extends AppHelper {
 
 	function initialize($album) {
 		$config = $this->Gallery->getAlbumJsParams($album);
-		$js = sprintf('$(function(){ $(\'#%s\').PikaChoose(%s); })',
+		$js = sprintf('$(\'#%s\').PikaChoose(%s);',
 			'gallery-' . $album['Album']['id'],
 			$config
 			);

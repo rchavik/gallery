@@ -35,7 +35,7 @@ class FancyboxHelper extends AppHelper {
 
 	function initialize($album) {
 		$config = $this->Gallery->getAlbumJsParams($album);
-		$js = sprintf('$(function(){ $(\'a[rel=%s]\').fancybox(%s); })',
+		$js = sprintf('$(\'a[rel=%s]\').fancybox(%s);',
 			'gallery-' . $album['Album']['id'],
 			$config
 			);

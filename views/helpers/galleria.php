@@ -32,7 +32,7 @@ class GalleriaHelper extends AppHelper {
 
 	function initialize($album) {
 		$config = $this->Gallery->getAlbumJsParams($album);
-		$js = sprintf('$(function(){ $(\'#%s\').galleria(%s); })',
+		$js = sprintf('$(\'#%s\').galleria(%s);',
 			'gallery-' . $album['Album']['id'],
 			$config
 			);
