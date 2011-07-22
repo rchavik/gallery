@@ -15,9 +15,10 @@ class PikachooseHelper extends AppHelper {
 	}
 
 	function album($album, $photos) {
-		return $this->Html->tag('ul', $photos, array(
+		$ulTag = $this->Html->tag('ul', $photos, array(
 			'id' => 'gallery-' . $album['Album']['id'],
 			));
+		return $this->Html->tag('div', $ulTag, array('class' => 'pikachoose'));
 	}
 
 	function photo($album, $photo) {
@@ -39,5 +40,4 @@ class PikachooseHelper extends AppHelper {
 			);
 		$this->Js->buffer($js);
 	}
-
 }
