@@ -6,20 +6,13 @@
 .pika-stage {
 	width: 945px;
 }
-body {
-	font-family:Helvetica, sans-serif;
-}
-a {
-	color:white;
-}
+
 .pikachoose {
 	width: 945px;
 	margin: 0 auto;
 }
 .pika-stage {
 	position: relative;
- #background: #fafafa;
- #border: 1px solid #e5e5e5;
 	padding: 0px;
 	text-align:center;
 	height:350px;
@@ -86,25 +79,7 @@ a {
 	right: 0px;
 	cursor:pointer;
 }
-/*
-.pika-imgnav a.play {
-	background: url(../img/pikachoose/play.png) no-repeat 0% 50%;
-	height: 100px;
-	width: 44px;
-	top:0;
-	left:50%;
-	cursor:pointer;
-}
 
-.pika-imgnav a.pause {
-	background: url(../img/pikachoose/pause.png) no-repeat 0% 50%;
-	height: 100px;
-	width: 44px;
-	top:0;
-	left:50%;
-	cursor:pointer;
-}
-*/
 .pika-imgnav a.play {
 	background: url(../img/pikachoose/basic.png) no-repeat -135px 50%;
 	height: 100px;
@@ -190,7 +165,7 @@ margin: 0;
 /* jCarousel Styles */
 /*if you're not using the carousel you can delete everything below this */
 .jcarousel-container {
- #padding: 15px 20px;
+
 	overflow:hidden;
 	position: absolute !important;
 	z-index: 999;
