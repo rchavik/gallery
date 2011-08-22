@@ -1,3 +1,4 @@
+<?php if ($this->Layout->getRoleId() !== 1): return; endif; ?>
 <a href="#"><?php __d('gallery','Gallery'); ?></a>
 <ul>
    <li><?php echo $html->link(__d('gallery','List albums', true), array('plugin' => 'gallery', 'controller' => 'albums', 'action' => 'index')); ?></li>
