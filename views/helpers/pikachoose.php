@@ -9,8 +9,8 @@ class PikachooseHelper extends AppHelper {
 		);
 
 	function assets($options = array()) {
-		$options = Set::merge(array('inline' => false), $options);
-		echo $this->Html->script('/gallery/js/jquery.pikachoose.full', false, $options);
+		$options = Set::merge(array('inline' => false, 'once' => true), $options);
+		echo $this->Html->script('/gallery/js/jquery.pikachoose.full', $options);
 		echo $this->Html->css('/gallery/css/pikachoose', false, $options);
 	}
 
