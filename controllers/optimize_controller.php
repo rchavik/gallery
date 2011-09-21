@@ -10,7 +10,7 @@ class OptimizeController extends GalleryAppController {
 	function getdata() {
 		$this->autoRender = false;
 		$dirPath = WWW_ROOT . $this->data['Optimize']['path'];
-		$ar = $this->_getDirectorySize($dirPath);
+		$ar = $this->getDirectorySize($dirPath);
 		$size = $this->sizeFormat($ar['size']);
 		$numOfFiles = $ar['count'];
 		$dircount = $ar['dircount'];
@@ -23,14 +23,17 @@ class OptimizeController extends GalleryAppController {
 		$dir = 'source';
 		if ($handle = opendir($path)) {
 			while ($file = readdir($handle)){
-				if ($print)
+				if ($print) {
 					$this->log("\n<li>$path/$file</li>");
-					if (! is_dir($path . DS . $file) && $file != '.' && $file != '..') {
-						$this->dataProccess($path, $file);
-				} elseif (is_dir($path.'/'.$file) && $file != '.' && $file != '..') {
+				}
+				if (! is_dir($path . DS . $file) && $file != '.' && $file != '..') {
+					$this->dataProccess($path, $file);
+
+				} elseif (is_dir($path . DS . $file) && $file != '.' && $file != '..') {
 					if ($print) {
 						$this->log("\n<ul>");
 					}
+
 					$this->recursedir ($path.'/'.$file);
 					if ($print) {
 						$this->log("</ul>");
@@ -45,12 +48,14 @@ class OptimizeController extends GalleryAppController {
 		$extends = array('source');
 		$split = explode('/', $path);
 		$splitPath = array_reverse($split);
+
 		if (!file_exists($path . DS . $extends[0])) {
 			if ($splitPath[0] != $extends[0]) {
 				mkdir($path . DS . $extends[0], 0755, false);
 				$this->log($extends[0] . ' folder created');
 			}
 		}
+
 		if ($splitPath[0] != $extends[0]) {
 			if (file_exists($path . DS . $extends[0] . DS . $file)) {
 				$this->imgProccess($path, $file);
@@ -129,51 +134,48 @@ class OptimizeController extends GalleryAppController {
 		return true;
 	}
 
-/* The getDirectorySize and sizeFormat functions were found at 
-http://www.go4expert.com/forums/showthread.php?t=290 
-Visit that forum for more info about these functions. */
-	function _getDirectorySize($path) { 
-		$totalsize = 0; 
-		$totalcount = 0; 
-		$dircount = 0; 
-		if ($handle = opendir ($path)) { 
+	function getDirectorySize($path) {
+		$totalsize = 0;
+		$totalcount = 0;
+		$dircount = 0;
+		if ($handle = opendir ($path)) {
 			while (false !== ($file = readdir($handle))) {
-				$nextpath = $path . '/' . $file; 
-				if ($file != '.' && $file != '..' && !is_link ($nextpath)) { 
-					if (is_dir ($nextpath)) { 
-						$dircount++; 
-						$result = $this->_getDirectorySize($nextpath); 
-						$totalsize += $result['size']; 
-						$totalcount += $result['count']; 
-						$dircount += $result['dircount']; 
+				$nextpath = $path . '/' . $file;
+				if ($file != '.' && $file != '..' && !is_link ($nextpath)) {
+					if (is_dir ($nextpath)) {
+						$dircount++;
+						$result = $this->getDirectorySize($nextpath);
+						$totalsize += $result['size'];
+						$totalcount += $result['count'];
+						$dircount += $result['dircount'];
 					} elseif (is_file ($nextpath)) {
-						$totalsize += filesize ($nextpath); 
-						$totalcount++; 
-					} 
-				} 
-			} 
-		} 
-		closedir ($handle); 
-		$total['size'] = $totalsize; 
-		$total['count'] = $totalcount; 
-		$total['dircount'] = $dircount; 
-		return $total; 
-	} 
+						$totalsize += filesize ($nextpath);
+						$totalcount++;
+					}
+				}
+			}
+		}
+		closedir ($handle);
+		$total['size'] = $totalsize;
+		$total['count'] = $totalcount;
+		$total['dircount'] = $dircount;
+		return $total;
+	}
 
 	function sizeFormat($size) {
 		if($size < 1024) {
-			return $size." bytes"; 
+			return $size." bytes";
 
 		} else if($size<(1024*1024)) {
-			$size=round($size/1024,1); 
+			$size=round($size/1024,1);
 			return $size." KB";
 
 		} else if($size<(1024*1024*1024)) {
-			$size=round($size/(1024*1024),1); 
+			$size=round($size/(1024*1024),1);
 			return $size." MB";
 
 		} else {
-			$size=round($size/(1024*1024*1024),1); 
+			$size=round($size/(1024*1024*1024),1);
 			return $size." GB";
 		}
 
