@@ -19,47 +19,65 @@ class OptimizeController extends GalleryAppController {
 		$this->recursedir($dirPath);
 	}
 
-	function recursedir($path,$print=true) {
+	function recursedir($path, $print = false) {
 		$dir = 'source';
 		if ($handle = opendir($path)) {
 			while ($file = readdir($handle)){
-				if (is_dir($file)) {
-				}
 				if ($print)
-					echo "\n<li>$path/$file</li>";
-					if (! is_dir($path.'/'.$file) && $file != '.' && $file != '..') {
-						if (!file_exists($path) && is_dir($path)) {
-							mkdir($path . '/' . $dir, 0775, false);
-						}
-						$source = $path . '/' . $dir . '/';
-						$files = $path.'/'.$file;
-						copy($files, $source . DS . $file);
-
-						$name = $path.'/'.$file;
-						$start = filesize($name);
-
-						if (exif_imagetype($path.'/'.$file) == IMAGETYPE_JPEG) {
-							if ($this->optimize_jpeg($path.'/'.$file)) {
-								echo 'Optimized';
-							} else {
-								echo 'Not Optimized';
-							}
-						} elseif (exif_imagetype($path.'/'.$file) == IMAGETYPE_PNG) {
-							$this->optimize_png($path.'/'.$file);
-						}
-						$end = filesize($path.'/'.$file);
+					$this->log("\n<li>$path/$file</li>");
+					if (! is_dir($path . DS . $file) && $file != '.' && $file != '..') {
+						$this->dataProccess($path, $file);
 				} elseif (is_dir($path.'/'.$file) && $file != '.' && $file != '..') {
 					if ($print) {
-						echo "\n<ul>";
+						$this->log("\n<ul>");
 					}
 					$this->recursedir ($path.'/'.$file);
 					if ($print) {
-						echo "</ul>";
+						$this->log("</ul>");
 					}
 				}
 			}
 		}
 		return true;
+	}
+
+	function dataProccess($path, $file, $extend = array()) {
+		$extends = array('source');
+		$split = explode('/', $path);
+		$splitPath = array_reverse($split);
+		if (!file_exists($path . DS . $extends[0])) {
+			if ($splitPath[0] != $extends[0]) {
+				mkdir($path . DS . $extends[0], 0755, false);
+				$this->log($extends[0] . ' folder created');
+			}
+		}
+		if ($splitPath[0] != $extends[0]) {
+			if (file_exists($path . DS . $extends[0] . DS . $file)) {
+				$this->imgProccess($path, $file);
+				return;
+			}
+			copy($path . DS . $file, $path . DS .$extends[0] . DS . $file);
+			$this->log($file . ' has been copied to ' . $path . DS . $extends[0]);
+		}
+	}
+
+	function imgProccess($path, $file) {
+		$imgpath = $path . DS . $file;
+		$imgtype = exif_imagetype($imgpath);
+
+		if ($imgtype === IMAGETYPE_JPEG) {
+			$optimizefile = $this->optimize_jpeg($path . DS . $file);
+		}
+
+		if ($imgtype === IMAGETYPE_PNG) {
+			$optimizefile = $this->optimize_png($path . DS . $file);
+		}
+
+		if ($optimizefile) {
+			$this->log($imgpath . ' has been optimized');
+		} else {
+			$this->log($imgpath . ' failed to optimized');
+		}
 	}
 
 	function optimize_jpeg($file) {
