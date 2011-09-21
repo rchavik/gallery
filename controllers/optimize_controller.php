@@ -14,8 +14,6 @@ class OptimizeController extends GalleryAppController {
 		$size = $this->sizeFormat($ar['size']);
 		$numOfFiles = $ar['count'];
 		$dircount = $ar['dircount'];
-		Configure::write('jpegquality', $this->data['Optimize']['jpgquality']);
-		Configure::write('pngquality', $this->data['Optimize']['pngquality']);
 		$this->recursedir($dirPath);
 	}
 
@@ -86,7 +84,7 @@ class OptimizeController extends GalleryAppController {
 	}
 
 	function optimize_jpeg($file) {
-		$jpegConfig = Configure::read('jpegquality');
+		$jpegConfig = Configure::read('Gallery.quality');
 		if (!$jpegConfig || !is_numeric($jpegConfig)) {
 			return false;
 		}
@@ -102,7 +100,7 @@ class OptimizeController extends GalleryAppController {
 		$src = imagecreatefromjpeg($file);
 		$tmp = imagecreatetruecolor($w,$h);
 		imagecopyresampled($tmp,$src,0,0,0,0,$w,$h,$w,$h);
-		$src = imagejpeg($tmp,$file,Configure::read('jpegquality'));
+		$src = imagejpeg($tmp,$file,$jpegConfig);
 		if ($src == true) {
 //			$this->log('success');
 		} elseif ($src == false) {
@@ -113,7 +111,7 @@ class OptimizeController extends GalleryAppController {
 	}
 
 	function optimize_png($file) {
-		$pngConfig = Configure::read('pngquality');
+		$pngConfig = Configure::read('Gallery.quality');
 		if (!$pngConfig || !is_numeric($pngConfig)) {
 			return false;
 		}
@@ -129,7 +127,7 @@ class OptimizeController extends GalleryAppController {
 		$src = imagecreatefrompng($file);
 		$tmp = imagecreatetruecolor($w,$h);
 		imagecopyresampled($tmp,$src,0,0,0,0,$w,$h,$w,$h);
-		$src = imagepng($tmp,$file,$GLOBALS['pngquality']);
+		$src = imagepng($tmp,$file,$pngConfig);
 		imagedestroy($tmp);
 		return true;
 	}
