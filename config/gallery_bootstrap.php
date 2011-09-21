@@ -16,7 +16,7 @@
  *
  * This plugin's Example component will be loaded in ALL controllers.
  */
-    //Croogo::hookComponent('*', 'Gallery.Gallery');
+    Croogo::hookComponent('*', 'Gallery.Gallery');
 /**
  * Helper
  *
