@@ -16,7 +16,7 @@ $('#optimize_img').submit(function() {
 
 	$.ajax({
 		type: 'POST',
-		url: Croogo.basePath + 'gallery/optimize/getdata',
+		url: Croogo.basePath + 'admin/gallery/optimize/getdata',
 		data: data,
 		success: function() {
 			$('#status').prepend(
