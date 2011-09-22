@@ -45,6 +45,14 @@ class GalleryComponent extends Object {
 				$this->_imgProccess($path, $file);
 				return;
 			}
+
+			$thumb = substr($file, 0, 6);
+
+			if ($thumb == 'thumb_') {
+				$this->log('succed');
+				return;
+			}
+
 			copy($path . DS . $file, $path . DS .$extends[0] . DS . $file);
 			$this->log($file . ' has been copied to ' . $path . DS . $extends[0]);
 		}
