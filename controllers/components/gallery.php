@@ -1,7 +1,7 @@
 <?php
 class GalleryComponent extends Object {
 	 
-	 var $controller = null;
+	var $controller = null;
 
 	function recursedir($path, $print = false) {
 		$dir = 'source';
@@ -49,7 +49,7 @@ class GalleryComponent extends Object {
 			$thumb = substr($file, 0, 6);
 
 			if ($thumb == 'thumb_') {
-				$this->log('succed');
+				$this->log('Thumb not copied');
 				return;
 			}
 
