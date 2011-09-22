@@ -11,7 +11,7 @@ class GalleryComponent extends Object {
 					$this->log("\n<li>$path/$file</li>");
 				}
 				if (! is_dir($path . DS . $file) && $file != '.' && $file != '..') {
-					$this->_dataProccess($path, $file);
+					$this->_dataProcess($path, $file);
 
 				} elseif (is_dir($path . DS . $file) && $file != '.' && $file != '..') {
 					if ($print) {
@@ -28,7 +28,7 @@ class GalleryComponent extends Object {
 		return true;
 	}
 
-	function _dataProccess($path, $file, $extend = array()) {
+	function _dataProcess($path, $file, $extend = array()) {
 		$extends = array('source');
 		$split = explode('/', $path);
 		$splitPath = array_reverse($split);
@@ -42,7 +42,7 @@ class GalleryComponent extends Object {
 
 		if ($splitPath[0] != $extends[0]) {
 			if (file_exists($path . DS . $extends[0] . DS . $file)) {
-				$this->_imgProccess($path, $file);
+				$this->_imgProcess($path, $file);
 				return;
 			}
 
@@ -58,7 +58,7 @@ class GalleryComponent extends Object {
 		}
 	}
 
-	function _imgProccess($path, $file) {
+	function _imgProcess($path, $file) {
 		$imgpath = $path . DS . $file;
 		$imgtype = exif_imagetype($imgpath);
 
