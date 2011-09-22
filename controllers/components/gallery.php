@@ -47,9 +47,8 @@ class GalleryComponent extends Object {
 			}
 
 			$thumb = substr($file, 0, 6);
-
 			if ($thumb == 'thumb_') {
-				$this->log('Thumb not copied');
+				$this->log('Thumb ignored');
 				return;
 			}
 
@@ -63,10 +62,24 @@ class GalleryComponent extends Object {
 		$imgtype = exif_imagetype($imgpath);
 
 		if ($imgtype === IMAGETYPE_JPEG) {
+
+			$thumb = substr($file, 0, 6);
+			if ($thumb == 'thumb_') {
+				$this->log('Thumb ignored');
+				return;
+			}
+
 			$optimizefile = $this->_optimize_jpeg($path . DS . $file);
 		}
 
 		if ($imgtype === IMAGETYPE_PNG) {
+
+			$thumb = substr($file, 0, 6);
+			if ($thumb == 'thumb_') {
+				$this->log('Thumb ignored');
+				return;
+			}
+
 			$optimizefile = $this->_optimize_png($path . DS . $file);
 		}
 
