@@ -48,7 +48,7 @@ class GalleryComponent extends Object {
 
 			$thumb = substr($file, 0, 6);
 			if ($thumb == 'thumb_') {
-				$this->log('Thumb ignored');
+				$this->log('Thumb not copied');
 				return;
 			}
 
@@ -65,7 +65,7 @@ class GalleryComponent extends Object {
 
 			$thumb = substr($file, 0, 6);
 			if ($thumb == 'thumb_') {
-				$this->log('Thumb ignored');
+				$this->log($file. ' not optimize');
 				return;
 			}
 
@@ -76,7 +76,7 @@ class GalleryComponent extends Object {
 
 			$thumb = substr($file, 0, 6);
 			if ($thumb == 'thumb_') {
-				$this->log('Thumb ignored');
+				$this->log($file. ' not optimize');
 				return;
 			}
 

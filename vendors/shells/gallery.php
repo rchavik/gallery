@@ -1,5 +1,5 @@
 <?php
-class OptimizeShell extends Shell {
+class GalleryShell extends Shell {
 
 	var $tasks = array('GenerateFile');
 	var $Gallery = '';
@@ -13,20 +13,24 @@ class OptimizeShell extends Shell {
 	function help() {
 		$helptext =<<<EOF
 Usage:
-	cake optimize generate <id>
+	cake gallery optimize <id>
 EOF;
 		$this->out($helptext);
 	}
 
-	function generate() {
+	function optimize() {
 		if (empty($this->args)) {
 			$this->help();
 			return false;
 		}
 
 		$file = WWW_ROOT . 'galleries' . DS . $this->args[0];
-		$this->GenerateFile->execute();
-		$processed = $this->Gallery->recursedir($file);
+		if(!file_exists($file)) {
+			$this->out('Gallery not optimize, Id not exist');
+			return;
+		}
+		$this->Gallery->recursedir($file);
+		$this->out('OK');
 	}
 }
 ?>
