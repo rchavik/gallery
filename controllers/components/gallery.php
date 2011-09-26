@@ -31,16 +31,16 @@ class GalleryComponent extends Object {
 	function _dataProcess($path, $file, $extend = array()) {
 		$extends = array('source');
 		$split = explode('/', $path);
-		$splitPath = array_reverse($split);
+		$splitPath = end($split);
 
 		if (!file_exists($path . DS . $extends[0])) {
-			if ($splitPath[0] != $extends[0]) {
+			if ($splitPath != $extends[0]) {
 				mkdir($path . DS . $extends[0], 0755, false);
 				$this->log($extends[0] . ' folder created');
 			}
 		}
 
-		if ($splitPath[0] != $extends[0]) {
+		if ($splitPath != $extends[0]) {
 			if (file_exists($path . DS . $extends[0] . DS . $file)) {
 				$this->_imgProcess($path, $file);
 				return;
