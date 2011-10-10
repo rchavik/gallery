@@ -54,8 +54,12 @@ class Photo extends AppModel {
 			$this->albumDir = 'galleries' . DS . $dir . DS;
 		}
 		$this->dir = WWW_ROOT . $this->albumDir;
+		$this->sourceDir = WWW_ROOT . $this->albumDir . 'source' . DS;
 		if(!is_dir($this->dir)) {
 			mkdir($this->dir, $perm, true);
+		}
+		if(!is_dir($this->sourceDir)) {
+			mkdir($this->sourceDir, $perm, true);
 		}
 	}
 
@@ -79,7 +83,13 @@ class Photo extends AppModel {
 		$thumb_quality = Configure::read('Gallery.quality');
 		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 	   	$uploader = new qqFileUploader();
-		$result = $uploader->handleUpload($this->dir);
+		//$result = $uploader->handleUpload($this->dir);
+		$result = $uploader->handleUpload($this->sourceDir);
+		if (!empty($result['file'])) {
+			$sourceFile = $this->sourceDir.$result['file'];
+			$copyFile = $this->dir.$result['file'];
+			copy($sourceFile, $copyFile);
+		}
 
 		$width = $this->getWidth($this->dir.$result['file']);
 		$height = $this->getHeight($this->dir.$result['file']);
@@ -128,7 +138,7 @@ class Photo extends AppModel {
 			$source = imagecreatefromgif($image);
 		}
 		imagecopyresampled($newImage,$source,0,0,0,0,$newImageWidth,$newImageHeight,$width,$height);
-		imagejpeg($newImage,$image,100);
+		imagejpeg($newImage,$image,Configure::read('Gallery.quality'));
 		chmod($image, 0777);
 	}
 
