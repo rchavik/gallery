@@ -71,8 +71,12 @@ class Photo extends AppModel {
 	}
 
 	function beforeSave(){
-		$this->Behaviors->trigger($this, 'setupAlbumPath', array($this->data['Photo']['album_id']));
-		$this->data = $this->upload($this->data);
+		App::import('Component', 'RequestHandler');
+		$handler = new RequestHandlerComponent();
+		if ($handler->isAjax()){
+			$this->Behaviors->trigger($this, 'setupAlbumPath', array($this->data['Photo']['album_id']));
+			$this->data = $this->upload($this->data);
+		}
 		return true;
 	}
 
