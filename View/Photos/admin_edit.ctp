@@ -6,11 +6,11 @@
 			 		   
 					   echo $form->input('id');
                        echo $form->input('gallery_id', array(
-                            'label' => __('Gallery', true),
+                            'label' => __('Gallery'),
                             'options' => $galerije,
                             'empty' => false,
                         ));                     
-                        echo $form->input('opis', array('label' => __('Description', true)));						
+                        echo $form->input('opis', array('label' => __('Description')));
                     ?>
             
         </fieldset>

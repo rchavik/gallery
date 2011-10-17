@@ -1,6 +1,6 @@
 
 
-	<h2><?php __d('gallery','Albums');?></h2>
+	<h2><?php echo __d('gallery','Albums');?></h2>
 	
 	<?php if(count($albums) == 0): __d('gallery','No albums found.'); else: ?>
 		<div class="albums">
@@ -18,7 +18,7 @@
 			<li>
 				<h3><?php echo $album['Album']['title']; ?></h3>
 				<p><?php echo $this->Html->image('photos/'.$album['Photo'][0]['small'], array('style' => 'float:left;margin:5px 5px 5px 0px;')); ?><?php echo $album['Album']['description']; ?></p>
-				<?php echo $this->Html->link(__d('gallery','view album', true), array('plugin' => 'gallery', 'controller' => 'albums', 'action' => 'view', 'slug' => $album['Album']['slug'])); ?>
+				<?php echo $this->Html->link(__d('gallery','view album'), array('plugin' => 'gallery', 'controller' => 'albums', 'action' => 'view', 'slug' => $album['Album']['slug'])); ?>
 			</li>
 		<?php endforeach; ?>
 		</ul>

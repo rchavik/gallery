@@ -3,7 +3,7 @@
 
     <div class="actions">
         <ul>
-            <li><?php echo $html->link(__('Add new pictures', true), array('action'=>'add', 'gallery' => $gallery)); ?></li>
+            <li><?php echo $html->link(__('Add new pictures'), array('action'=>'add', 'gallery' => $gallery)); ?></li>
         </ul>
     </div>
     <table cellpadding="0" cellspacing="0">
@@ -11,15 +11,15 @@
         $tableHeaders = $html->tableHeaders(array(
             $paginator->sort('id'),
             '&nbsp;',
-            __('Description', true),
-            __('Actions', true),
+            __('Description'),
+            __('Actions'),
         ));
         echo $tableHeaders;
 
         $rows = array();
         foreach ($slike AS $attachment) {
-            $actions  = $html->link(__('Edit', true), array('controller' => 'gallery_pictures', 'action' => 'edit', $attachment['GalleryPicture']['id'], 'gallery' => $gallery));
-            $actions .= ' ' . $html->link(__('Delete', true), array('controller' => 'gallery_pictures', 'action' => 'delete', $attachment['GalleryPicture']['id'], 'gallery' => $gallery), null, __('Jesi siguran?', true));
+            $actions  = $html->link(__('Edit'), array('controller' => 'gallery_pictures', 'action' => 'edit', $attachment['GalleryPicture']['id'], 'gallery' => $gallery));
+            $actions .= ' ' . $html->link(__('Delete'), array('controller' => 'gallery_pictures', 'action' => 'delete', $attachment['GalleryPicture']['id'], 'gallery' => $gallery), null, __('Jesi siguran?'));
 			$actions .= ' ' . $layout->adminRowActions($attachment['GalleryPicture']['id']);
 
            
@@ -40,4 +40,4 @@
 </div>
 
 <div class="paging"><?php echo $paginator->numbers(); ?></div>
-<div class="counter"><?php echo $paginator->counter(array('format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true))); ?></div>
+<div class="counter"><?php echo $paginator->counter(array('format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%'))); ?></div>

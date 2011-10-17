@@ -11,7 +11,7 @@
 	);
 	?>
 
-	<h3><?php echo sprintf(__d('gallery', 'Album: %s', true), $editUrl); ?></h3>
+	<h3><?php echo sprintf(__d('gallery', 'Album: %s'), $editUrl); ?></h3>
 
     <div id="upload">
 
@@ -20,7 +20,7 @@
 	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
-				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php __d('gallery','remove'); ?></a><?php echo $this->Html->image('/'. $photo['small']); ?></div>
+				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php echo __d('gallery','remove'); ?></a><?php echo $this->Html->image('/'. $photo['small']); ?></div>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
@@ -35,12 +35,12 @@ function createUploader(){
 			$('.qq-upload-fail').fadeOut(function(){
 				$(this).remove();
 			});
-			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php __d('gallery','remove'); ?></a><img src="/'+responseJSON.Photo.small+'" /></div>');
+			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php echo __d('gallery','remove'); ?></a><img src="/'+responseJSON.Photo.small+'" /></div>');
 		},
 		
 	        template: '<div class="qq-uploader">' + 
-	                '<div class="qq-upload-drop-area"><span><?php __d('gallery','Drop files here to upload'); ?></span></div>' +
-					'<a class="qq-upload-button ui-corner-all" style="background-color:#EEEEEE;float:left;font-weight:bold;margin-right:10px;padding:10px;text-decoration:none;cursor:pointer;"><?php __d('gallery','Add new photos'); ?></a>' +
+	                '<div class="qq-upload-drop-area"><span><?php echo __d('gallery','Drop files here to upload'); ?></span></div>' +
+					'<a class="qq-upload-button ui-corner-all" style="background-color:#EEEEEE;float:left;font-weight:bold;margin-right:10px;padding:10px;text-decoration:none;cursor:pointer;"><?php echo __d('gallery','Add new photos'); ?></a>' +
 					'<ul class="qq-upload-list"></ul>' + 
 	             '</div>',
 		      
@@ -48,7 +48,7 @@ function createUploader(){
 		                '<span class="qq-upload-file"></span>' +
 		                '<span class="qq-upload-spinner"></span>' +
 		                '<span class="qq-upload-size"></span>' +
-		                '<a class="qq-upload-cancel" href="#"><?php __d('gallery','cancel'); ?></a>' +
+		                '<a class="qq-upload-cancel" href="#"><?php echo __d('gallery','cancel'); ?></a>' +
 		            '</li>',
 
     });           
