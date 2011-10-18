@@ -76,7 +76,7 @@ class GalleryHelper extends AppHelper {
 
 	public function replaceForAlbum($subject){
 		preg_match('/\[Gallery:(.*)\]/', $subject[0], $matches);
-		return  $this->Layout->View->element('gallery_album', array('plugin' => 'gallery', 'slug' => $matches[1], 'cache' => array('key' => $matches[1], 'time' => '5 mins')));
+		return $this->Layout->_View->element('gallery_album', array('slug' => $matches[1]), array('plugin' => 'gallery'));
 	}
 
 	public function getAlbumJsParams($album) {
