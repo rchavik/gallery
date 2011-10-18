@@ -39,7 +39,7 @@ class GalleryActivation {
 		$controller->Setting->write('Gallery.max_width_thumb', '120', array('editable' => 1));
 		$controller->Setting->write('Gallery.max_height_thumb', '80', array('editable' => 1));
 		$controller->Setting->write('Gallery.quality', '90', array('editable' => '1'));
-		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider', array('editable' => '1'));
+		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider,pikachoose,fancybox', array('editable' => '1'));
 	}
 
 	public function beforeDeactivation(&$controller) {

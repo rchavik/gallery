@@ -36,7 +36,7 @@ class Album extends AppModel {
  */
 	var $hasMany = array(
 		'Photo' => array(
-			'className' => 'Gallery.photo',
+			'className' => 'Gallery.Photo',
 			'foreignKey' => 'album_id',
 			'dependent' => true,
 			'conditions' => '',

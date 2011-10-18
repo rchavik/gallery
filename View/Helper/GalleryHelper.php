@@ -28,7 +28,7 @@ class GalleryHelper extends AppHelper {
  */
 	var $_jslibs = array();
 
-	function __construct() {
+	function __construct(View $View, $settings = array()) {
 		$jslibs = Configure::read('Gallery.jslibs');
 		$jslibs = explode(',', $jslibs);
 		$helpers = array();
@@ -38,7 +38,7 @@ class GalleryHelper extends AppHelper {
 			$this->_jslibs[] = $class;
 		}
 		$this->helpers = Set::merge($this->helpers, $helpers);
-		parent::__construct();
+		parent::__construct($View, $settings);
 	}
 
 /**
@@ -56,7 +56,7 @@ class GalleryHelper extends AppHelper {
  * @return void
  */
 	public function afterRender() {
-		if(ClassRegistry::getObject('view')){
+		if (!empty($this->_View)) {
 			if (isset($this->Layout->View->params['admin'])) {
 				return;
 			}

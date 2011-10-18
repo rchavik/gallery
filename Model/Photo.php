@@ -70,8 +70,8 @@ class Photo extends AppModel {
 		return true;
 	}
 
-	function beforeSave(){
-		$this->Behaviors->trigger($this, 'setupAlbumPath', array($this->data['Photo']['album_id']));
+	function beforeSave($options = array()){
+		$this->Behaviors->trigger('setupAlbumPath', array(&$this, $this->data['Photo']['album_id']));
 		$this->data = $this->upload($this->data);
 		return true;
 	}

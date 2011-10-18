@@ -2,10 +2,9 @@
 class GalleryAppController extends AppController {
 
 	function beforeFilter() {
-		Cache::config(array('duration' => '1 hour'));
 		if (false === ($setting = Cache::read('Gallery.jslibs'))) {
 			$setting = ClassRegistry::init('Setting')->findByKey('Gallery.jslibs');
-			Cache::write('Gallery.jslibs', $setting);
+			Cache::write('Gallery.jslibs', $setting, 'gallery');
 		}
 		Configure::write('Gallery.jslibs', $setting['Setting']['value']);
 

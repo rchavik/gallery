@@ -1,5 +1,5 @@
 <?php
-class GalleryComponent extends Object {
+class GalleryComponent extends Component {
 	 
 	var $controller = null;
 

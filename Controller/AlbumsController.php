@@ -160,9 +160,9 @@ class AlbumsController extends GalleryAppController {
 
 
 
-		$this->data['Photo']['album_id'] = $id;
+		$this->request->data['Photo']['album_id'] = $id;
 		$this->Album->Photo->create();
-		$this->Album->Photo->save($this->data);
+		$this->Album->Photo->save($this->request->data);
 
 		echo json_encode($this->Album->Photo->findById($this->Album->Photo->id));
 
