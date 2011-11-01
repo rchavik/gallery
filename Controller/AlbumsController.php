@@ -29,6 +29,7 @@ class AlbumsController extends GalleryAppController {
 		'fancybox' => 'FancyBox',
 		'galleria' => 'Galleria',
 		'nivo-slider' => 'Slideshow (Nivo Slider)',
+		'orbit' => 'Orbit',
 		'pikachoose' => 'PikaChoose',
 		);
 
