@@ -47,6 +47,13 @@
   //  Croogo::hookAdminTab('Nodes/admin_add', 'Example', 'example.admin_tab_node');
   //  Croogo::hookAdminTab('Nodes/admin_edit', 'Example', 'example.admin_tab_node');
 
+
+$cacheConfig = array(
+	'duration' => '+1 hour',
+	'engine' => 'File',
+	);
+Cache::config('gallery', $cacheConfig);
+
 CroogoNav::add('extensions.children.gallery', array(
 	'title' => 'Gallery',
 	'url' => array(
