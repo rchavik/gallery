@@ -46,4 +46,43 @@
  */
   //  Croogo::hookAdminTab('Nodes/admin_add', 'Example', 'example.admin_tab_node');
   //  Croogo::hookAdminTab('Nodes/admin_edit', 'Example', 'example.admin_tab_node');
-?>
+
+CroogoNav::add('extensions.children.gallery', array(
+	'title' => 'Gallery',
+	'url' => array(
+		'plugin' => 'gallery',
+		'admin' => true,
+		'controller' => 'albums',
+		'action' => 'index',
+		),
+	'children' => array(
+		'list' => array(
+			'title' => __d('gallery', 'List albums'),
+			'url' => array(
+				'plugin' => 'gallery',
+				'admin' => true,
+				'controller' => 'albums',
+				'action' => 'index',
+				),
+			),
+		'new' => array(
+			'title' => __d('gallery', 'New album'),
+			'url' => array(
+				'plugin' => 'gallery',
+				'admin' => true,
+				'controller' => 'albums',
+				'action' => 'add',
+				),
+			),
+		'settings' => array(
+			'title' => __d('gallery', 'Gallery settings'),
+			'url' => array(
+				'plugin' => false,
+				'admin' => true,
+				'controller' => 'settings',
+				'action' => 'prefix',
+				'Gallery',
+				)
+			),
+		),
+	));
