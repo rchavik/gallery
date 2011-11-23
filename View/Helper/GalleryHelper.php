@@ -71,12 +71,12 @@ class GalleryHelper extends AppHelper {
  * @return string
  */
 	public function afterSetNode() {
-		$this->Layout->setNodeField('body', preg_replace_callback('/\[Gallery:.*\]/',array(&$this,'replaceForAlbum'), $this->Layout->node('body')));
+		$this->Layout->setNodeField('body', preg_replace_callback('/\[Gallery:([a-zA-Z0-9\-]+)\]/',array(&$this,'replaceForAlbum'), $this->Layout->node('body')));
 	}
 
 	public function replaceForAlbum($subject){
-		preg_match('/\[Gallery:(.*)\]/', $subject[0], $matches);
-		return $this->Layout->_View->element('gallery_album', array('slug' => $matches[1]), array('plugin' => 'gallery'));
+		preg_match('/\[Gallery:([a-zA-Z0-9\-]+)\]/', $subject[0], $matches);
+		return $this->_View->element('gallery_album', array('slug' => $matches[1]), array('plugin' => 'gallery'));
 	}
 
 	public function getAlbumJsParams($album) {
