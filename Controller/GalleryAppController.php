@@ -1,6 +1,8 @@
 <?php
 class GalleryAppController extends AppController {
 
+	public $paginate = array();
+
 	function beforeFilter() {
 		if (false === ($setting = Cache::read('Gallery.jslibs', 'gallery'))) {
 			$setting = ClassRegistry::init('Setting')->findByKey('Gallery.jslibs');
