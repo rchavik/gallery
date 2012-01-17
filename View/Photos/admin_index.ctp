@@ -1,43 +1,42 @@
-<div class="links index">
-    <h2><?php echo $title_for_layout; ?></h2>
+<div class="photos index">
+    <h2><?php echo __('Photos'); ?></h2>
 
-    <div class="actions">
-        <ul>
-            <li><?php echo $html->link(__('Add new pictures'), array('action'=>'add', 'gallery' => $gallery)); ?></li>
-        </ul>
-    </div>
     <table cellpadding="0" cellspacing="0">
     <?php
-        $tableHeaders = $html->tableHeaders(array(
-            $paginator->sort('id'),
+        $tableHeaders = $this->Html->tableHeaders(array(
+            $this->Paginator->sort('id'),
             '&nbsp;',
+            __('Album'),
+            __('Title'),
             __('Description'),
             __('Actions'),
         ));
         echo $tableHeaders;
 
         $rows = array();
-        foreach ($slike AS $attachment) {
-            $actions  = $html->link(__('Edit'), array('controller' => 'gallery_pictures', 'action' => 'edit', $attachment['GalleryPicture']['id'], 'gallery' => $gallery));
-            $actions .= ' ' . $html->link(__('Delete'), array('controller' => 'gallery_pictures', 'action' => 'delete', $attachment['GalleryPicture']['id'], 'gallery' => $gallery), null, __('Jesi siguran?'));
-			$actions .= ' ' . $layout->adminRowActions($attachment['GalleryPicture']['id']);
+        foreach ($photos AS $attachment) {
+            $actions  = $this->Html->link(__('Edit'), array('controller' => 'photos', 'action' => 'edit', $attachment['Photo']['id']));
+            $actions .= ' ' . $this->Html->link(__('Delete'), array('controller' => 'photos', 'action' => 'delete', $attachment['Photo']['id']));
+			$actions .= ' ' . $this->Layout->adminRowActions($attachment['Photo']['id']);
 
-           
-            $thumbnail = $html->image($attachment['GalleryPicture']['path_thumb']);
-        
+
+            $thumbnail = $this->Html->image('/' . $attachment['Photo']['small']);
+
             $rows[] = array(
-                       $attachment['GalleryPicture']['id'],
-                       $thumbnail,
-                       $attachment['GalleryPicture']['opis'],
-					   $actions
-                      );
+				$attachment['Photo']['id'],
+				$thumbnail,
+				$attachment['Album']['title'],
+				$attachment['Photo']['title'],
+				$attachment['Photo']['description'],
+				$actions
+				);
         }
 
-        echo $html->tableCells($rows);
+        echo $this->Html->tableCells($rows);
         echo $tableHeaders;
     ?>
     </table>
 </div>
 
-<div class="paging"><?php echo $paginator->numbers(); ?></div>
-<div class="counter"><?php echo $paginator->counter(array('format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%'))); ?></div>
+<div class="paging"><?php echo $this->Paginator->numbers(); ?></div>
+<div class="counter"><?php echo $this->Paginator->counter(array('format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%'))); ?></div>

@@ -15,11 +15,23 @@
  */
 class PhotosController extends GalleryAppController {
 
-	var $actsAs = array(
-		'Containable',
-		);
+	public function admin_index() {
+		$photos = $this->paginate();
+		$this->set(compact('photos'));
+	}
 
-
-
+	public function admin_edit($id) {
+		$this->Photo->id = $id;
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Photo->save($this->request->data)) {
+				$this->Session->setFlash(__d('gallery', 'Photo has been saved.'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__d('gallery', 'Photo cannot be saved.'));
+			}
+		}
+		$this->request->data = $this->Photo->read(null, $id);
+		$albums = $this->Photo->Album->find('list');
+		$this->set(compact('albums'));
+	}
 }
-?>

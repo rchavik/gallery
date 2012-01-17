@@ -69,6 +69,9 @@ class Photo extends GalleryAppModel {
 	}
 
 	function beforeSave($options = array()){
+		if ($this->exists()) {
+			return true;
+		}
 		$this->Behaviors->trigger('setupAlbumPath', array(&$this, $this->data['Photo']['album_id']));
 		$this->data = $this->upload($this->data);
 		return true;

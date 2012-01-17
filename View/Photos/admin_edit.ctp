@@ -1,18 +1,28 @@
 <div class="links form">
-    <h2><?php echo $title_for_layout; ?></h2>
-    <?php echo $form->create('GalleryPicture', array('url' => array('controller' => 'gallery_pictures', 'action' => 'edit', 'gallery' => $gallery)));?>
-        <fieldset>
-                    <?php
-			 		   
-					   echo $form->input('id');
-                       echo $form->input('gallery_id', array(
-                            'label' => __('Gallery'),
-                            'options' => $galerije,
-                            'empty' => false,
-                        ));                     
-                        echo $form->input('opis', array('label' => __('Description')));
-                    ?>
-            
-        </fieldset>
-    <?php echo $form->end('Submit');?>
+	<h2><?php echo __d('gallery', 'Edit Photo'); ?></h2>
+	<?php
+	echo $this->Form->create('Photo', array(
+		'url' => array(
+			'controller' => 'photos',
+			'action' => 'edit',
+			),
+		));
+	?>
+	<fieldset>
+	<?php
+	echo $this->Form->input('id');
+	echo $this->Html->div('input text',
+		'<label>Thumbnail</label>' .
+		$this->Html->image('/'. $this->data['Photo']['small'])
+		);
+	echo $this->Form->input('album_id', array(
+		'label' => __('Album'),
+		'options' => $albums,
+		'empty' => false,
+	));
+	echo $this->Form->input('title');
+	echo $this->Form->input('description');
+	?>
+	</fieldset>
+	<?php echo $this->Form->end('Submit');?>
 </div>
