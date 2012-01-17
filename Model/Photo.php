@@ -40,6 +40,10 @@ class Photo extends GalleryAppModel {
 		)
 	);
 
+	public $findMethods = array(
+		'by_album' => true,
+		);
+
 	function __construct($id = false, $table = null, $ds = null){
 		parent::__construct($id = false, $table = null, $ds = null);
 		$this->setTargetDirectory();
@@ -79,6 +83,22 @@ class Photo extends GalleryAppModel {
 		$this->Behaviors->trigger('setupAlbumPath', array(&$this, $this->data['Photo']['album_id']));
 		$this->data = $this->upload($this->data);
 		return true;
+	}
+
+	public function _findBy_album($state, $query, $results = array()) {
+		if ($state == 'before') {
+			$slug = isset($query['album']) ? $query['album'] : false;
+			$query = Set::merge($query, array(
+				'conditions' => array(
+					'Photo.status' => true,
+					'Album.slug' => $slug,
+					'Album.status' => true,
+					),
+				));
+			return $query;
+		} else {
+			return $results;
+		}
 	}
 
 	function upload($data){
@@ -371,4 +391,3 @@ class Photo extends GalleryAppModel {
 		}
 	}
 }
-?>
