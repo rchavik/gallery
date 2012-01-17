@@ -20,10 +20,53 @@
 	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
-				<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="<?php echo $photo['id']; ?>"><?php echo __d('gallery','remove'); ?></a><?php echo $this->Html->image('/'. $photo['small']); ?></div>
+				<div style="float:left; padding:5px; position:relative; width: 48%; font-size: 0.8em; border-bottom: 1px solid #ddd;">
+					<?php echo $this->Html->image('/'. $photo['small'], array(
+							'style' => 'float: left',
+							)); ?>
+					<?php echo $this->Html->link(__d('gallery', 'remove', true), 'javascript:;', array(
+					'rel' => $photo['id'],
+					'class' => 'remove',
+					'style' => 'position: absolute; top: 0px; right:40px; text-decoration: none;',
+					));
+					?>
+					<?php echo $this->Html->link('edit', array(
+						'controller' => 'photos',
+						'action' => 'edit',
+						$photo['id'],
+						), array(
+							'class' => 'edit',
+							'style' => 'position: absolute; top: 0px; right:15px; text-decoration: none;',
+							)
+					);
+					?>
+					<?php if (!empty($photo['title'])): ?>
+					<p style='float:left; clear: right;margin: 10px 0 0 10px; width: 69%;'>
+					<strong>
+					<?php echo $this->Text->truncate($photo['title'], 100, array('html' => true)); ?>
+					</strong><br />
+					<?php echo $this->Text->truncate($photo['description'], 120, array('html' => true)); ?></p>
+					<?php endif; ?>
+					</div>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
+	<div class='pagelist' style='text-align: center;'>
+	<?php echo $this->Html->link('prev ', '#', array(
+	    'class' => 'gallery-prev',
+		    )
+	);
+	?>
+	<span id='count'></span>
+	|
+	<span id='total'></span>
+	<?php echo $this->Html->link(' next', '#', array(
+	    'class' => 'gallery-next',
+		    )
+	);
+	?>
+	</div>
+
 </div>
 <?php echo $this->Html->script('/gallery/js/fileuploader', false);  echo $this->Html->css('/gallery/css/fileuploader', false); ?>
 <script>
@@ -35,7 +78,7 @@ function createUploader(){
 			$('.qq-upload-fail').fadeOut(function(){
 				$(this).remove();
 			});
-			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php echo __d('gallery','remove'); ?></a><img src="/'+responseJSON.Photo.small+'" /></div>');
+			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php __d('gallery','remove'); ?></a><a style="position:absolute; right:0px; bottom: 0px; background: #fff;" class="edit" href="/admin/gallery/photos/edit/'+responseJSON.Photo.id+'">edit</a><img src="/'+responseJSON.Photo.small+'" /></div>');
 		},
 		
 	        template: '<div class="qq-uploader">' + 
@@ -69,6 +112,29 @@ $(function(){
                 alert(r['msg']);	
             }
 		});
+	});
+
+var wrap = $('#return');
+$('.gallery-prev').click(function(){
+	wrap.trigger('prev.evtpaginate');
+	return false;
+});
+
+$('.gallery-next').click(function(){
+	wrap.trigger('next.evtpaginate');
+	return false;
+});
+wrap.bind('initialized.evtpaginate', function(e, startnum, totalnum ){
+	$('#count').text(startnum);
+	$('#total').text(totalnum);
+});
+	wrap.bind('finished.evtpaginate', function(e, num, isFirst, isLast ){
+	$('#count').text(num);
+});
+
+// call the plugin
+wrap.evtpaginate({
+	perPage:12
 	});
 });
 
