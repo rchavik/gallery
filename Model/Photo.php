@@ -23,6 +23,10 @@ class Photo extends GalleryAppModel {
 
 	public $albumDir = '';
 
+	public $actsAs = array(
+		'Params',
+		);
+
 /**
  * Model associations: belongsTo
  *
@@ -111,6 +115,7 @@ class Photo extends GalleryAppModel {
 
 		$data['Photo']['small'] = $this->albumDir . 'thumb_'.$result['file'];
 		$data['Photo']['large'] = $this->albumDir . $result['file'];
+		$data['Photo']['original'] = $this->albumDir . 'source' . DS . $result['file'];
 		return $data;
 	}
 

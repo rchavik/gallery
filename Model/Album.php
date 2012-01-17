@@ -19,6 +19,10 @@ class Album extends GalleryAppModel {
  */
 	public $name = 'Album';
 
+	public $actsAs = array(
+		'Params',
+		);
+
 	public $validate = array(
 		'slug' => array(
 			'rule' => 'isUnique',

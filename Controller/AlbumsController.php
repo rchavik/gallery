@@ -45,10 +45,10 @@ class AlbumsController extends GalleryAppController {
 	}
 
 	function admin_add() {
-		if (!empty($this->data)) {
+		if (!empty($this->request->data)) {
 			$this->Album->create();
-			if(empty($this->data['Album']['slug'])){
-				$this->data['Album']['slug'] = $this->__make_slug($this->data['Gallery']['naziv']);
+			if(empty($this->request->data['Album']['slug'])){
+				$this->request->data['Album']['slug'] = $this->__make_slug($this->request->data['Gallery']['naziv']);
 			}
 
 			$this->Album->recursive = -1;
@@ -56,9 +56,9 @@ class AlbumsController extends GalleryAppController {
 				'fields' => 'MAX(Album.position) as position'
 			));
 
-			$this->data['Album']['position'] = $position[0][0]['position'] + 1;
+			$this->request->data['Album']['position'] = $position[0][0]['position'] + 1;
 
-			if ($this->Album->save($this->data)) {
+			if ($this->Album->save($this->request->data)) {
 				$this->Session->setFlash(__('Album is saved.'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -73,8 +73,8 @@ class AlbumsController extends GalleryAppController {
 			$this->Session->setFlash(__('Invalid album.'));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			if ($this->Album->save($this->data)) {
+		if (!empty($this->request->data)) {
+			if ($this->Album->save($this->request->data)) {
 				$this->Session->setFlash(__d('gallery','Album is saved.'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -82,7 +82,7 @@ class AlbumsController extends GalleryAppController {
 			}
 		}
 
-	   	$this->data = $this->Album->read(null, $id);
+		$this->request->data = $this->Album->read(null, $id);
 		$this->set('types', $this->jslibs);
 	}
 
