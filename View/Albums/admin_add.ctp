@@ -11,5 +11,10 @@
 		echo $this->Form->input('status');
 	?>
 	</fieldset>
-	<?php echo $this->Form->end('Submit');?>
+	<div class="buttons">
+	<?php
+		echo $this->Form->end(__('Submit'));
+		echo $this->Html->link(__('Cancel'), array('action' => 'index'), array('class' => 'cancel'));
+	?>
+	</div>
 </div>

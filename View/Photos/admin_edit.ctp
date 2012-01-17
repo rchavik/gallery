@@ -26,5 +26,10 @@
 	echo $this->Form->input('status');
 	?>
 	</fieldset>
-	<?php echo $this->Form->end('Submit');?>
+	<div class="buttons">
+	<?php
+		echo $this->Form->end(__('Submit'));
+		echo $this->Html->link(__('Cancel'), array('controller' => 'albums', 'action' => 'upload', $this->data['Album']['id']), array('class' => 'cancel'));
+	?>
+	</div>
 </div>
