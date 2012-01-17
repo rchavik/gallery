@@ -63,24 +63,41 @@ CroogoNav::add('extensions.children.gallery', array(
 		'action' => 'index',
 		),
 	'children' => array(
-		'list' => array(
-			'title' => __d('gallery', 'List albums'),
+		'albums' => array(
+			'title' => 'Albums',
+			'url' => '#',
+			'children' => array(
+				'list' => array(
+					'title' => __d('gallery', 'List albums'),
+					'url' => array(
+						'plugin' => 'gallery',
+						'admin' => true,
+						'controller' => 'albums',
+						'action' => 'index',
+						),
+					),
+				'new' => array(
+					'title' => __d('gallery', 'New album'),
+					'url' => array(
+						'plugin' => 'gallery',
+						'admin' => true,
+						'controller' => 'albums',
+						'action' => 'add',
+						),
+					),
+				),
+			),
+
+		'photos' => array(
+			'title' => __d('gallery', 'Photos'),
 			'url' => array(
 				'plugin' => 'gallery',
 				'admin' => true,
-				'controller' => 'albums',
+				'controller' => 'photos',
 				'action' => 'index',
 				),
 			),
-		'new' => array(
-			'title' => __d('gallery', 'New album'),
-			'url' => array(
-				'plugin' => 'gallery',
-				'admin' => true,
-				'controller' => 'albums',
-				'action' => 'add',
-				),
-			),
+
 		'settings' => array(
 			'title' => __d('gallery', 'Gallery settings'),
 			'url' => array(
@@ -92,4 +109,5 @@ CroogoNav::add('extensions.children.gallery', array(
 				)
 			),
 		),
+
 	));
