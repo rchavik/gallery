@@ -40,6 +40,7 @@ class GallerySchema extends CakeSchema {
 		'small' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'large' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'original' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
+		'status' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'params' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),
