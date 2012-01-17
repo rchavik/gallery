@@ -1,5 +1,12 @@
 <div class="albums form">
 	<h2><?php echo __d('gallery','Edit album'); ?></h2>
+
+    <div class="actions">
+        <ul>
+            <li><?php echo $this->Html->link(__d('gallery','Photos'), array('action'=>'upload', $this->data['Album']['id'])); ?></li>
+        </ul>
+    </div>
+
 	<?php echo $this->Form->create('Album');?>
 	<fieldset>
 	<?php
