@@ -10,18 +10,16 @@
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.edineicipriani.com.br
  */
-class Album extends AppModel {
+class Album extends GalleryAppModel {
 /**
  * Model name
  *
  * @var string
  * @access public
  */
-	var $name = 'Album';
+	public $name = 'Album';
 
-	var $useDbConfig = 'gallery';
-
-	var $validate = array(
+	public $validate = array(
 		'slug' => array(
 			'rule' => 'isUnique',
 			'message' => 'Slug is already in use.',
@@ -34,7 +32,7 @@ class Album extends AppModel {
  * @var array
  * @access public
  */
-	var $hasMany = array(
+	public $hasMany = array(
 		'Photo' => array(
 			'className' => 'Gallery.Photo',
 			'foreignKey' => 'album_id',

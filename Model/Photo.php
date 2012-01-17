@@ -10,20 +10,18 @@
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.edineicipriani.com.br
  */
-class Photo extends AppModel {
+class Photo extends GalleryAppModel {
 /**
  * Model name
  *
  * @var string
  * @access public
  */
-	var $name = 'Photo';
+	public $name = 'Photo';
 
-	var $useDbConfig = 'gallery';
+	public $dir = '';
 
-	var $dir = '';
-
-	var $albumDir = '';
+	public $albumDir = '';
 
 /**
  * Model associations: belongsTo
@@ -31,9 +29,9 @@ class Photo extends AppModel {
  * @var array
  * @access public
  */
-	var $belongsTo = array(
+	public $belongsTo = array(
 		'Album' => array(
-			'className' => 'Gallery.album',
+			'className' => 'Gallery.Album',
 			'foreignKey' => 'album_id'
 		)
 	);
