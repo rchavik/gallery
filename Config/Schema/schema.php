@@ -20,6 +20,11 @@ class GallerySchema extends CakeSchema {
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 15),
 		'status' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+		'max_width' => array('type' => 'integer', 'null' => true),
+		'max_height' => array('type' => 'integer', 'null' => true),
+		'max_height_thumbnail' => array('type' => 'integer', 'null' => true),
+		'max_width_thumbnail' => array('type' => 'integer', 'null' => true),
+		'quality' => array('type' => 'integer', 'null' => true),
 		'params' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),

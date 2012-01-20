@@ -1,4 +1,10 @@
 <div class="users index">
+
+	<div class="actions">
+	<?php echo $this->Html->link(__('Albums'), array('action' => 'index'));
+	?>
+	</div>
+
     <h2><?php echo $title_for_layout; ?></h2>
 
 	<?php

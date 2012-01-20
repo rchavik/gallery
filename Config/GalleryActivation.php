@@ -36,6 +36,7 @@ class GalleryActivation {
 
 		$controller->Setting->write('Gallery.album_limit_pagination', '10', array('editable' => 1, 'title' => 'Albums Per Page'));
 		$controller->Setting->write('Gallery.max_width', '500', array('editable' => 1, 'title' => 'Max width'));
+		$controller->Setting->write('Gallery.max_height', '1080', array('editable' => 1, 'title' => 'Max height'));
 		$controller->Setting->write('Gallery.max_width_thumb', '120', array('editable' => 1, 'title' => 'Thumbnail max. width'));
 		$controller->Setting->write('Gallery.max_height_thumb', '80', array('editable' => 1, 'title' => 'Thumbnail max. height'));
 		$controller->Setting->write('Gallery.quality', '90', array('editable' => '1', 'title' => 'Quality',));
