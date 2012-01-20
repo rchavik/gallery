@@ -81,7 +81,7 @@ class Photo extends GalleryAppModel {
 			return true;
 		}
 		$this->Behaviors->trigger('setupAlbumPath', array(&$this, $this->data['Photo']['album_id']));
-		$this->data = $this->upload($this->data);
+		$this->data = $this->_upload($this->data);
 		return true;
 	}
 
@@ -101,14 +101,42 @@ class Photo extends GalleryAppModel {
 		}
 	}
 
-	function upload($data){
-		$max_width = Configure::read('Gallery.max_width');
-		$thumb_width = Configure::read('Gallery.max_width_thumb');
-		$thumb_height = Configure::read('Gallery.max_height_thumb');
-		$thumb_quality = Configure::read('Gallery.quality');
+	protected function _upload($data){
+		$this->Album->recursive = -1;
+		$album = $this->Album->read(null, $data['Photo']['album_id']);
+
+		if (!empty($album['Album']['max_width'])) {
+			$max_width = $album['Album']['max_width'];
+		} else {
+			$max_width = Configure::read('Gallery.max_width');
+		}
+
+		if (!empty($album['Album']['max_height'])) {
+			$max_height = $album['Album']['max_height'];
+		} else {
+			$max_height = Configure::read('Gallery.max_height');
+		}
+
+		if (!empty($album['Album']['max_width_thumbnail'])) {
+			$thumb_width = $album['Album']['max_width_thumbnail'];
+		} else {
+			$thumb_width = Configure::read('Gallery.max_width_thumbnail');
+		}
+
+		if (!empty($album['Album']['max_height_thumbnail'])) {
+			$thumb_height = $album['Album']['max_height_thumbnail'];
+		} else {
+			$thumb_height = Configure::read('Gallery.max_height_thumbnail');
+		}
+
+		if (!empty($album['Album']['quality'])) {
+			$thumb_quality = $album['Album']['quality'];
+		} else {
+			$thumb_quality = Configure::read('Gallery.quality');
+		}
+
 		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 	   	$uploader = new qqFileUploader();
-		//$result = $uploader->handleUpload($this->dir);
 		$result = $uploader->handleUpload($this->sourceDir);
 		if (!empty($result['file'])) {
 			$sourceFile = $this->sourceDir.$result['file'];
