@@ -31,6 +31,7 @@ class AlbumsController extends GalleryAppController {
 		'nivo-slider' => 'Slideshow (Nivo Slider)',
 		'orbit' => 'Orbit',
 		'pikachoose' => 'PikaChoose',
+		'jquery-photofy' => 'jquery-photofy',
 		);
 
 
