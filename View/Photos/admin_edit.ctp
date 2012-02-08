@@ -22,6 +22,7 @@
 	));
 	echo $this->Form->input('title');
 	echo $this->Form->input('description');
+	echo $this->Form->input('url');
 	echo $this->Form->input('params');
 	echo $this->Form->input('status');
 	?>

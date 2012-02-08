@@ -9,6 +9,7 @@
             __('Album'),
             __('Title'),
             __('Description'),
+            __('url'),
             __('Actions'),
         ));
         echo $tableHeaders;
@@ -28,6 +29,7 @@
 				$attachment['Album']['title'],
 				$attachment['Photo']['title'],
 				$attachment['Photo']['description'],
+				$attachment['Photo']['url'],
 				$actions
 				);
         }
