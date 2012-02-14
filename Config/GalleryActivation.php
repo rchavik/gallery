@@ -40,7 +40,7 @@ class GalleryActivation {
 		$controller->Setting->write('Gallery.max_width_thumbnail', '120', array('editable' => 1, 'title' => 'Thumbnail max. width'));
 		$controller->Setting->write('Gallery.max_height_thumbnail', '80', array('editable' => 1, 'title' => 'Thumbnail max. height'));
 		$controller->Setting->write('Gallery.quality', '90', array('editable' => '1', 'title' => 'Quality',));
-		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider,pikachoose,fancybox,orbit,jquery-photofy', array('editable' => '1', 'title' => 'Libraries'));
+		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider,pikachoose,fancybox,orbit,jquery-photofy,jquery-kenburn', array('editable' => '1', 'title' => 'Libraries'));
 	}
 
 	public function beforeDeactivation(&$controller) {
