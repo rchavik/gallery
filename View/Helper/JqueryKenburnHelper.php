@@ -9,10 +9,6 @@ class JqueryKenburnHelper extends AppHelper {
 		);
 
 	function assets($options = array()) {
-		$options = Set::merge(array('inline' => false), $options);
-
-		echo $this->Html->script('/gallery/js/jquery.pixelentity.kenburnsSlider', false, $options);
-		echo $this->Html->css('/gallery/css/hdslider/skin', false, $options);
 	}
 
 	function album($album, $photos) {

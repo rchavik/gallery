@@ -45,6 +45,10 @@ class GalleryHelper extends AppHelper {
  * Include library css/javascript assets into the document
  */
 	public function assets($options = array()) {
+		if (isset($this->Layout->View->params['admin'])) {
+			return;
+		}
+
 		foreach ($this->_jslibs as $jslib) {
 			$this->{$jslib}->assets($options);
 		}
