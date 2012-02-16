@@ -11,8 +11,8 @@ class FancyboxHelper extends AppHelper {
 	function assets($options = array()) {
 		$options = Set::merge(array('inline' => false), $options);
 
-		echo $this->Html->script('/gallery/js/fancybox', false, $options);
-		echo $this->Html->script('/gallery/js/jquery.mousewheel', false, $options);
+		echo $this->Html->script('/gallery/js/fancybox', array(), $options);
+		echo $this->Html->script('/gallery/js/jquery.mousewheel', array(), $options);
 		echo $this->Html->css('/gallery/css/fancybox', false, $options);
 		echo $this->Html->css('/gallery/css/fancybox-style', false, $options);
 	}
