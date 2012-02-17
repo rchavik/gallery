@@ -24,6 +24,7 @@
 	echo $this->Form->input('description');
 	echo $this->Form->input('url');
 	echo $this->Form->input('params');
+	echo $this->Form->input('weight');
 	echo $this->Form->input('status');
 	?>
 	</fieldset>

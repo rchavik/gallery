@@ -94,6 +94,7 @@ class Photo extends GalleryAppModel {
 					'Album.slug' => $slug,
 					'Album.status' => true,
 					),
+				'order' => 'Photo.weight ASC',
 				));
 			return $query;
 		} else {

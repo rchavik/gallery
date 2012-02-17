@@ -127,7 +127,14 @@ class AlbumsController extends GalleryAppController {
 		}
 
 		$this->Album->Behaviors->attach('Containable');
-		$album = $this->Album->find('first', array('conditions' => array('Album.slug' => $slug), 'contain' => 'Photo'));
+		$album = $this->Album->find('first', array(
+			'conditions' => array('Album.slug' => $slug),
+			'contain' => array(
+				'Photo' => array(
+					'order' => 'Photo.weight ASC',
+					),
+				),
+			));
 
 		if (isset($this->params['requested'])) {
 			return $album;
