@@ -1,4 +1,4 @@
-<div class="photos index">
+<div class="photos index table-container">
     <h2><?php echo __('Photos'); ?></h2>
 
     <table cellpadding="0" cellspacing="0">
@@ -30,7 +30,7 @@
 				$attachment['Album']['title'],
 				$attachment['Photo']['weight'],
 				$attachment['Photo']['title'],
-				$attachment['Photo']['description'],
+				$this->Text->truncate($attachment['Photo']['description']),
 				$attachment['Photo']['url'],
 				$actions
 				);
