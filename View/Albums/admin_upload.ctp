@@ -49,9 +49,9 @@
 					<?php if (!empty($photo['title'])): ?>
 					<p style='float:left; clear: right;margin: 10px 0 0 10px; width: 69%;'>
 					<strong>
-					<?php echo $this->Text->truncate($photo['title'], 100, array('html' => true)); ?>
+					<?php echo $this->Text->truncate(strip_tags($photo['title']), 100); ?>
 					</strong><br />
-					<?php echo $this->Text->truncate($photo['description'], 120, array('html' => true)); ?></p>
+					<?php echo $this->Text->truncate(strip_tags($photo['description']), 120); ?></p>
 					<?php endif; ?>
 					</div>
 			<?php endforeach; ?>
