@@ -30,7 +30,7 @@
 				$attachment['Album']['title'],
 				$attachment['Photo']['weight'],
 				$attachment['Photo']['title'],
-				$this->Text->truncate($attachment['Photo']['description']),
+				$this->Text->truncate(strip_tags($attachment['Photo']['description']), 30),
 				$attachment['Photo']['url'],
 				$actions
 				);
