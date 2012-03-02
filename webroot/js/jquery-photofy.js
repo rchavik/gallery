@@ -1,4 +1,4 @@
-﻿/*-----------------------------------------------------------------------
+/*-----------------------------------------------------------------------
 Copyright (c) 2011 Tremayne Christ, http://tremaynechrist.co.uk/
 
 MIT LICENSE
@@ -40,6 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 overlayBackColor: "white",
                 overlayForeColor: "#424547",
                 overlayTransparency: 0.8,
+				customCloseButtonClass: "button",
                 shuffleAtStart: false,
                 shuffle: true,
                 previewPause: false,
@@ -52,8 +53,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                     //
                 },
                 select: function (obj, ui) {
-                    obj.append('<div class="photofy_overlay" style="color:' + options.overlayForeColor + ';display:none;position:absolute;top:0;right:0;bottom:0;left:0"><div class="photofy_overlay_background" style="position:absolute;top:0;right:0;bottom:0;left:0;background:' + options.overlayBackColor + ';opacity:' + options.overlayTransparency + ';filter:alpha(opacity=' + options.overlayTransparency * 100 + ')"></div><div class="photofy_overlayContent" style="display:none;position:absolute;top:20px;left:20px;bottom:20px;right:20px"><div class="photofy_overlay_background" style="position:absolute;top:0;right:0;bottom:0;left:0;background:' + options.overlayBackColor + ';opacity:' + options.overlayTransparency + ';filter:alpha(opacity=' + options.overlayTransparency * 100 + ')"></div><div class="photofy_overlay_html" style="position:absolute;top:0;left:0;bottom:0;right:60%;padding:20px;display:none"></div><a href="#" class="photofy_overlay_close" style="color:' + options.overlayForeColor + ';position:absolute;bottom:20px;left:20px;height:auto;width:auto;text-decoration:underline">Close</a><div class="photofy_overlayImage" style="position:absolute;top:0;right:0;bottom:0;left:40%;border:5px solid transparent;overflow:hidden"></div></div></div>')
+                    obj.append('<div class="photofy_overlay" style="color:' + options.overlayForeColor + ';display:none;position:absolute;top:0;right:0;bottom:0;left:0"><div class="photofy_overlay_background" style="position:absolute;top:0;right:0;bottom:0;left:0;background:' + options.overlayBackColor + ';opacity:' + options.overlayTransparency + ';filter:alpha(opacity=' + options.overlayTransparency * 100 + ')"></div><div class="photofy_overlayContent" style="display:none;position:absolute;top:20px;left:20px;bottom:20px;right:20px"><div class="photofy_overlay_background" style="position:absolute;top:0;right:0;bottom:0;left:0;background:' + options.overlayBackColor + ';opacity:' + options.overlayTransparency + ';filter:alpha(opacity=' + options.overlayTransparency * 100 + ')"></div><div class="photofy_overlay_html" style="position:absolute;top:0;left:0;bottom:0;right:60%;padding:20px;display:none"></div><a href="#" class="photofy_overlay_close ' + options.customCloseButtonClass +'" style="color:' + options.overlayForeColor + ';position:absolute;left:20px;height:auto;width:auto;text-decoration:underline">Close</a><div class="photofy_overlayImage" style="position:absolute;top:0;right:0;bottom:0;left:40%;border:5px solid transparent;overflow:hidden"></div></div></div>')
                     obj.find("a.photofy_overlay_close").click(function () {
+                        obj.find(".photofy_overlay").fadeOut(function () {
+                            $(this).remove();
+                        });
+                        return false;
+                    });
+					obj.find(".photofy_overlay_background").click(function () {
                         obj.find(".photofy_overlay").fadeOut(function () {
                             $(this).remove();
                         });
