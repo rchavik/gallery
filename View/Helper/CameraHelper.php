@@ -12,6 +12,7 @@ class CameraHelper extends AppHelper {
 		$options = Set::merge(array('inline' => false), $options);
 		$this->Html->script('/gallery/js/camera', false, $options);
 		$this->Html->css('/gallery/css/camera', false, $options);
+		$this->Html->css('/gallery/css/camera-theme', false, $options);
 	}
 
 	function album($album, $photos) {
@@ -19,19 +20,18 @@ class CameraHelper extends AppHelper {
 		$result = $this->Html->div('camera_wrap camera_azure_skin', $photos, array( 'id' => $galleryId));
 		return $result;
 	}
-	
+
 	function photo($album, $photo) {
+		$config = $this->Gallery->getAlbumJsParams($album);
 		$options = array(
 			'data-src' => '/' . $this->base . $photo['original'],
 			'data-thumb' => '/' . $this->base . $photo['small'],
 			);
-		//debug($photo);
 		$imgTag = $this->Html->image('/' . $this->base . $photo['original'], array(
 				'alt' => 'img',
 				'style' => 'width:950px; background:transparent;'
 				));
 		$imgDes = $this->Html->div('camera_caption fadeFromBottom', $this->base . $photo['description']);
-		
 		$results = $this->Html->div('camera_images', $imgDes , $options);
 		return $results;
 	}
