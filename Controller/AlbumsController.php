@@ -33,6 +33,7 @@ class AlbumsController extends GalleryAppController {
 		'pikachoose' => 'PikaChoose',
 		'jquery-photofy' => 'jquery-photofy',
 		'jquery-kenburn' => 'jquery-kenburn',
+		'camera' => 'Camera (Responsive Slider)',
 		);
 
 
