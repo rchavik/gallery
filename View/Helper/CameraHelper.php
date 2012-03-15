@@ -30,7 +30,7 @@ class CameraHelper extends AppHelper {
 				'alt' => 'img',
 				'style' => 'width:950px; background:transparent;'
 				));
-		$imgDes = $this->Html->div('camera_caption fadeFromLeft', $this->base . $photo['description']);
+		$imgDes = $this->Html->div('camera_caption fadeFromBottom', $this->base . $photo['description']);
 		
 		$results = $this->Html->div('camera_images', $imgDes , $options);
 		return $results;
