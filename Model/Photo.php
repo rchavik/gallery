@@ -80,7 +80,9 @@ class Photo extends GalleryAppModel {
 		if ($this->exists()) {
 			return true;
 		}
-		$this->Behaviors->trigger('setupAlbumPath', array(&$this, $this->data['Photo']['album_id']));
+		$this->getEventManager()->dispatch(
+			new CakeEvent('setupAlbumPath', $this)
+			);
 		$this->data = $this->_upload($this->data);
 		return true;
 	}
