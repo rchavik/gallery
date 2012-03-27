@@ -138,6 +138,11 @@ class Photo extends GalleryAppModel {
 			$thumb_quality = Configure::read('Gallery.quality');
 		}
 
+		if (empty($thumb_width) || empty($thumb_height) ||
+		    empty($thumb_quality) || empty($max_height) || empty($max_width)) {
+			throw new UnexpectedValueException('Missing gallery settings');
+		}
+
 		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 	   	$uploader = new qqFileUploader();
 		$result = $uploader->handleUpload($this->sourceDir);
