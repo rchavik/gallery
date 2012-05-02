@@ -19,10 +19,20 @@ class Photo extends GalleryAppModel {
  */
 	public $name = 'Photo';
 
+
+/**
+ * Album Absolute path
+ */
 	public $dir = '';
 
+/**
+ * Album path
+ */
 	public $albumDir = '';
 
+/**
+ * Behaviors
+ */
 	public $actsAs = array(
 		'Params',
 		);
@@ -44,16 +54,16 @@ class Photo extends GalleryAppModel {
 		'by_album' => true,
 		);
 
-	function __construct($id = false, $table = null, $ds = null){
+	public function __construct($id = false, $table = null, $ds = null){
 		parent::__construct($id = false, $table = null, $ds = null);
 		$this->setTargetDirectory();
 	}
 
-	function getTargetDirectory() {
+	public function getTargetDirectory() {
 		return $this->dir;
 	}
 
-	function setTargetDirectory($dir = 'photos', $perm = 0775) {
+	public function setTargetDirectory($dir = 'photos', $perm = 0775) {
 		if ($dir == 'photos') {
 			$this->albumDir = 'img' . DS . $dir . DS;
 		} else {
@@ -69,14 +79,14 @@ class Photo extends GalleryAppModel {
 		}
 	}
 
-	function beforeDelete(){
+	public function beforeDelete(){
 		$photo = $this->findById($this->id);
 		unlink(WWW_ROOT . $photo['Photo']['small']);
 		unlink(WWW_ROOT . $photo['Photo']['large']);
 		return true;
 	}
 
-	function beforeSave($options = array()){
+	public function beforeSave($options = array()){
 		if ($this->exists()) {
 			return true;
 		}
@@ -104,6 +114,14 @@ class Photo extends GalleryAppModel {
 		}
 	}
 
+/**
+ * File uploading handling
+ *
+ * When $_FILES['qqfile'] is present, we assume that we are processing browser
+ * uploads.  If not, try to use $data['Photo']['original'] as the source, then
+ * perform the necessary image processing.
+ * @param $data array Photo
+ */
 	protected function _upload($data){
 		$this->Album->recursive = -1;
 		$album = $this->Album->read(null, $data['Photo']['album_id']);
@@ -143,10 +161,28 @@ class Photo extends GalleryAppModel {
 			throw new UnexpectedValueException('Missing gallery settings');
 		}
 
-		App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
-	   	$uploader = new qqFileUploader();
-		$result = $uploader->handleUpload($this->sourceDir);
-		if (!empty($result['file'])) {
+		if (isset($_FILES['qqfile']) || isset($_GET['qqfile'])) {
+			// browser uploads
+			App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
+			$uploader = new qqFileUploader();
+			$result = $uploader->handleUpload($this->sourceDir);
+			if (!empty($result['file'])) {
+				$sourceFile = $this->sourceDir.$result['file'];
+				$copyFile = $this->dir.$result['file'];
+				copy($sourceFile, $copyFile);
+			}
+		} else {
+			// file probably already processed
+			if (!empty($data['Photo']['large'])) {
+				return $data;
+			}
+
+			// fake upload
+			$result = array(
+				'file' => $data['Photo']['original'],
+				'success' => true,
+				);
+			$data['Photo']['original'] = null;
 			$sourceFile = $this->sourceDir.$result['file'];
 			$copyFile = $this->dir.$result['file'];
 			copy($sourceFile, $copyFile);
