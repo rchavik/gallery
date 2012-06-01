@@ -22,7 +22,7 @@ class JqueryPhotofyHelper extends AppHelper {
 			$description .= $this->Html->para('', $photo['description']);
 			$description .= $this->Html->link($photo['url'], $photo['url']);
 			$result[] = array(
-				'ImageUrl' => '/' .$this->base . $photo['small'],
+				'ImageUrl' => '/' .$this->base . $photo['large'],
 				'LinkUrl' => '/' .$this->base . $photo['large'],
 				'HTML' => $description,
 				);
