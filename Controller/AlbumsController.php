@@ -34,6 +34,7 @@ class AlbumsController extends GalleryAppController {
 		'jquery-photofy' => 'jquery-photofy',
 		'jquery-kenburn' => 'jquery-kenburn',
 		'camera' => 'Camera (Responsive Slider)',
+		'flexslider' => 'FlexSlider',
 		);
 
 
