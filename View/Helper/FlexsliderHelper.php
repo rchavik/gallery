@@ -22,7 +22,15 @@ class FlexsliderHelper extends AppHelper {
 
 	function photo($album, $photo) {
 		$urlOrigin = $this->Html->url('/' . $photo['original']);
-		$result = $this->Html->image($urlOrigin);
+		if (empty($photo['url'])) {
+			$result = $this->Html->image($urlOrigin);
+		} else {
+			$result = $this->Html->link(
+					$this->Html->image($urlOrigin), $photo['url'], array(
+						'escape' => false,
+						)
+					);
+		}
 		$tag = $this->Html->tag('li', $result);
 		return $tag;
 	}
