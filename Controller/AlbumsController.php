@@ -36,6 +36,12 @@ class AlbumsController extends GalleryAppController {
 		'camera' => 'Camera (Responsive Slider)',
 		);
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		if ($this->action == 'admin_upload_photo' && $this->request->is('ajax')) {
+			$this->Security->csrfCheck = false;
+		}
+	}
 
 	function admin_index() {
 		$this->set('title_for_layout', __d('gallery','Albums'));
