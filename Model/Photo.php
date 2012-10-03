@@ -79,7 +79,7 @@ class Photo extends GalleryAppModel {
 		}
 	}
 
-	public function beforeDelete(){
+	public function beforeDelete($cascade = true) {
 		$photo = $this->findById($this->id);
 		unlink(WWW_ROOT . $photo['Photo']['small']);
 		unlink(WWW_ROOT . $photo['Photo']['large']);

@@ -56,8 +56,8 @@ class AlbumsController extends GalleryAppController {
 	function admin_add() {
 		if (!empty($this->request->data)) {
 			$this->Album->create();
-			if(empty($this->request->data['Album']['slug'])){
-				$this->request->data['Album']['slug'] = $this->__make_slug($this->request->data['Gallery']['naziv']);
+			if (empty($this->request->data['Album']['slug'])){
+				$this->request->data['Album']['slug'] = Inflector::slug($this->request->data['Album']['title']);
 			}
 
 			$this->Album->recursive = -1;
