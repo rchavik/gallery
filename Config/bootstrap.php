@@ -1,5 +1,9 @@
 <?php
 
+if (file_exists(CakePlugin::path('Gallery') . 'Config/gallery.php')) {
+	Configure::load('Gallery.gallery');
+}
+
 Croogo::hookRoutes('Gallery');
 
 Croogo::hookComponent('*', 'Gallery.Gallery');

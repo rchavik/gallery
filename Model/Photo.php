@@ -112,6 +112,9 @@ class Photo extends GalleryAppModel {
 		$photo = $this->findById($this->id);
 		unlink(WWW_ROOT . $photo['Photo']['small']);
 		unlink(WWW_ROOT . $photo['Photo']['large']);
+		if (Configure::read('Gallery.deleteOriginal') === true) {
+			unlink(WWW_ROOT . $photo['Photo']['original']);
+		}
 		return true;
 	}
 
