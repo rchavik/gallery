@@ -18,11 +18,14 @@
         $rows = array();
         foreach ($photos AS $attachment) {
             $actions  = $this->Html->link(__('Edit'), array('controller' => 'photos', 'action' => 'edit', $attachment['Photo']['id']));
-            $actions .= ' ' . $this->Html->link(__('Delete'), array('controller' => 'photos', 'action' => 'delete', $attachment['Photo']['id']));
 			$actions .= ' ' . $this->Layout->adminRowActions($attachment['Photo']['id']);
 
 
-            $thumbnail = $this->Html->image('/' . $attachment['Photo']['small']);
+            $thumbnail = $this->Html->link(
+				$this->Html->image('/' . $attachment['Photo']['small']),
+				'/' . $attachment['Photo']['large'],
+				array('class' => 'thickbox', 'escape' => false)
+			);
 
             $rows[] = array(
 				$attachment['Photo']['id'],
@@ -33,7 +36,7 @@
 				$this->Text->truncate(strip_tags($attachment['Photo']['description']), 30),
 				$attachment['Photo']['url'],
 				$actions
-				);
+			);
         }
 
         echo $this->Html->tableCells($rows);

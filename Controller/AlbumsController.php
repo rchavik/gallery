@@ -79,7 +79,7 @@ class AlbumsController extends GalleryAppController {
 		if (!empty($this->request->data)) {
 			if ($this->Album->save($this->request->data)) {
 				$this->Session->setFlash(__d('gallery','Album is saved.'));
-				$this->redirect(array('action' => 'index'));
+				$this->Croogo->redirect(array('action' => 'edit', $id));
 			} else {
 				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.'));
 			}

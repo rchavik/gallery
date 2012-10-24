@@ -43,6 +43,7 @@
 
 	<div class="buttons">
 	<?php
+		echo $this->Form->submit(__('Apply'), array('name' => 'apply'));
 		echo $this->Form->end(__('Submit'));
 		echo $this->Html->link(__('Cancel'), array('action' => 'index'), array('class' => 'cancel'));
 	?>

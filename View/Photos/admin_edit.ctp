@@ -5,16 +5,20 @@
 		'url' => array(
 			'controller' => 'photos',
 			'action' => 'edit',
-			),
-		));
+		),
+	));
 	?>
 	<fieldset>
 	<?php
 	echo $this->Form->input('id');
 	echo $this->Html->div('input text',
 		'<label>Thumbnail</label>' .
-		$this->Html->image('/'. $this->data['Photo']['small'])
-		);
+		$this->Html->link(
+			$this->Html->image('/'. $this->data['Photo']['small']),
+			'/' . $this->data['Photo']['large'],
+			array('class' => 'thickbox', 'escape' => false)
+		)
+	);
 	echo $this->Form->input('album_id', array(
 		'label' => __('Album'),
 		'options' => $albums,
@@ -30,6 +34,7 @@
 	</fieldset>
 	<div class="buttons">
 	<?php
+		echo $this->Form->submit(__('Apply'), array('name' => 'apply'));
 		echo $this->Form->end(__('Submit'));
 		echo $this->Html->link(__('Cancel'), array('controller' => 'albums', 'action' => 'upload', $this->data['Album']['id']), array('class' => 'cancel'));
 	?>
