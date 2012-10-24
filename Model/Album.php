@@ -25,8 +25,13 @@ class Album extends GalleryAppModel {
 
 	public $validate = array(
 		'slug' => array(
-			'rule' => 'isUnique',
-			'message' => 'Slug is already in use.',
+			'unique' => array(
+				'rule' => 'isUnique',
+				'message' => 'Slug is already in use.',
+			),
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+			),
 		),
 	);
 
