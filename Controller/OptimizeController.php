@@ -1,8 +1,11 @@
 <?php
 class OptimizeController extends GalleryAppController {
-	var $name = 'Optimize';
-	var $uses = array();
-	var $dir = '';
+
+	public $name = 'Optimize';
+
+	public $uses = array();
+
+	public $dir = '';
 
 	function admin_optimize () {
 	}
@@ -24,9 +27,7 @@ class OptimizeController extends GalleryAppController {
 
 		$this->autoRender = false;
 		$dirPath = WWW_ROOT . $this->data['Optimize']['path'];
-	//	$this->recursedir($dirPath);
 		$this->Gallery->recursedir($dirPath);
 	}
 
 }
-?>

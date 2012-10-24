@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Gallery Pictures Controller
  *
@@ -34,4 +35,5 @@ class PhotosController extends GalleryAppController {
 		$albums = $this->Photo->Album->find('list');
 		$this->set(compact('albums'));
 	}
+
 }

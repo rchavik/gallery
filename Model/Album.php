@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Album
  *
@@ -11,17 +12,10 @@
  * @link     http://www.edineicipriani.com.br
  */
 class Album extends GalleryAppModel {
-/**
- * Model name
- *
- * @var string
- * @access public
- */
-	public $name = 'Album';
 
 	public $actsAs = array(
 		'Params',
-		);
+	);
 
 	public $validate = array(
 		'slug' => array(
@@ -54,7 +48,7 @@ class Album extends GalleryAppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			),
-		);
+		),
+	);
 
 }

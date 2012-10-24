@@ -2,7 +2,6 @@
 /**
  * Gallery Photo
  *
- *
  * @category Model
  * @package  Croogo
  * @version  1.3
@@ -11,14 +10,6 @@
  * @link     http://www.edineicipriani.com.br
  */
 class Photo extends GalleryAppModel {
-/**
- * Model name
- *
- * @var string
- * @access public
- */
-	public $name = 'Photo';
-
 
 /**
  * Album Absolute path
@@ -35,7 +26,7 @@ class Photo extends GalleryAppModel {
  */
 	public $actsAs = array(
 		'Params',
-		);
+	);
 
 /**
  * Model associations: belongsTo
@@ -52,7 +43,7 @@ class Photo extends GalleryAppModel {
 
 	public $findMethods = array(
 		'by_album' => true,
-		);
+	);
 
 	public function __construct($id = false, $table = null, $ds = null){
 		parent::__construct($id = false, $table = null, $ds = null);
@@ -92,7 +83,7 @@ class Photo extends GalleryAppModel {
 		}
 		$this->getEventManager()->dispatch(
 			new CakeEvent('setupAlbumPath', $this)
-			);
+		);
 		$this->data = $this->_upload($this->data);
 		return true;
 	}
@@ -105,9 +96,9 @@ class Photo extends GalleryAppModel {
 					'Photo.status' => true,
 					'Album.slug' => $slug,
 					'Album.status' => true,
-					),
+				),
 				'order' => 'Photo.weight ASC',
-				));
+			));
 			return $query;
 		} else {
 			return $results;
@@ -435,12 +426,12 @@ class Photo extends GalleryAppModel {
 			return false;
 		}
 
-
 	}
 
-	function image_type_to_extension($imagetype)
-	{
-	if(empty($imagetype)) return false;
+	public function image_type_to_extension($imagetype) {
+		if(empty($imagetype)) {
+			return false;
+		}
 		switch($imagetype)
 		{
 			case IMAGETYPE_GIF	: return 'gif';
@@ -462,4 +453,5 @@ class Photo extends GalleryAppModel {
 			default				: return false;
 		}
 	}
+
 }

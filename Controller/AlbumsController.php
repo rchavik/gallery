@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Albums Controller
  *
@@ -12,19 +13,12 @@
  * @link     http://www.demoveo.com
  */
 class AlbumsController extends GalleryAppController {
-/**
- * Controller name
- *
- * @var string
- * @access public
- */
-	var $name = 'Albums';
 
-	var $actsAs = array(
+	public $actsAs = array(
 		'Containable',
-		);
+	);
 
-	var $jslibs = array(
+	public $jslibs = array(
 		'DDSlider' => 'DDSlider',
 		'fancybox' => 'FancyBox',
 		'galleria' => 'Galleria',
@@ -34,16 +28,16 @@ class AlbumsController extends GalleryAppController {
 		'jquery-photofy' => 'jquery-photofy',
 		'jquery-kenburn' => 'jquery-kenburn',
 		'camera' => 'Camera (Responsive Slider)',
-		);
+	);
 
-	function beforeFilter() {
+	public function beforeFilter() {
 		parent::beforeFilter();
 		if ($this->action == 'admin_upload_photo' && $this->request->is('ajax')) {
 			$this->Security->csrfCheck = false;
 		}
 	}
 
-	function admin_index() {
+	public function admin_index() {
 		$this->set('title_for_layout', __d('gallery','Albums'));
 
 		$this->Album->recursive = 0;
@@ -53,7 +47,7 @@ class AlbumsController extends GalleryAppController {
 		$this->set('albums', $this->paginate());
 	}
 
-	function admin_add() {
+	public function admin_add() {
 		if (!empty($this->request->data)) {
 			$this->Album->create();
 			if (empty($this->request->data['Album']['slug'])){
@@ -183,7 +177,6 @@ class AlbumsController extends GalleryAppController {
 		$this->Album->Photo->save($this->request->data);
 
 		echo json_encode($this->Album->Photo->findById($this->Album->Photo->id));
-
 	}
 
 	public function admin_delete_photo($id = null) {
@@ -200,5 +193,5 @@ class AlbumsController extends GalleryAppController {
 			echo json_encode(array('status' => 0,  'msg' => __d('gallery','Problem to remove photo. Please try again.'))); exit();
 		}
 	}
+
 }
-?>
