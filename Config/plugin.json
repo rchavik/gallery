@@ -4,5 +4,11 @@
 
 	"author": "Edinei L. Cipriani",
 	"authorEmail": "phpedinei@gmail.com",
-	"authorUrl": "http://www.edineicipriani.com.br"
+	"authorUrl": "http://www.edineicipriani.com.br",
+
+	"dependencies": {
+		"plugins": [
+			"Imagine"
+		]
+	}
 }

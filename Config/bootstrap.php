@@ -71,3 +71,7 @@ CroogoNav::add('extensions.children.gallery', array(
 	),
 
 ));
+
+if (!CakePlugin::loaded('Imagine')) {
+	CakePlugin::load('Imagine', array('bootstrap' => true));
+}

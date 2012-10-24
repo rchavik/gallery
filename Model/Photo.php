@@ -1,4 +1,7 @@
 <?php
+
+use Imagine\Image\Box;
+
 /**
  * Gallery Photo
  *
@@ -26,6 +29,7 @@ class Photo extends GalleryAppModel {
  */
 	public $actsAs = array(
 		'Params',
+		'Imagine.Imagine',
 	);
 
 /**
@@ -47,8 +51,42 @@ class Photo extends GalleryAppModel {
 
 	public function __construct($id = false, $table = null, $ds = null){
 		parent::__construct($id = false, $table = null, $ds = null);
+		$this->_loadSettings();
 		$this->setTargetDirectory();
 	}
+
+	protected function _loadSettings() {
+		if (!empty($album['Album']['max_width'])) {
+			$this->max_width = $album['Album']['max_width'];
+		} else {
+			$this->max_width = Configure::read('Gallery.max_width');
+		}
+
+		if (!empty($album['Album']['max_height'])) {
+			$this->max_height = $album['Album']['max_height'];
+		} else {
+			$this->max_height = Configure::read('Gallery.max_height');
+		}
+
+		if (!empty($album['Album']['max_width_thumbnail'])) {
+			$this->thumb_width = $album['Album']['max_width_thumbnail'];
+		} else {
+			$this->thumb_width = Configure::read('Gallery.max_width_thumbnail');
+		}
+
+		if (!empty($album['Album']['max_height_thumbnail'])) {
+			$this->thumb_height = $album['Album']['max_height_thumbnail'];
+		} else {
+			$this->thumb_height = Configure::read('Gallery.max_height_thumbnail');
+		}
+
+		if (!empty($album['Album']['quality'])) {
+			$this->thumb_quality = $album['Album']['quality'];
+		} else {
+			$this->thumb_quality = Configure::read('Gallery.quality');
+		}
+	}
+
 
 	public function getTargetDirectory() {
 		return $this->dir;
@@ -62,10 +100,10 @@ class Photo extends GalleryAppModel {
 		}
 		$this->dir = WWW_ROOT . $this->albumDir;
 		$this->sourceDir = WWW_ROOT . $this->albumDir . 'source' . DS;
-		if(!is_dir($this->dir)) {
+		if (!is_dir($this->dir)) {
 			mkdir($this->dir, $perm, true);
 		}
-		if(!is_dir($this->sourceDir)) {
+		if (!is_dir($this->sourceDir)) {
 			mkdir($this->sourceDir, $perm, true);
 		}
 	}
@@ -106,7 +144,7 @@ class Photo extends GalleryAppModel {
 	}
 
 /**
- * File uploading handling
+ * File upload handler
  *
  * When $_FILES['qqfile'] is present, we assume that we are processing browser
  * uploads.  If not, try to use $data['Photo']['original'] as the source, then
@@ -117,38 +155,8 @@ class Photo extends GalleryAppModel {
 		$this->Album->recursive = -1;
 		$album = $this->Album->read(null, $data['Photo']['album_id']);
 
-		if (!empty($album['Album']['max_width'])) {
-			$max_width = $album['Album']['max_width'];
-		} else {
-			$max_width = Configure::read('Gallery.max_width');
-		}
-
-		if (!empty($album['Album']['max_height'])) {
-			$max_height = $album['Album']['max_height'];
-		} else {
-			$max_height = Configure::read('Gallery.max_height');
-		}
-
-		if (!empty($album['Album']['max_width_thumbnail'])) {
-			$thumb_width = $album['Album']['max_width_thumbnail'];
-		} else {
-			$thumb_width = Configure::read('Gallery.max_width_thumbnail');
-		}
-
-		if (!empty($album['Album']['max_height_thumbnail'])) {
-			$thumb_height = $album['Album']['max_height_thumbnail'];
-		} else {
-			$thumb_height = Configure::read('Gallery.max_height_thumbnail');
-		}
-
-		if (!empty($album['Album']['quality'])) {
-			$thumb_quality = $album['Album']['quality'];
-		} else {
-			$thumb_quality = Configure::read('Gallery.quality');
-		}
-
-		if (empty($thumb_width) || empty($thumb_height) ||
-		    empty($thumb_quality) || empty($max_height) || empty($max_width)) {
+		if (empty($this->thumb_width) || empty($this->thumb_height) ||
+		    empty($this->thumb_quality) || empty($this->max_height) || empty($this->max_width)) {
 			throw new UnexpectedValueException('Missing gallery settings');
 		}
 
@@ -158,8 +166,8 @@ class Photo extends GalleryAppModel {
 			$uploader = new qqFileUploader();
 			$result = $uploader->handleUpload($this->sourceDir);
 			if (!empty($result['file'])) {
-				$sourceFile = $this->sourceDir.$result['file'];
-				$copyFile = $this->dir.$result['file'];
+				$sourceFile = $this->sourceDir . $result['file'];
+				$copyFile = $this->dir . $result['file'];
 				copy($sourceFile, $copyFile);
 			}
 		} else {
@@ -174,284 +182,67 @@ class Photo extends GalleryAppModel {
 				'success' => true,
 				);
 			$data['Photo']['original'] = null;
-			$sourceFile = $this->sourceDir.$result['file'];
-			$copyFile = $this->dir.$result['file'];
+			$sourceFile = $this->sourceDir . $result['file'];
+			$copyFile = $this->dir . $result['file'];
 			copy($sourceFile, $copyFile);
 		}
 
-		$width = $this->getWidth($this->dir.$result['file']);
-		$height = $this->getHeight($this->dir.$result['file']);
-		if ($width > $max_width){
-			$scale = $max_width/$width;
-			$this->resizeImage($this->dir.$result['file'],$width,$height,$scale);
-		}else{
-			$scale = 1;
-			$this->resizeImage($this->dir.$result['file'],$width,$height,$scale);
-		}
-		if (empty($thumb_height) && !empty($thumb_width)) {
-			$this->resizeImage2('resize', $result['file'], $this->dir, 'thumb_'.$result['file'], $thumb_width, FALSE, $thumb_quality);
-		}elseif (empty($thumb_width) && !empty($thumb_height)) {
-			$this->resizeImage2('resize', $result['file'], $this->dir, 'thumb_'.$result['file'], FALSE, $thumb_height, $thumb_quality);
-		}else{
-			$this->resizeImage2('resizeCrop', $result['file'], $this->dir, 'thumb_'.$result['file'], $thumb_width, $thumb_height, $thumb_quality);
-		}
+		$this->_createWebFriendlyImage($result);
+		$this->_createThumbnail($result);
 
-		$data['Photo']['small'] = $this->albumDir . 'thumb_'.$result['file'];
+		$data['Photo']['small'] = $this->albumDir . 'thumb_' . $result['file'];
 		$data['Photo']['large'] = $this->albumDir . $result['file'];
 		$data['Photo']['original'] = $this->albumDir . 'source' . DS . $result['file'];
 		return $data;
 	}
 
+	protected function _createThumbnail($result) {
+		$output = WWW_ROOT . $this->albumDir . 'thumb_' . $result['file'];
+		$imagine = $this->imagineObject();
+		$image = $imagine->open($this->dir . $result['file']);
+		$size = $image->getSize();
+		$width = $size->getWidth();
+		$height = $size->getHeight();
 
-	function getHeight($image) {
-		$sizes = getimagesize($image);
-		return $sizes[1];
-	}
-
-	function getWidth($image) {
-		$sizes = getimagesize($image);
-		return $sizes[0];
-	}
-
-	function resizeImage($image,$width,$height,$scale) {
-		$newImageWidth = ceil($width * $scale);
-		$newImageHeight = ceil($height * $scale);
-		$newImage = imagecreatetruecolor($newImageWidth,$newImageHeight);
-		$ext = strtolower(substr(basename($image), strrpos(basename($image), ".") + 1));
-		$source = "";
-		if($ext == "png"){
-			$source = imagecreatefrompng($image);
-		}elseif($ext == "jpg" || $ext == "jpeg"){
-			$source = imagecreatefromjpeg($image);
-		}elseif($ext == "gif"){
-			$source = imagecreatefromgif($image);
-		}
-		imagecopyresampled($newImage,$source,0,0,0,0,$newImageWidth,$newImageHeight,$width,$height);
-		imagejpeg($newImage,$image,Configure::read('Gallery.quality'));
-		chmod($image, 0777);
-	}
-
-	function resizeThumbnailImage($thumb_image_name, $image, $width, $height, $start_width, $start_height, $scale){
-		$newImageWidth = ceil($width * $scale);
-		$newImageHeight = ceil($height * $scale);
-		$newImage = imagecreatetruecolor($newImageWidth,$newImageHeight);
-		$ext = strtolower(substr(basename($image), strrpos(basename($image), ".") + 1));
-		$source = "";
-		if($ext == "png"){
-			$source = imagecreatefrompng($image);
-		}elseif($ext == "jpg" || $ext == "jpeg"){
-			$source = imagecreatefromjpeg($image);
-		}elseif($ext == "gif"){
-			$source = imagecreatefromgif($image);
-		}
-		imagecopyresampled($newImage,$source,0,0,$start_width,$start_height,$newImageWidth,$newImageHeight,$width,$height);
-		imagejpeg($newImage,$thumb_image_name,90);
-		chmod($thumb_image_name, 0777);
-		return $thumb_image_name;
-	}
-
-	function cropImage($thumb_width, $x1, $y1, $x2, $y2, $w, $h, $thumbLocation, $imageLocation){
-		$scale = $thumb_width/$w;
-		$cropped = $this->resizeThumbnailImage($thumbLocation,$imageLocation,$w,$h,$x1,$y1,$scale);
-	}
-
-
-	function resizeImage2($cType = 'resize', $id, $imgFolder, $newName = false, $newWidth=false, $newHeight=false, $quality = 75, $bgcolor = false)
-	{
-		$img = $imgFolder . $id;
-		list($oldWidth, $oldHeight, $type) = getimagesize($img);
-		$ext = $this->image_type_to_extension($type);
-
-		//check to make sure that the file is writeable, if so, create destination image (temp image)
-		if (is_writeable($imgFolder))
-		{
-			if($newName){
-				$dest = $imgFolder . $newName;
-			} else {
-				$dest = $imgFolder . 'tmp_'.$id;
-			}
-		}
-		else
-		{
-			//if not let developer know
-			$imgFolder = substr($imgFolder, 0, strlen($imgFolder) -1);
-			$imgFolder = substr($imgFolder, strrpos($imgFolder, '\\') + 1, 20);
-			debug("You must allow proper permissions for image processing. And the folder has to be writable.");
-			debug("Run \"chmod 777 on '$imgFolder' folder\"");
-			exit();
-		}
-
-		//check to make sure that something is requested, otherwise there is nothing to resize.
-		//although, could create option for quality only
-		if ($newWidth OR $newHeight)
-		{
-			/*
-			 * check to make sure temp file doesn't exist from a mistake or system hang up.
-			 * If so delete.
-			 */
-			if(file_exists($dest))
-			{
-				unlink($dest);
-			}
-			else
-			{
-				switch ($cType){
-					default:
-					case 'resize':
-						# Maintains the aspect ration of the image and makes sure that it fits
-						# within the maxW(newWidth) and maxH(newHeight) (thus some side will be smaller)
-						$widthScale = 2;
-						$heightScale = 2;
-
-						if($newWidth) $widthScale = 	$newWidth / $oldWidth;
-						if($newHeight) $heightScale = $newHeight / $oldHeight;
-						//debug("W: $widthScale  H: $heightScale<br>");
-						if($widthScale < $heightScale) {
-							$maxWidth = $newWidth;
-							$maxHeight = false;
-						} elseif ($widthScale > $heightScale ) {
-							$maxHeight = $newHeight;
-							$maxWidth = false;
-						} else {
-							$maxHeight = $newHeight;
-							$maxWidth = $newWidth;
-						}
-
-						if($maxWidth > $maxHeight){
-							$applyWidth = $maxWidth;
-							$applyHeight = ($oldHeight*$applyWidth)/$oldWidth;
-						} elseif ($maxHeight > $maxWidth) {
-							$applyHeight = $maxHeight;
-							$applyWidth = ($applyHeight*$oldWidth)/$oldHeight;
-						} else {
-							$applyWidth = $maxWidth;
-							$applyHeight = $maxHeight;
-						}
-						//debug("mW: $maxWidth mH: $maxHeight<br>");
-						//debug("aW: $applyWidth aH: $applyHeight<br>");
-						$startX = 0;
-						$startY = 0;
-						//exit();
-						break;
-					case 'resizeCrop':
-						// -- resize to max, then crop to center
-						$ratioX = $newWidth / $oldWidth;
-						$ratioY = $newHeight / $oldHeight;
-
-						if ($ratioX < $ratioY) {
-							$startX = round(($oldWidth - ($newWidth / $ratioY))/2);
-							$startY = 0;
-							$oldWidth = round($newWidth / $ratioY);
-							$oldHeight = $oldHeight;
-						} else {
-							$startX = 0;
-							$startY = round(($oldHeight - ($newHeight / $ratioX))/2);
-							$oldWidth = $oldWidth;
-							$oldHeight = round($newHeight / $ratioX);
-						}
-						$applyWidth = $newWidth;
-						$applyHeight = $newHeight;
-						break;
-					case 'crop':
-						// -- a straight centered crop
-						$startY = ($oldHeight - $newHeight)/2;
-						$startX = ($oldWidth - $newWidth)/2;
-						$oldHeight = $newHeight;
-						$applyHeight = $newHeight;
-						$oldWidth = $newWidth;
-						$applyWidth = $newWidth;
-						break;
-				}
-
-				switch($ext)
-				{
-					case 'gif' :
-						$oldImage = imagecreatefromgif($img);
-						break;
-					case 'png' :
-						$oldImage = imagecreatefrompng($img);
-						break;
-					case 'jpg' :
-					case 'jpeg' :
-						$oldImage = imagecreatefromjpeg($img);
-						break;
-					default :
-						//image type is not a possible option
-						return false;
-						break;
-				}
-
-				//create new image
-				$newImage = imagecreatetruecolor($applyWidth, $applyHeight);
-
-				if($bgcolor):
-				//set up background color for new image
-					sscanf($bgcolor, "%2x%2x%2x", $red, $green, $blue);
-					$newColor = ImageColorAllocate($newImage, $red, $green, $blue);
-					imagefill($newImage,0,0,$newColor);
-				endif;
-
-				//put old image on top of new image
-				imagecopyresampled($newImage, $oldImage, 0,0 , $startX, $startY, $applyWidth, $applyHeight, $oldWidth, $oldHeight);
-
-					switch($ext)
-					{
-						case 'gif' :
-							imagegif($newImage, $dest, $quality);
-							break;
-						case 'png' :
-							imagepng($newImage, $dest, $quality);
-							break;
-						case 'jpg' :
-						case 'jpeg' :
-							imagejpeg($newImage, $dest, $quality);
-							break;
-						default :
-							return false;
-							break;
-					}
-
-				imagedestroy($newImage);
-				imagedestroy($oldImage);
-
-				if(!$newName){
-					unlink($img);
-					rename($dest, $img);
-				}
-
-				return true;
-			}
-
+		if (empty($this->thumb_height) && !empty($this->thumb_width)) {
+			$scale = $this->thumb_width / $width;
+			$newSize = $size->scale($scale);
+		} elseif (empty($this->thumb_width) && !empty($this->thumb_height)) {
+			$scale = $this->thumb_height / $height;
+			$newSize = $size->scale($scale);
 		} else {
-			return false;
+			$scaleWidth = $this->thumb_width / $width;
+			$scaleHeight = $this->thumb_height / $height;
+			$scale = $scaleWidth > $scaleHeight ? $scaleWidth: $scaleHeight;
+			$newSize = $size->scale($scale);
 		}
-
+		$image->resize($newSize);
+		$saved = $image->save($output);
+		unset($image);
+		if ($saved) {
+			return $filename;
+		}
+		return false;
 	}
 
-	public function image_type_to_extension($imagetype) {
-		if(empty($imagetype)) {
-			return false;
+	protected function _createWebFriendlyImage($result) {
+		$imagine = $this->imagineObject();
+		$output = WWW_ROOT . $this->albumDir . $result['file'];
+		$image = $imagine->open($this->dir . $result['file']);
+		$size = $image->getSize();
+		$width = $size->getWidth();
+		$height = $size->getHeight();
+		if ($width > $this->max_width){
+			$scale = $this->max_width / $width;
+			$newSize = $size->scale($scale);
+			$image->resize($newSize);
 		}
-		switch($imagetype)
-		{
-			case IMAGETYPE_GIF	: return 'gif';
-			case IMAGETYPE_JPEG	: return 'jpg';
-			case IMAGETYPE_PNG	: return 'png';
-			case IMAGETYPE_SWF	: return 'swf';
-			case IMAGETYPE_PSD	: return 'psd';
-			case IMAGETYPE_BMP	: return 'bmp';
-			case IMAGETYPE_TIFF_II : return 'tiff';
-			case IMAGETYPE_TIFF_MM : return 'tiff';
-			case IMAGETYPE_JPC	: return 'jpc';
-			case IMAGETYPE_JP2	: return 'jp2';
-			case IMAGETYPE_JPX	: return 'jpf';
-			case IMAGETYPE_JB2	: return 'jb2';
-			case IMAGETYPE_SWC	: return 'swc';
-			case IMAGETYPE_IFF	: return 'aiff';
-			case IMAGETYPE_WBMP	: return 'wbmp';
-			case IMAGETYPE_XBM	: return 'xbm';
-			default				: return false;
+		$saved = $image->save($output);
+		unset($image);
+		if ($saved) {
+			return $filename;
 		}
+		return false;
 	}
 
 }
