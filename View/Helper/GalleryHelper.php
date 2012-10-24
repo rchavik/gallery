@@ -20,6 +20,7 @@ class GalleryHelper extends AppHelper {
  */
 
 	var $helpers = array(
+		'Html',
 		'Layout'
 	);
 
@@ -70,6 +71,12 @@ class GalleryHelper extends AppHelper {
 				return;
 			}
 			echo $this->assets();
+		}
+	}
+
+	public function beforeRender() {
+		if (isset($this->_View->params['admin'])) {
+			$this->Html->css('/gallery/css/gallery', null, array('inline' => false));
 		}
 	}
 

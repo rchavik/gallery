@@ -20,38 +20,59 @@
 	<h3><?php echo sprintf(__d('gallery', 'Album: %s'), $editUrl); ?></h3>
 
     <div id="upload">
-
     </div>
 	<br clear="both" />
 	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
-				<div style="float:left; padding:5px; position:relative; width: 48%; font-size: 0.8em; border-bottom: 1px solid #ddd;">
-					<?php echo $this->Html->image('/'. $photo['small'], array(
-							'style' => 'float: left',
-							)); ?>
-					<?php echo $this->Html->link(__d('gallery', 'remove', true), 'javascript:;', array(
-					'rel' => $photo['id'],
-					'class' => 'remove',
-					'style' => 'position: absolute; top: 0px; right:40px; text-decoration: none;',
-					));
-					?>
-					<?php echo $this->Html->link('edit', array(
-						'controller' => 'photos',
-						'action' => 'edit',
-						$photo['id'],
-						), array(
-							'class' => 'edit',
-							'style' => 'position: absolute; top: 0px; right:15px; text-decoration: none;',
-							)
+				<?php
+				$filename = basename($photo['large']);
+				$filename = $this->Html->link(
+					$this->Text->truncate($filename, 40),
+					'/' . $photo['original'],
+					array('target' => '_blank', 'title' => $filename)
+				);
+				?>
+				<div class="album-photo">
+					<?php
+					echo $this->Html->link(
+						$this->Html->image('/'. $photo['small']),
+						'/'. $photo['large'],
+						array(
+							'class' => 'thickbox',
+							'escape' => false,
+						)
 					);
 					?>
+					<div class="photo-actions">
+					<?php
+						echo $this->Html->link(__d('gallery', 'remove', true),
+							'javascript:;',
+							array(
+								'rel' => $photo['id'],
+								'class' => 'remove',
+							)
+						);
+					?>
+					<?php
+						echo $this->Html->link('edit', array(
+							'controller' => 'photos',
+							'action' => 'edit',
+							$photo['id'],
+							), array(
+								'class' => 'edit',
+								)
+						);
+					?>
+					</div>
+					<div class="path">
+					<?php echo $filename; ?>
+					</div>
 					<?php if (!empty($photo['title'])): ?>
-					<p style='float:left; clear: right;margin: 10px 0 0 10px; width: 69%;'>
-					<strong>
-					<?php echo $this->Text->truncate(strip_tags($photo['title']), 100); ?>
-					</strong><br />
-					<?php echo $this->Text->truncate(strip_tags($photo['description']), 120); ?></p>
+					<div class="description">
+						<?php echo $this->Html->tag('strong', $this->Text->truncate(strip_tags($photo['title']), 100)); ?>
+						<br />
+						<?php echo $this->Text->truncate(strip_tags($photo['description']), 120); ?></div>
 					<?php endif; ?>
 					</div>
 			<?php endforeach; ?>
@@ -77,30 +98,33 @@
 <?php echo $this->Html->script('/gallery/js/fileuploader', false);  echo $this->Html->css('/gallery/css/fileuploader', false); ?>
 <script>
 function createUploader(){            
+	var containerTemplate = _.template(
+		'<div class="album-photo">' +
+		'	<img src="/<%= Photo.small %>" />' +
+		'	<div class="photo-actions">' +
+		'		<a class="remove" href="javascript:;" rel="<%= Photo.id %>"><%= sRemove %></a>' +
+		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
+		'	</div>' +
+		'</div>'
+	);
+
     var uploader = new qq.FileUploader({
         element: document.getElementById('upload'),
         action: '<?php echo $this->Html->url(array('action' => 'upload_photo', $album['Album']['id'])); ?>',
-		onComplete: function(id, fileName, responseJSON){
-			$('.qq-upload-fail').fadeOut(function(){
+		onComplete: function(id, fileName, json) {
+			$('.qq-upload-fail').fadeOut('fast', function(){
 				$(this).remove();
 			});
-			$('#return').append('<div style="float:left; margin:5px; position:relative;"><a href="javascript:;" style="position:absolute; right:0px; top:0px; background:#FFF;" class="remove" rel="'+responseJSON.Photo.id+'"><?php __d('gallery','remove'); ?></a><a style="position:absolute; right:0px; bottom: 0px; background: #fff;" class="edit" href="/admin/gallery/photos/edit/'+responseJSON.Photo.id+'">edit</a><img src="/'+responseJSON.Photo.small+'" /></div>');
-		},
-		
-	        template: '<div class="qq-uploader">' + 
-	                '<div class="qq-upload-drop-area"><span><?php echo __d('gallery','Drop files here to upload'); ?></span></div>' +
-					'<a class="qq-upload-button ui-corner-all" style="background-color:#EEEEEE;float:left;font-weight:bold;margin-right:10px;padding:10px;text-decoration:none;cursor:pointer;"><?php echo __d('gallery','Add new photos'); ?></a>' +
-					'<ul class="qq-upload-list"></ul>' + 
-	             '</div>',
-		      
-			fileTemplate: '<li>' +
-		                '<span class="qq-upload-file"></span>' +
-		                '<span class="qq-upload-spinner"></span>' +
-		                '<span class="qq-upload-size"></span>' +
-		                '<a class="qq-upload-cancel" href="#"><?php echo __d('gallery','cancel'); ?></a>' +
-		            '</li>',
-
-    });           
+			var sRemove = '<?php echo __d('gallery', 'remove'); ?>';
+			var sEdit = '<?php echo __d('gallery', 'edit'); ?>';
+			var args = {
+				Photo: json.Photo,
+				sRemove: sRemove,
+				sEdit: sEdit
+			};
+			$('#return').append(containerTemplate(args));
+		}
+    });
 }
 
 // in your app create uploader as soon as the DOM is ready
@@ -111,7 +135,7 @@ $(function(){
 		var obj = $(this);
 		$.getJSON('<?php echo $this->Html->url('/admin/gallery/albums/delete_photo/');?>'+obj.attr('rel'), function(r) {
             if (r['status'] == 1) {
-				obj.parent().fadeOut(function(){
+				obj.parents('.album-photo').fadeOut('fast', function(){
 					$(this).remove();
 				});
             } else {

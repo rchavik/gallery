@@ -1,0 +1,67 @@
+#upload {
+	padding: 10px;
+}
+
+#upload .qq-upload-button {
+	color: #444;
+	font-weight: bold;
+	background: #eee;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	margin: 10px 0;
+	padding: 10px;
+	float: left;
+}
+
+#upload .qq-upload-button-hover {
+	color: #d54e21;
+	background: #eee;
+}
+
+#upload .qq-upload-list {
+	font-family: inherit;
+	float: left;
+}
+
+#upload .qq-upload-list li {
+	background-color: inherit;
+}
+
+.album-photo {
+	float: left;
+	padding: 10px;
+	position:relative;
+	width: 40%;
+	font-size: 0.8em;
+	border: 1px solid #ddd;	
+	margin: 0 8px 8px 0;
+	border-radius: 4px;
+}
+
+.album-photo.hover,
+.album-photo:hover {
+	background: #f0f0f0;
+}
+
+.album-photo img {
+	float: left;
+	border: 1px solid #bbb;
+}
+
+.album-photo .path {
+	margin: 0 4px;
+	float: left;
+}
+
+.album-photo .description {
+	float: left;
+	width: 50%;
+	padding: 6px;
+}
+
+.photo-actions {
+	text-align: right;
+	float: right;
+	margin: 0 0 14px;
+	width: 200px;
+}
