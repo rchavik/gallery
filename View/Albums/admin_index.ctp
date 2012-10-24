@@ -27,7 +27,7 @@
 			$actions .= ' ' . $this->Html->link(__d('gallery','Photos in album'), array('controller' => 'albums', 'action' => 'upload', $album['Album']['id']));
 			$actions .= ' ' . $this->Layout->adminRowActions($album['Album']['id']);
             $actions .= ' ' . $this->Html->link(__('Edit'), array('controller' => 'albums', 'action' => 'edit', $album['Album']['id']));
-            $actions .= ' ' . $this->Html->link(__('Delete'), array('controller' => 'albums', 'action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete this album?'));
+            $actions .= ' ' . $this->Form->postLink(__('Delete'), array('controller' => 'albums', 'action' => 'delete', $album['Album']['id']), null, __('Are you sure you want to delete this album?'));
 
             $rows[] = array(
 				$album['Album']['id'],
