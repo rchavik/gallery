@@ -144,28 +144,6 @@ $(function(){
 		});
 	});
 
-var wrap = $('#return');
-$('.gallery-prev').click(function(){
-	wrap.trigger('prev.evtpaginate');
-	return false;
-});
-
-$('.gallery-next').click(function(){
-	wrap.trigger('next.evtpaginate');
-	return false;
-});
-wrap.bind('initialized.evtpaginate', function(e, startnum, totalnum ){
-	$('#count').text(startnum);
-	$('#total').text(totalnum);
-});
-	wrap.bind('finished.evtpaginate', function(e, num, isFirst, isLast ){
-	$('#count').text(num);
-});
-
-// call the plugin
-wrap.evtpaginate({
-	perPage:12
-	});
 });
 
 </script>
