@@ -77,6 +77,7 @@ class GalleryHelper extends AppHelper {
 	public function beforeRender() {
 		if (isset($this->_View->params['admin'])) {
 			$this->Html->css('/gallery/css/gallery', null, array('inline' => false));
+			$this->Html->script('Gallery.gallery', array('inline' => false));
 		}
 	}
 

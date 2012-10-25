@@ -100,7 +100,9 @@
 function createUploader(){            
 	var containerTemplate = _.template(
 		'<div class="album-photo">' +
-		'	<img src="/<%= Photo.small %>" />' +
+		'	<a class="thickbox" href="/<%= Photo.large %>">' +
+		'		<img src="/<%= Photo.small %>" />' +
+		'	</a>' +
 		'	<div class="photo-actions">' +
 		'		<a class="remove" href="javascript:;" rel="<%= Photo.id %>"><%= sRemove %></a>' +
 		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
@@ -123,6 +125,7 @@ function createUploader(){
 				sEdit: sEdit
 			};
 			$('#return').append(containerTemplate(args));
+			tb_init('a.thickbox');
 		}
     });
 }
