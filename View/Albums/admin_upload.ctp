@@ -39,6 +39,7 @@
 						$this->Html->image('/'. $photo['small']),
 						'/'. $photo['large'],
 						array(
+							'rel' => 'gallery-' . $photo['album_id'],
 							'class' => 'thickbox',
 							'escape' => false,
 						)
@@ -100,12 +101,18 @@
 function createUploader(){            
 	var containerTemplate = _.template(
 		'<div class="album-photo">' +
-		'	<a class="thickbox" href="/<%= Photo.large %>">' +
+		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
+		'		href="/<%= Photo.large %>">' +
 		'		<img src="/<%= Photo.small %>" />' +
 		'	</a>' +
 		'	<div class="photo-actions">' +
 		'		<a class="remove" href="javascript:;" rel="<%= Photo.id %>"><%= sRemove %></a>' +
 		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
+		'	</div>' +
+		'	<div class="path">' +
+		'		<a target="_blank" title="<%= Photo.original %>"' +
+		'			href="/<%= Photo.original %>">...<%= Photo.original.substr(-40) %>' +
+		'		</a>' +
 		'	</div>' +
 		'</div>'
 	);
