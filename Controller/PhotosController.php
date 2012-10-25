@@ -36,4 +36,22 @@ class PhotosController extends GalleryAppController {
 		$this->set(compact('albums'));
 	}
 
+	public function admin_moveup($id, $step = 1) {
+		if ($this->Photo->moveUp($id, $step)) {
+			$this->Session->setFlash(__('Moved up successfully'), 'default', array('class' => 'success'));
+		} else {
+			$this->Session->setFlash(__('Could not move up'), 'default', array('class' => 'error'));
+		}
+		$this->redirect($this->referer());
+	}
+
+	public function admin_movedown($id, $step = 1) {
+		if ($this->Photo->moveDown($id, $step)) {
+			$this->Session->setFlash(__('Moved up successfully'), 'default', array('class' => 'success'));
+		} else {
+			$this->Session->setFlash(__('Could not move up'), 'default', array('class' => 'error'));
+		}
+		$this->redirect($this->referer());
+	}
+
 }

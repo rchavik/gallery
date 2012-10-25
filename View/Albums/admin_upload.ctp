@@ -1,27 +1,25 @@
+<?php
+$editUrl = $this->Html->link($album['Album']['title'], array(
+	'plugin' => 'gallery',
+	'controller' => 'albums',
+	'action' => 'edit',
+	$album['Album']['id'],
+));
+?>
 <div class="users index">
 
+	<h2><?php echo sprintf(__d('gallery', 'Manage photos in: %s'), $editUrl); ?></h2>
+
 	<div class="actions">
-	<?php echo $this->Html->link(__('Albums'), array('action' => 'index'));
-	?>
+	<ul>
+		<li>
+		<?php echo $this->Html->link(__('Albums'), array('action' => 'index')); ?>
+		</li>
+	</ul>
 	</div>
 
-    <h2><?php echo $title_for_layout; ?></h2>
-
-	<?php
-	$editUrl = $this->Html->link($album['Album']['title'], array(
-		'plugin' => 'gallery',
-		'controller' => 'albums',
-		'action' => 'edit',
-		$album['Album']['id'],
-		)
-	);
-	?>
-
-	<h3><?php echo sprintf(__d('gallery', 'Album: %s'), $editUrl); ?></h3>
-
-    <div id="upload">
+    <div id="upload" class="clearfix">
     </div>
-	<br clear="both" />
 	<div id="return" class="clearfix">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
@@ -62,7 +60,27 @@
 							$photo['id'],
 							), array(
 								'class' => 'edit',
-								)
+							)
+						);
+					?>
+					<?php
+						echo $this->Html->link('up', array(
+							'controller' => 'photos',
+							'action' => 'moveup',
+							$photo['id'],
+							), array(
+								'class' => 'up',
+							)
+						);
+					?>
+					<?php
+						echo $this->Html->link('down', array(
+							'controller' => 'photos',
+							'action' => 'movedown',
+							$photo['id'],
+							), array(
+								'class' => 'up',
+							)
 						);
 					?>
 					</div>
@@ -103,15 +121,18 @@ function createUploader(){
 		'<div class="album-photo">' +
 		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
 		'		href="/<%= Photo.large %>">' +
-		'		<img src="/<%= Photo.small %>" />' +
+		'		<img src="/<%= Photo.small %>">' +
 		'	</a>' +
 		'	<div class="photo-actions">' +
 		'		<a class="remove" href="javascript:;" rel="<%= Photo.id %>"><%= sRemove %></a>' +
 		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
+		'		<a class="up" href="/admin/gallery/photos/moveup/<%= Photo.id %>"><%= sUp %></a>' +
+		'		<a class="down" href="/admin/gallery/photos/movedown/<%= Photo.id %>"><%= sDown %></a>' +
 		'	</div>' +
 		'	<div class="path">' +
 		'		<a target="_blank" title="<%= Photo.original %>"' +
-		'			href="/<%= Photo.original %>">...<%= Photo.original.substr(-40) %>' +
+		'			href="/<%= Photo.original %>">' +
+		'			...<%= Photo.original.substr(-40) %>' +
 		'		</a>' +
 		'	</div>' +
 		'</div>'
@@ -126,10 +147,14 @@ function createUploader(){
 			});
 			var sRemove = '<?php echo __d('gallery', 'remove'); ?>';
 			var sEdit = '<?php echo __d('gallery', 'edit'); ?>';
+			var sUp = '<?php echo __d('gallery', 'up'); ?>';
+			var sDown = '<?php echo __d('gallery', 'down'); ?>';
 			var args = {
 				Photo: json.Photo,
 				sRemove: sRemove,
-				sEdit: sEdit
+				sEdit: sEdit,
+				sUp: sUp,
+				sDown: sDown,
 			};
 			$('#return').append(containerTemplate(args));
 			tb_init('a.thickbox');

@@ -1,5 +1,6 @@
 #upload {
-	padding: 10px;
+	padding: 10px 0;
+	min-height: 60px;
 }
 
 #upload .qq-upload-button {
@@ -31,7 +32,7 @@
 	float: left;
 	padding: 10px;
 	position:relative;
-	width: 40%;
+	width: 46%;
 	font-size: 0.8em;
 	border: 1px solid #ddd;	
 	margin: 0 8px 8px 0;

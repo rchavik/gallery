@@ -158,7 +158,17 @@ class AlbumsController extends GalleryAppController {
 		$this->set('title_for_layout',__d('gallery',"Manage your photos in album"));
 
 		$this->Album->Behaviors->attach('Containable');
-		$album = $this->Album->find('first', array('conditions' => array('Album.id' => $id), 'contain' => 'Photo'));
+		$album = $this->Album->find('first', array(
+			'conditions' => array(
+				'Album.id' => $id
+			),
+			'contain' => array(
+				'Photo' => array(
+					'order' => 'Photo.weight asc',
+					'limit' => 100,
+				),
+			)
+		));
 		$this->set('album', $album);
 	}
 

@@ -30,7 +30,12 @@
             $rows[] = array(
 				$attachment['Photo']['id'],
 				$thumbnail,
-				$attachment['Album']['title'],
+				$this->Html->link($attachment['Album']['title'], array(
+					'plugin' => 'gallery',
+					'controller' => 'albums',
+					'action' => 'admin_upload',
+					$attachment['Album']['id'],
+				)),
 				$attachment['Photo']['weight'],
 				$attachment['Photo']['title'],
 				$this->Text->truncate(strip_tags($attachment['Photo']['description']), 30),

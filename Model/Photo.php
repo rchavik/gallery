@@ -29,6 +29,10 @@ class Photo extends GalleryAppModel {
  */
 	public $actsAs = array(
 		'Params',
+		'Ordered' => array(
+			'field' => 'weight',
+			'foreign_key' => 'album_id',
+		),
 		'Imagine.Imagine',
 	);
 
