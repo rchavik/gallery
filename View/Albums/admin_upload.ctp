@@ -37,7 +37,7 @@ $editUrl = $this->Html->link($album['Album']['title'], array(
 						$this->Html->image('/'. $photo['small']),
 						'/'. $photo['large'],
 						array(
-							'rel' => 'gallery-' . $photo['album_id'],
+							'rel' => 'gallery-' . $photo['PhotosAlbum']['album_id'],
 							'class' => 'thickbox',
 							'escape' => false,
 						)

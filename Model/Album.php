@@ -30,25 +30,26 @@ class Album extends GalleryAppModel {
 	);
 
 /**
- * Model associations: hasMany
+ * Model associations: hasAndBelongsToMany
  *
  * @var array
  * @access public
  */
-	public $hasMany = array(
+	public $hasAndBelongsToMany = array(
 		'Photo' => array(
 			'className' => 'Gallery.Photo',
+			'joinTable' => 'photos_albums',
 			'foreignKey' => 'album_id',
-			'dependent' => true,
+			'associationForeignKey' => 'photo_id',
+			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
-			'order' => 'Photo.title ASC',
+			'order' => '',
 			'limit' => '',
 			'offset' => '',
-			'exclusive' => '',
 			'finderQuery' => '',
-			'counterQuery' => ''
-		),
+			'deleteQuery' => '',
+			'insertQuery' => ''
+		)
 	);
-
 }

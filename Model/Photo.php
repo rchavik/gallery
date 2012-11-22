@@ -29,23 +29,28 @@ class Photo extends GalleryAppModel {
  */
 	public $actsAs = array(
 		'Params',
+		/*
 		'Ordered' => array(
 			'field' => 'weight',
 			'foreign_key' => 'album_id',
 		),
+		*/
 		'Imagine.Imagine',
 	);
 
 /**
- * Model associations: belongsTo
+ * Model associations: hasAndBelongsToMany
  *
  * @var array
  * @access public
  */
-	public $belongsTo = array(
+	public $hasAndBelongsToMany = array(
 		'Album' => array(
 			'className' => 'Gallery.Album',
-			'foreignKey' => 'album_id'
+			'joinTable' => 'photos_albums',
+			'foreignKey' => 'photo_id',
+			'associationForeignKey' => 'album_id',
+			'unique' => 'keepExisting',
 		)
 	);
 
@@ -160,7 +165,7 @@ class Photo extends GalleryAppModel {
  */
 	protected function _upload($data){
 		$this->Album->recursive = -1;
-		$album = $this->Album->read(null, $data['Photo']['album_id']);
+		$album = $this->Album->read(null, $data['Album']['Album'][0]);
 
 		if (empty($this->thumb_width) || empty($this->thumb_height) ||
 		    empty($this->thumb_quality) || empty($this->max_height) || empty($this->max_width)) {

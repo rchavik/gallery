@@ -19,11 +19,7 @@
 			array('class' => 'thickbox', 'escape' => false)
 		)
 	);
-	echo $this->Form->input('album_id', array(
-		'label' => __('Album'),
-		'options' => $albums,
-		'empty' => false,
-	));
+	echo $this->Form->input('Album');
 	echo $this->Form->input('title');
 	echo $this->Form->input('description');
 	echo $this->Form->input('url');
@@ -36,7 +32,7 @@
 	<?php
 		echo $this->Form->submit(__('Apply'), array('name' => 'apply'));
 		echo $this->Form->end(__('Submit'));
-		echo $this->Html->link(__('Cancel'), array('controller' => 'albums', 'action' => 'upload', $this->data['Album']['id']), array('class' => 'cancel'));
+		echo $this->Html->link(__('Cancel'), array('controller' => 'photos', 'action' => 'index'), array('class' => 'cancel'));
 	?>
 	</div>
 </div>
