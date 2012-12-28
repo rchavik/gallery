@@ -25,7 +25,7 @@ class PhotosController extends GalleryAppController {
 		$this->Photo->id = $id;
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Photo->save($this->request->data)) {
-				$this->Session->setFlash(__d('gallery', 'Photo has been saved.'));
+				$this->Session->setFlash(__d('gallery', 'Photo has been saved.'), 'default', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'edit', $id));
 			} else {
 				$this->Session->setFlash(__d('gallery', 'Photo cannot be saved.'));

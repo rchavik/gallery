@@ -62,7 +62,7 @@ class AlbumsController extends GalleryAppController {
 			$this->request->data['Album']['position'] = $position[0][0]['position'] + 1;
 
 			if ($this->Album->save($this->request->data)) {
-				$this->Session->setFlash(__('Album is saved.'));
+				$this->Session->setFlash(__('Album is saved.'), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.'));
@@ -78,7 +78,7 @@ class AlbumsController extends GalleryAppController {
 		}
 		if (!empty($this->request->data)) {
 			if ($this->Album->save($this->request->data)) {
-				$this->Session->setFlash(__d('gallery','Album is saved.'));
+				$this->Session->setFlash(__('Album is saved.'), 'default', array('class' => 'success'));
 				$this->Croogo->redirect(array('action' => 'edit', $id));
 			} else {
 				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.'));

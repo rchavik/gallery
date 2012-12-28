@@ -1,26 +1,34 @@
 <?php
+
+$this->extend('/Common/admin_edit');
+
 $editUrl = $this->Html->link($album['Album']['title'], array(
 	'plugin' => 'gallery',
 	'controller' => 'albums',
 	'action' => 'edit',
 	$album['Album']['id'],
 ));
+
+$this->Html
+	->addCrumb('', '/admin', array('icon' => 'home'))
+	->addCrumb('Gallery')
+	->addCrumb(__d('gallery', 'Albums'), array('admin' => true, 'plugin' => 'gallery', 'controller' => 'albums', 'action' => 'index'));
+
+if (empty($album)) {
+	$this->Html->addCrumb(__d('gallery', 'Add'), $this->here);
+} else {
+	$this->Html
+		->addCrumb($album['Album']['title'], array('action' => 'edit', $album['Album']['id']))
+		->addCrumb(__d('gallery', 'Photos'), $this->here);
+
+}
+
 ?>
-<div class="users index">
+<div class="row-fluid">
 
-	<h2><?php echo sprintf(__d('gallery', 'Manage photos in: %s'), $editUrl); ?></h2>
-
-	<div class="actions">
-	<ul>
-		<li>
-		<?php echo $this->Html->link(__('Albums'), array('action' => 'index')); ?>
-		</li>
-	</ul>
-	</div>
-
-    <div id="upload" class="clearfix">
+    <div id="upload" class="span12">
     </div>
-	<div id="return" class="clearfix">
+	<div id="return" class="span12">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
 				<?php
@@ -100,8 +108,7 @@ $editUrl = $this->Html->link($album['Album']['title'], array(
 	<div class='pagelist' style='text-align: center;'>
 	<?php echo $this->Html->link('prev ', '#', array(
 	    'class' => 'gallery-prev',
-		    )
-	);
+	));
 	?>
 	<span id='count'></span>
 	|
@@ -116,7 +123,7 @@ $editUrl = $this->Html->link($album['Album']['title'], array(
 </div>
 <?php echo $this->Html->script('/gallery/js/fileuploader', false);  echo $this->Html->css('/gallery/css/fileuploader', false); ?>
 <script>
-function createUploader(){            
+function createUploader(){
 	var containerTemplate = _.template(
 		'<div class="album-photo">' +
 		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
@@ -174,7 +181,7 @@ $(function(){
 					$(this).remove();
 				});
             } else {
-                alert(r['msg']);	
+                alert(r['msg']);
             }
 		});
 	});
