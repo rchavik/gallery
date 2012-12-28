@@ -28,6 +28,10 @@
 	background-color: inherit;
 }
 
+#return {
+	margin-left: 0;
+}
+
 .album-photo {
 	float: left;
 	padding: 10px;

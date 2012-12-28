@@ -26,8 +26,8 @@ if (empty($album)) {
 ?>
 <div class="row-fluid">
 
-    <div id="upload" class="span12">
-    </div>
+	<div id="upload" class="span12">
+	</div>
 	<div id="return" class="span12">
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
@@ -107,15 +107,15 @@ if (empty($album)) {
 	</div>
 	<div class='pagelist' style='text-align: center;'>
 	<?php echo $this->Html->link('prev ', '#', array(
-	    'class' => 'gallery-prev',
+		'class' => 'gallery-prev',
 	));
 	?>
 	<span id='count'></span>
 	|
 	<span id='total'></span>
 	<?php echo $this->Html->link(' next', '#', array(
-	    'class' => 'gallery-next',
-		    )
+		'class' => 'gallery-next',
+		)
 	);
 	?>
 	</div>
@@ -145,9 +145,9 @@ function createUploader(){
 		'</div>'
 	);
 
-    var uploader = new qq.FileUploader({
-        element: document.getElementById('upload'),
-        action: '<?php echo $this->Html->url(array('action' => 'upload_photo', $album['Album']['id'])); ?>',
+	var uploader = new qq.FileUploader({
+		element: document.getElementById('upload'),
+		action: '<?php echo $this->Html->url(array('action' => 'upload_photo', $album['Album']['id'])); ?>',
 		onComplete: function(id, fileName, json) {
 			$('.qq-upload-fail').fadeOut('fast', function(){
 				$(this).remove();
@@ -166,7 +166,7 @@ function createUploader(){
 			$('#return').append(containerTemplate(args));
 			tb_init('a.thickbox');
 		}
-    });
+	});
 }
 
 // in your app create uploader as soon as the DOM is ready
@@ -176,13 +176,13 @@ $(function(){
 	$('.remove').live('click', function(){
 		var obj = $(this);
 		$.getJSON('<?php echo $this->Html->url('/admin/gallery/albums/delete_photo/');?>'+obj.attr('rel'), function(r) {
-            if (r['status'] == 1) {
+			if (r['status'] == 1) {
 				obj.parents('.album-photo').fadeOut('fast', function(){
 					$(this).remove();
 				});
-            } else {
-                alert(r['msg']);
-            }
+			} else {
+				alert(r['msg']);
+			}
 		});
 	});
 

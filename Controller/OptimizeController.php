@@ -1,4 +1,7 @@
 <?php
+
+App::uses('GalleryAppController', 'Gallery.Controller');
+
 class OptimizeController extends GalleryAppController {
 
 	public $name = 'Optimize';

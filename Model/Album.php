@@ -1,5 +1,7 @@
 <?php
 
+App::uses('GalleryAppModel', 'Gallery.Model');
+
 /**
  * Album
  *
@@ -52,4 +54,5 @@ class Album extends GalleryAppModel {
 			'insertQuery' => ''
 		)
 	);
+
 }

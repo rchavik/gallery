@@ -1,5 +1,7 @@
 <?php
 
+App::uses('GalleryAppController', 'Gallery.Controller');
+
 /**
  * Gallery Pictures Controller
  *

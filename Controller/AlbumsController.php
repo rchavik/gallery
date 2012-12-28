@@ -1,5 +1,7 @@
 <?php
 
+App::uses('GalleryAppController', 'Gallery.Controller');
+
 /**
  * Albums Controller
  *
@@ -112,11 +114,11 @@ class AlbumsController extends GalleryAppController {
 		$this->Album->recursive = -1;
 		$this->Album->Behaviors->attach('Containable');
 		$this->paginate = array(
-				'conditions' => array('Album.status' => 1),
-				'contain' => array('Photo' => array('limit' => 1)),
-				'limit' => Configure::read('Gallery.album_limit_pagination'),
-				'order' => 'Album.position ASC');
-
+			'conditions' => array('Album.status' => 1),
+			'contain' => array('Photo' => array('limit' => 1)),
+			'limit' => Configure::read('Gallery.album_limit_pagination'),
+			'order' => 'Album.position ASC',
+		);
 
 		$this->set('albums', $this->paginate());
 	}
@@ -133,9 +135,9 @@ class AlbumsController extends GalleryAppController {
 			'contain' => array(
 				'Photo' => array(
 					'order' => 'Photo.weight ASC',
-					),
 				),
-			));
+			),
+		));
 
 		if (isset($this->params['requested'])) {
 			return $album;
@@ -146,7 +148,7 @@ class AlbumsController extends GalleryAppController {
 			$this->redirect(array('action' => 'index'));
 		}
 
-		$this->set('title_for_layout',__d('gallery',"Album") . $album['Album']['title']);
+		$this->set('title_for_layout', __d('gallery', 'Album %s', $album['Album']['title']));
 		$this->set(compact('album'));
 	}
 
@@ -178,8 +180,6 @@ class AlbumsController extends GalleryAppController {
 		$this->layout = 'ajax';
 		$this->render(false);
 		Configure::write('debug', 0);
-
-
 
 		$this->request->data['Photo']['status'] = true;
 		$this->request->data['Album'][] = array('album_id' => $id, 'master' => true);

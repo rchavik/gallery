@@ -12,29 +12,28 @@ $this->assign('actions', ' ');
 ?>
 <div class="photos index table-container">
 
-    <table class="table table-striped">
-    <?php
-        $tableHeaders = $this->Html->tableHeaders(array(
-            $this->Paginator->sort('id'),
-            $this->Paginator->sort('small', __('Preview')),
-            $this->Paginator->sort('title', __('Title')),
-            $this->Paginator->sort('description', __('Description')),
-            $this->Paginator->sort('url', __('url')),
-            __('Actions'),
-        ));
-        echo $tableHeaders;
+	<table class="table table-striped">
+	<?php
+		$tableHeaders = $this->Html->tableHeaders(array(
+			$this->Paginator->sort('id'),
+			$this->Paginator->sort('small', __('Preview')),
+			$this->Paginator->sort('title', __('Title')),
+			$this->Paginator->sort('description', __('Description')),
+			$this->Paginator->sort('url', __('url')),
+			__('Actions'),
+		));
+		echo $tableHeaders;
 
-        $rows = array();
-        foreach ($photos AS $attachment) {
+		$rows = array();
+		foreach ($photos AS $attachment) {
 			$actions = array();
-            $actions[] = $this->Croogo->adminRowAction('',
+			$actions[] = $this->Croogo->adminRowAction('',
 				array('controller' => 'photos', 'action' => 'edit', $attachment['Photo']['id']),
 				array('icon' => 'pencil', 'tooltip' => __('Edit'))
 			);
 			$actions[] = $this->Croogo->adminRowActions($attachment['Photo']['id']);
 
-
-            $thumbnail = $this->Html->link(
+				$thumbnail = $this->Html->link(
 				$this->Html->image('/' . $attachment['Photo']['small'], array(
 					'class' => 'img-polaroid',
 				)),
@@ -50,10 +49,10 @@ $this->assign('actions', ' ');
 				$attachment['Photo']['url'],
 				$this->Html->div('item-actions', implode(' ', $actions))
 			);
-        }
+		}
 
-        echo $this->Html->tableCells($rows);
-        echo $tableHeaders;
-    ?>
-    </table>
+		echo $this->Html->tableCells($rows);
+		echo $tableHeaders;
+	?>
+	</table>
 </div>

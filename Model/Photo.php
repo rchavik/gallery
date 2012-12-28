@@ -1,5 +1,7 @@
 <?php
 
+App::uses('GalleryAppModel', 'Gallery.Model');
+
 use Imagine\Image\Box;
 
 /**
@@ -138,7 +140,7 @@ class Photo extends GalleryAppModel {
 		return true;
 	}
 
-	public function _findBy_album($state, $query, $results = array()) {
+	protected function _findBy_album($state, $query, $results = array()) {
 		if ($state == 'before') {
 			$slug = isset($query['album']) ? $query['album'] : false;
 			$query = Set::merge($query, array(
