@@ -183,6 +183,9 @@ class AlbumsController extends GalleryAppController {
 
 		$this->request->data['Photo']['status'] = true;
 		$this->request->data['Album'][] = array('album_id' => $id, 'master' => true);
+
+		$slug = $this->Album->field('slug', array('Album.id' => $id));
+		$this->Album->Photo->setTargetDirectory($slug);
 		$data = $this->Album->Photo->create();
 		$this->Album->Photo->save($this->request->data);
 
