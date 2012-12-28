@@ -182,8 +182,8 @@ class AlbumsController extends GalleryAppController {
 
 
 		$this->request->data['Photo']['status'] = true;
-		$this->request->data['Album']['Album'] = array($id);
-		$this->Album->Photo->create();
+		$this->request->data['Album'][] = array('album_id' => $id, 'master' => true);
+		$data = $this->Album->Photo->create();
 		$this->Album->Photo->save($this->request->data);
 
 		echo json_encode($this->Album->Photo->findById($this->Album->Photo->id));
