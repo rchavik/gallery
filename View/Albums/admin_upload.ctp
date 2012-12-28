@@ -42,7 +42,7 @@ if (empty($album)) {
 				<div class="album-photo">
 					<?php
 					echo $this->Html->link(
-						$this->Html->image('/'. $photo['small']),
+						$this->Html->image('/'. $photo['small'], array('class' => 'img-polaroid')),
 						'/'. $photo['large'],
 						array(
 							'rel' => 'gallery-' . $photo['PhotosAlbum']['album_id'],
@@ -128,10 +128,10 @@ function createUploader(){
 		'<div class="album-photo">' +
 		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
 		'		href="/<%= Photo.large %>">' +
-		'		<img src="/<%= Photo.small %>">' +
+		'		<img src="/<%= Photo.small %>" class="img-polaroid">' +
 		'	</a>' +
 		'	<div class="photo-actions">' +
-		'		<a class="remove" href="javascript:;" rel="<%= Photo.id %>"><%= sRemove %></a>' +
+		'		<a class="remove" href="javascript:void(0);" rel="<%= Photo.id %>"><%= sRemove %></a>' +
 		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
 		'		<a class="up" href="/admin/gallery/photos/moveup/<%= Photo.id %>"><%= sUp %></a>' +
 		'		<a class="down" href="/admin/gallery/photos/movedown/<%= Photo.id %>"><%= sDown %></a>' +
