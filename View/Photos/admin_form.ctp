@@ -69,6 +69,12 @@ echo $this->Form->create('Photo', array(
 				'class' => false,
 			)) .
 
+			$this->Form->input('created', array(
+				'type' => 'text',
+				'placeholder' => __('Created'),
+				'readonly' => true,
+			)) .
+
 			$this->Html->endBox();
 
 		echo $this->Html->beginBox(__('Preview')) .

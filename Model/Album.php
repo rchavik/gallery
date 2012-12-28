@@ -40,7 +40,7 @@ class Album extends GalleryAppModel {
 	public $hasAndBelongsToMany = array(
 		'Photo' => array(
 			'className' => 'Gallery.Photo',
-			'joinTable' => 'photos_albums',
+			'joinTable' => 'albums_photos',
 			'foreignKey' => 'album_id',
 			'associationForeignKey' => 'photo_id',
 			'unique' => 'keepExisting',
