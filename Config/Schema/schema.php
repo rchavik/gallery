@@ -45,7 +45,6 @@ class GallerySchema extends CakeSchema {
 		'large' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'original' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'status' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
 		'params' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
@@ -63,6 +62,7 @@ class GallerySchema extends CakeSchema {
 		'photo_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
 		'album_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
 		'master' => array('type' => 'boolean', 'null' => false, 'default' => 0),
+		'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),

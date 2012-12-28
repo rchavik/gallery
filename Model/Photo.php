@@ -31,12 +31,6 @@ class Photo extends GalleryAppModel {
  */
 	public $actsAs = array(
 		'Params',
-		/*
-		'Ordered' => array(
-			'field' => 'weight',
-			'foreign_key' => 'album_id',
-		),
-		*/
 		'Imagine.Imagine',
 	);
 
@@ -53,6 +47,7 @@ class Photo extends GalleryAppModel {
 			'foreignKey' => 'photo_id',
 			'associationForeignKey' => 'album_id',
 			'unique' => 'keepExisting',
+			'with' => 'Gallery.AlbumsPhoto',
 		)
 	);
 
@@ -144,12 +139,26 @@ class Photo extends GalleryAppModel {
 		if ($state == 'before') {
 			$slug = isset($query['album']) ? $query['album'] : false;
 			$query = Set::merge($query, array(
+				'recursive' => -1,
+				'fields' => array('*', 'Album.*'),
 				'conditions' => array(
 					'Photo.status' => true,
 					'Album.slug' => $slug,
 					'Album.status' => true,
 				),
-				'order' => 'Photo.weight ASC',
+				'joins' => array(
+					array(
+						'alias' => $this->AlbumsPhoto->alias,
+						'table' => $this->AlbumsPhoto->useTable,
+						'conditions' => 'Photo.id = AlbumsPhoto.photo_id',
+					),
+					array(
+						'alias' => $this->Album->alias,
+						'table' => $this->Album->useTable,
+						'conditions' => 'Album.id = AlbumsPhoto.album_id',
+					),
+				),
+				'order' => 'AlbumsPhoto.weight ASC',
 			));
 			return $query;
 		} else {

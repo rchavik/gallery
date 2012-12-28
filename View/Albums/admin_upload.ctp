@@ -23,6 +23,21 @@ if (empty($album)) {
 
 }
 
+$this->start('actions');
+	echo $this->Form->postLink(__('Reset weight'),
+		array(
+			'plugin' => 'gallery',
+			'controller' => 'albums',
+			'action' => 'reset_weight',
+			$album['Album']['id'],
+		),
+		array(
+			'button' => 'default',
+		),
+		__('You will lose existing order for this album. Continue?')
+	);
+$this->end();
+
 ?>
 <div class="row-fluid">
 
@@ -45,7 +60,7 @@ if (empty($album)) {
 						$this->Html->image('/'. $photo['small'], array('class' => 'img-polaroid')),
 						'/'. $photo['large'],
 						array(
-							'rel' => 'gallery-' . $photo['PhotosAlbum']['album_id'],
+							'rel' => 'gallery-' . $photo['AlbumsPhoto']['album_id'],
 							'class' => 'thickbox',
 							'escape' => false,
 						)
@@ -75,7 +90,7 @@ if (empty($album)) {
 						echo $this->Html->link('up', array(
 							'controller' => 'photos',
 							'action' => 'moveup',
-							$photo['id'],
+							$photo['AlbumsPhoto']['id'],
 							), array(
 								'class' => 'up',
 							)
@@ -85,7 +100,7 @@ if (empty($album)) {
 						echo $this->Html->link('down', array(
 							'controller' => 'photos',
 							'action' => 'movedown',
-							$photo['id'],
+							$photo['AlbumsPhoto']['id'],
 							), array(
 								'class' => 'up',
 							)

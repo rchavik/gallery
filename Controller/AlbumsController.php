@@ -129,14 +129,8 @@ class AlbumsController extends GalleryAppController {
 			$this->redirect(array('action' => 'index'));
 		}
 
-		$this->Album->Behaviors->attach('Containable');
-		$album = $this->Album->find('first', array(
-			'conditions' => array('Album.slug' => $slug),
-			'contain' => array(
-				'Photo' => array(
-					'order' => 'Photo.weight ASC',
-				),
-			),
+		$album = $this->Album->find('photos', array(
+			'slug' => $slug
 		));
 
 		if (isset($this->params['requested'])) {
@@ -159,18 +153,44 @@ class AlbumsController extends GalleryAppController {
 		}
 		$this->set('title_for_layout',__d('gallery',"Manage your photos in album"));
 
-		$this->Album->Behaviors->attach('Containable');
 		$album = $this->Album->find('first', array(
 			'conditions' => array(
 				'Album.id' => $id
 			),
-			'contain' => array(
-				'Photo' => array(
-					'order' => 'Photo.weight asc',
-					'limit' => 100,
-				),
-			)
+			'recursive' => -1,
 		));
+
+		if ($album) {
+			$photos = $this->Album->Photo->find('all', array(
+				'recursive' => -1,
+				'fields' => array('*', 'Album.*'),
+				'joins' => array(
+					array(
+						'alias' => $this->Album->alias,
+						'table' => $this->Album->useTable,
+						'conditions' => array(
+							'Album.id' => $album['Album']['id'],
+						),
+					),
+					array(
+						'alias' => $this->Album->Photo->AlbumsPhoto->alias,
+						'table' => $this->Album->Photo->AlbumsPhoto->useTable,
+						'conditions' => array(
+							'AlbumsPhoto.photo_id = Photo.id',
+							'AlbumsPhoto.album_id' => $album['Album']['id'],
+						),
+					),
+				),
+				'order' => 'AlbumsPhoto.weight asc',
+			));
+			$albumsPhotos = array();
+			foreach ($photos as $photo) {
+				$albumsPhotos[] = array_merge($photo['Photo'], array(
+					'AlbumsPhoto' => $photo['AlbumsPhoto'],
+				));
+			}
+			$album['Photo'] = $albumsPhotos;
+		}
 		$this->set('album', $album);
 	}
 
@@ -190,6 +210,12 @@ class AlbumsController extends GalleryAppController {
 		$this->Album->Photo->save($this->request->data);
 
 		echo json_encode($this->Album->Photo->findById($this->Album->Photo->id));
+	}
+
+	public function admin_reset_weight($id = null) {
+		$this->Album->id = $id;
+		$this->Album->AlbumsPhoto->resetWeights();
+		$this->redirect($this->referer());
 	}
 
 	public function admin_delete_photo($id = null) {

@@ -41,12 +41,23 @@ $this->assign('actions', ' ');
 				array('class' => 'thickbox', 'escape' => false)
 			);
 
-            $rows[] = array(
+			$albumLinks = array();
+			$photoAlbums = Hash::extract($attachment, 'Album.{n}');
+			foreach ($photoAlbums as $photoAlbum) {
+				$albumLinks[] = $this->Html->link($photoAlbum['title'], array(
+					'plugin' => 'gallery',
+					'controller' => 'albums',
+					'action' => 'upload',
+					$photoAlbum['id'],
+				));
+			}
+			$rows[] = array(
 				$attachment['Photo']['id'],
 				$thumbnail,
 				$attachment['Photo']['title'],
 				$this->Text->truncate(strip_tags($attachment['Photo']['description']), 30),
 				$attachment['Photo']['url'],
+				implode(', ', $albumLinks),
 				$this->Html->div('item-actions', implode(' ', $actions))
 			);
 		}
