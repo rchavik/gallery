@@ -100,6 +100,12 @@ if (empty($this->data['Album']['title'])) {
 				'class' => false,
 			)) .
 
+			$this->Form->input('created', array(
+				'type' => 'text',
+				'placeholder' => __('Created'),
+				'readonly' => true,
+			)) .
+
 			$this->Html->endBox();
 
 		echo $this->Croogo->adminBoxes();

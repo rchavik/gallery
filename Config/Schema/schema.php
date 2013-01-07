@@ -1,18 +1,17 @@
 <?php 
-/* gallery schema generated on: 2011-06-07 16:44:00 : 1307439840*/
+
 class GallerySchema extends CakeSchema {
-	var $name = 'Gallery';
 
-	//var $connection = 'gallery';
+	public $name = 'Gallery';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
 	function after($event = array()) {
 	}
 
-	var $albums = array(
+	public $albums = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11, 'key' => 'primary'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
@@ -26,17 +25,18 @@ class GallerySchema extends CakeSchema {
 		'max_width_thumbnail' => array('type' => 'integer', 'null' => true),
 		'quality' => array('type' => 'integer', 'null' => true),
 		'params' => array('type' => 'text', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),
-			),
+		),
 		'tableParameters' => array(
 			'charset' => 'utf8',
 			'collate' => 'utf8_unicode_ci',
 			'engine' => 'InnoDb'
-			),
-		);
+		),
+	);
 
-	var $photos = array(
+	public $photos = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11, 'key' => 'primary'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 45),
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
@@ -45,23 +45,25 @@ class GallerySchema extends CakeSchema {
 		'large' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'original' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 1024),
 		'status' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
 		'params' => array('type' => 'text', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),
-			),
+		),
 		'tableParameters' => array(
 			'charset' => 'utf8',
 			'collate' => 'utf8_unicode_ci',
 			'engine' => 'InnoDb'
-			),
-		);
+		),
+	);
 
-	var $photos_albums = array(
+	public $albums_photos = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11, 'key' => 'primary'),
 		'photo_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
 		'album_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
 		'master' => array('type' => 'boolean', 'null' => false, 'default' => 0),
+		'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'id' => array('column' => array('id'), 'unique' => true),
 			'ix_photos_category' => array(
@@ -77,4 +79,3 @@ class GallerySchema extends CakeSchema {
 	);
 
 }
-?>
