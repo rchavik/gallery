@@ -42,7 +42,13 @@ $this->Html
 				$actions[] = $this->Croogo->adminRowAction('',
 					array('controller' => 'albums', 'action' => 'movedown', $album['Album']['id']), array('icon' => 'arrow-down', 'tooltip' => __('Move down'))
 				);
-				$actions[] = $this->Html->link(__d('gallery','Photos in album'), array('controller' => 'albums', 'action' => 'upload', $album['Album']['id']));
+				$actions[] = $this->Html->link('',
+					array('controller' => 'albums', 'action' => 'upload', $album['Album']['id']),
+					array(
+						'class' => 'icon-large icon-picture',
+						'tooltip' => __d('gallery','Photos in album'),
+					)
+				);
 				$actions[] = $this->Croogo->adminRowActions($album['Album']['id']);
 				$actions[] = $this->Croogo->adminRowAction('',
 					array('controller' => 'albums', 'action' => 'edit', $album['Album']['id']),
