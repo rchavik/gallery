@@ -20,6 +20,7 @@ $this->assign('actions', ' ');
 			$this->Paginator->sort('title', __('Title')),
 			$this->Paginator->sort('description', __('Description')),
 			$this->Paginator->sort('url', __('url')),
+			__('Albums'),
 			__('Actions'),
 		));
 		echo $tableHeaders;
