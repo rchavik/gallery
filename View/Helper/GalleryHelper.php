@@ -21,18 +21,17 @@ class GalleryHelper extends AppHelper {
  * @var array
  * @access public
  */
-
-	var $helpers = array(
+	public $helpers = array(
 		'Html',
-		'Layout'
+		'Layout',
 	);
 
 /**
  * A list of gallery/library helpers
  */
-	var $_jslibs = array();
+	protected $_jslibs = array();
 
-	function __construct(View $View, $settings = array()) {
+	public function __construct(View $View, $settings = array()) {
 		$jslibs = Configure::read('Gallery.jslibs');
 		$jslibs = explode(',', $jslibs);
 		$helpers = array();
@@ -84,7 +83,6 @@ class GalleryHelper extends AppHelper {
 		}
 	}
 
-
 /**
  * Called after LayoutHelper::nodeBody()
  *
@@ -94,7 +92,7 @@ class GalleryHelper extends AppHelper {
 		$this->Layout->setNodeField('body', preg_replace_callback('/\[Gallery:([a-zA-Z0-9\-]+)\]/',array(&$this,'replaceForAlbum'), $this->Layout->node('body')));
 	}
 
-	public function replaceForAlbum($subject){
+	public function replaceForAlbum($subject) {
 		preg_match('/\[Gallery:([a-zA-Z0-9\-]+)\]/', $subject[0], $matches);
 		return $this->_View->element('gallery_album', array('slug' => $matches[1]), array('plugin' => 'gallery'));
 	}
@@ -132,6 +130,5 @@ class GalleryHelper extends AppHelper {
 		$class = $this->__helperClassName($album['Album']['type']);
 		$this->{$class}->initialize($album);
 	}
-}
 
-?>
+}

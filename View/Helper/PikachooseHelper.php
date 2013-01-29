@@ -1,27 +1,29 @@
 <?php
 
+App::uses('AppHelper', 'View/Helper');
+
 class PikachooseHelper extends AppHelper {
 
-	var $helpers = array(
+	public $helpers = array(
 		'Html',
 		'Js',
 		'Gallery.Gallery',
-		);
+	);
 
-	function assets($options = array()) {
+	public function assets($options = array()) {
 		$options = Set::merge(array('inline' => false, 'once' => true), $options);
 		echo $this->Html->script('/gallery/js/jquery.pikachoose.full', $options);
 		echo $this->Html->css('/gallery/css/pikachoose', false, $options);
 	}
 
-	function album($album, $photos) {
+	public function album($album, $photos) {
 		$ulTag = $this->Html->tag('ul', $photos, array(
 			'id' => 'gallery-' . $album['Album']['id'],
-			));
+		));
 		return $this->Html->tag('div', $ulTag, array('class' => 'pikachoose'));
 	}
 
-	function photo($album, $photo) {
+	public function photo($album, $photo) {
 		$urlLarge = $this->Html->url('/' . $photo['large']);
 		$urlSmall = $this->Html->url('/' . $photo['small']);
 		$title = empty($photo['title']) ? false : $photo['title'];
@@ -32,12 +34,13 @@ class PikachooseHelper extends AppHelper {
 		return $this->Html->tag('li', $this->Html->image($urlLarge, $options));
 	}
 
-	function initialize($album) {
+	public function initialize($album) {
 		$config = $this->Gallery->getAlbumJsParams($album);
 		$js = sprintf('$(\'#%s\').PikaChoose(%s);',
 			'gallery-' . $album['Album']['id'],
 			$config
-			);
+		);
 		$this->Js->buffer($js);
 	}
+
 }
