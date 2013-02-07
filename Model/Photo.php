@@ -32,6 +32,13 @@ class Photo extends GalleryAppModel {
 	public $actsAs = array(
 		'Params',
 		'Imagine.Imagine',
+		'Search.Searchable',
+	);
+
+	public $filterArgs = array(
+		'album_id' => array('type' => 'value'),
+		'url' => array('type' => 'value'),
+		'status' => array('type' => 'value'),
 	);
 
 /**

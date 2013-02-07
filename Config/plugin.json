@@ -8,6 +8,7 @@
 
 	"dependencies": {
 		"plugins": [
+			"Search",
 			"Imagine"
 		]
 	}

@@ -18,9 +18,27 @@ App::uses('GalleryAppController', 'Gallery.Controller');
  */
 class PhotosController extends GalleryAppController {
 
+	public $components = array(
+		'Search.Prg',
+	);
+
+	public $presetVars = true;
+
 	public function admin_index() {
+		$searchFields = array(
+			'album_id' => array('type' => 'text'),
+			'description' => array('type' => 'text'),
+			'status',
+			'url',
+		);
+		$this->Prg->commonProcess();
+		$this->paginate['conditions'] = $this->Photo->parseCriteria($this->passedArgs);
 		$photos = $this->paginate();
-		$this->set(compact('photos'));
+		$this->set(compact('photos', 'searchFields'));
+		if (isset($this->request->params['named']['chooser'])) {
+			$this->layout = 'admin_popup';
+			$this->render('admin_chooser');
+		}
 	}
 
 	public function admin_edit($id) {
