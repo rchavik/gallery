@@ -17,6 +17,7 @@ class Album extends GalleryAppModel {
 
 	public $actsAs = array(
 		'Params',
+		'Search.Searchable',
 	);
 
 	public $validate = array(
@@ -58,6 +59,11 @@ class Album extends GalleryAppModel {
 
 	public $findMethods = array(
 		'photos' => true,
+	);
+
+	public $filterArgs = array(
+		'title' => array('type' => 'like'),
+		'description' => array('type' => 'like'),
 	);
 
 	protected function _findPhotos($state, $query, $results = array()) {

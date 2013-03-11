@@ -19,7 +19,14 @@ App::uses('GalleryAppController', 'Gallery.Controller');
 class PhotosController extends GalleryAppController {
 
 	public $components = array(
-		'Search.Prg',
+		'Search.Prg' => array(
+			'presetForm' => array(
+				'paramType' => 'querystring',
+			),
+			'commonProcess' => array(
+				'paramType' => 'querystring',
+			),
+		),
 	);
 
 	public $presetVars = true;
@@ -35,7 +42,7 @@ class PhotosController extends GalleryAppController {
 		$this->paginate['conditions'] = $this->Photo->parseCriteria($this->passedArgs);
 		$photos = $this->paginate();
 		$this->set(compact('photos', 'searchFields'));
-		if (isset($this->request->params['named']['chooser'])) {
+		if (isset($this->request->query['chooser'])) {
 			$this->layout = 'admin_popup';
 			$this->render('admin_chooser');
 		}

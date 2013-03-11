@@ -16,8 +16,20 @@ App::uses('GalleryAppController', 'Gallery.Controller');
  */
 class AlbumsController extends GalleryAppController {
 
-	public $actsAs = array(
-		'Containable',
+	public $components = array(
+		'Search.Prg' => array(
+			'presetForm' => array(
+				'paramType' => 'querystring',
+			),
+			'commonProcess' => array(
+				'paramType' => 'querystring',
+			),
+		),
+	);
+
+	public $presetVars = array(
+		'title' => array('type' => 'like'),
+		'description' => array('type' => 'like'),
 	);
 
 	public $jslibs = array(
@@ -41,13 +53,24 @@ class AlbumsController extends GalleryAppController {
 	}
 
 	public function admin_index() {
-		$this->set('title_for_layout', __d('gallery','Albums'));
+		$title_for_layout = __d('gallery','Albums');
+		$searchFields = array(
+			'title',
+			'description' => array(
+				'type' => 'text',
+			),
+		);
+
+		$this->Prg->commonProcess();
 
 		$this->Album->recursive = 0;
 		$this->paginate = array(
-				'limit' => Configure::read('Gallery.album_limit_pagination'),
-				'order' => 'Album.position ASC');
-		$this->set('albums', $this->paginate());
+			'limit' => Configure::read('Gallery.album_limit_pagination'),
+			'order' => 'Album.position',
+			'conditions' => $this->Album->parseCriteria($this->request->query),
+		);
+		$albums = $this->paginate();
+		$this->set(compact('title_for_layout', 'albums', 'searchFields'));
 	}
 
 	public function admin_add() {

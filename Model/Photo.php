@@ -37,8 +37,9 @@ class Photo extends GalleryAppModel {
 
 	public $filterArgs = array(
 		'album_id' => array('type' => 'value'),
-		'url' => array('type' => 'value'),
-		'status' => array('type' => 'value'),
+		'description' => array('type' => 'like'),
+		'url' => array('type' => 'like'),
+		'status' => array('type' => 'like'),
 	);
 
 /**
