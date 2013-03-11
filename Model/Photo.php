@@ -251,7 +251,7 @@ class Photo extends GalleryAppModel {
 		$saved = $image->save($output);
 		unset($image);
 		if ($saved) {
-			return $filename;
+			return $output;
 		}
 		return false;
 	}
@@ -271,7 +271,7 @@ class Photo extends GalleryAppModel {
 		$saved = $image->save($output);
 		unset($image);
 		if ($saved) {
-			return $filename;
+			return $output;
 		}
 		return false;
 	}
