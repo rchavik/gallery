@@ -8,6 +8,7 @@ $out = '';
 foreach($album['Photo'] as $photo) {
 	$out .= $this->Gallery->photo($album, $photo);
 }
+
 echo $this->Gallery->album($album, $out);
 $this->Gallery->initialize($album);
 ?>

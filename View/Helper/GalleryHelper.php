@@ -26,6 +26,7 @@ class GalleryHelper extends AppHelper {
 		'Layout',
 	);
 
+
 /**
  * A list of gallery/library helpers
  */

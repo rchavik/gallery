@@ -40,6 +40,7 @@ class AlbumsController extends GalleryAppController {
 		'orbit' => 'Orbit',
 		'pikachoose' => 'PikaChoose',
 		'jquery-photofy' => 'jquery-photofy',
+		'Photoswipe' => 'Photoswipe',
 		'jquery-kenburn' => 'jquery-kenburn',
 		'camera' => 'Camera (Responsive Slider)',
 		'layer-slider' => 'Layer Slider',
