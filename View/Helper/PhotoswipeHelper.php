@@ -26,7 +26,7 @@ class PhotoswipeHelper extends AppHelper {
 			$description .= $this->Html->link($photo['url'], $photo['url']);
 			$result[] = array(
 				'url' => '/' . $this->base . $photo['large'],
-				'caption' => '/' . $this->base . $photo['large'],
+				'caption' => $album['Album']['description'],
 			);
 		}
 		$galleryId = 'gallery' . Inflector::camelize($album['Album']['slug']);
