@@ -26,18 +26,30 @@ class LayerSliderHelper extends AppHelper {
 				if (count($explode) > 1) {
 					list($alt, $class) = $explode;
 				}
+				$url = $photo['url'];
 
-				$results .= $this->Html->image('/' . $this->base . $photo['original'], array(
-					'alt' => $photo['title'] . '-' . $alt,
-					'class' => 'ls-' . $class,
-					'style' => $styles,
-				));
+				if (empty($url)) {
+					$out = $this->Html->image('/' . $this->base . $photo['original'], array(
+						'alt' => $photo['title'] . '-' . $alt,
+						'class' => 'ls-' . $class,
+						'style' => $styles,
+					));
+				} else {
+					$out = $this->Html->link($this->Html->image('/' . $this->base . $photo['original']), $url, array(
+						'alt' => $photo['title'] . '-' . $alt,
+						'class' => 'ls-' . $class,
+						'style' => $styles,
+						'escape' => false
+					));
+				}
+				$results .= $out;
 			}
 		}
 
 		$galleryClass = $album['Album']['params'];
 
-		return $this->Html->div('ls-layer', $results);
+		return $this->Html->div('ls-layer', $results, array(
+			'style' => 'slidedirection: top; slidedelay: 7000; durationin: 1500; durationout: 1500; delayout: 500;'));
 	}
 
 	public function photo($album, $photo) {
@@ -49,8 +61,10 @@ class LayerSliderHelper extends AppHelper {
 		$js = sprintf('$(\'#%s\').layerSlider({
 				skinsPath: "/css/skins/",
 				skin: "fullwidth",
-				responsive: true,
-				thumbnailNavigation: "hover",
+				responsive: false,
+				responsiveUnder: 1000,
+				sublayerContainer: 1000,
+				thumbnailNavigation: "disabled",
 			});',
 			$galleryId
 		);
