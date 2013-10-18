@@ -1,8 +1,12 @@
 if (typeof Croogo !== 'undefined') {
-	$(function() {
-		$('#AlbumTitle').slug({
-			slug: '#AlbumSlug',
-			hide: false
+	if (typeof jQuery !== 'undefined') {
+		$(function() {
+			if($('#AlbumTitle')){
+				$('#AlbumTitle').slug({
+					slug: '#AlbumSlug',
+					hide: false
+				});
+			}
 		});
-	});
+	}
 }
