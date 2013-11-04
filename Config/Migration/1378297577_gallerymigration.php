@@ -17,11 +17,16 @@ class GalleryMigration extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
+			'create_field' => array(
+				'albums' => array(
+					'created' => array('type' => 'datetime', 'null' => true),
+				),
+				'photos' => array(
+					'created' => array('type' => 'datetime', 'null' => true),
+				)
+			),
 		),
 		'down' => array(
-			'drop_table' => array(
-				'albums_photos'
-			),
 			'drop_field' => array(
 				'albums' => array(
 					'created'
@@ -30,12 +35,6 @@ class GalleryMigration extends CakeMigration {
 					'created'
 				),
 			),
-			'create_field' => array(
-				'photos' => array(
-					'album_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
-				)
-			)
 		),
 	);
 
