@@ -19,44 +19,14 @@ class GalleryMigration extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'albums' => array(
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true),
 				),
 				'photos' => array(
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-				),
-			),
-			'drop_field' => array(
-				'photos' => array(
-					'album_id', 'weight',
+					'created' => array('type' => 'datetime', 'null' => true),
 				)
 			),
-			'create_table' => array(
-				'albums_photos' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11, 'key' => 'primary'),
-					'photo_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
-					'album_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
-					'master' => array('type' => 'boolean', 'null' => false, 'default' => 0),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-					'indexes' => array(
-						'id' => array('column' => array('id'), 'unique' => true),
-						'ix_photos_category' => array(
-							'column' => array('photo_id', 'album_id'),
-							'unique' => true,
-							),
-						),
-					'tableParameters' => array(
-						'charset' => 'utf8',
-						'collate' => 'utf8_unicode_ci',
-						'engine' => 'InnoDb',
-					),
-				)
-			)
 		),
 		'down' => array(
-			'drop_table' => array(
-				'albums_photos'
-			),
 			'drop_field' => array(
 				'albums' => array(
 					'created'
@@ -65,12 +35,6 @@ class GalleryMigration extends CakeMigration {
 					'created'
 				),
 			),
-			'create_field' => array(
-				'photos' => array(
-					'album_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 11),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 11),
-				)
-			)
 		),
 	);
 
