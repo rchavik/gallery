@@ -59,6 +59,16 @@ class Photo extends GalleryAppModel {
 		)
 	);
 
+/**
+ * belongsTo relationship
+ */
+	public $belongsTo = array(
+		'AssetsAttachment' => array(
+			'className' => 'Assets.AssetsAttachment',
+			'foreignKey' => 'attachment_id',
+		),
+	);
+
 	public $findMethods = array(
 		'by_album' => true,
 	);
