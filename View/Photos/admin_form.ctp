@@ -79,10 +79,10 @@ echo $this->Form->create('Photo', array(
 
 		echo $this->Html->beginBox(__('Preview')) .
 			$this->Html->link(
-				$this->Html->image('/'. $this->data['Photo']['small'], array(
+				$this->Html->image($this->data['ThumbnailAsset']['path'], array(
 					'class' => 'img-polaroid',
 				)),
-				'/' . $this->data['Photo']['large'],
+				$this->data['LargeAsset']['path'],
 				array('class' => 'thickbox', 'escape' => false)
 			) .
 			$this->Html->endBox();

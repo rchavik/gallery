@@ -67,6 +67,18 @@ class Photo extends GalleryAppModel {
 			'className' => 'Assets.AssetsAttachment',
 			'foreignKey' => 'attachment_id',
 		),
+		'OriginalAsset' => array(
+			'className' => 'Assets.AssetsAsset',
+			'foreignKey' => 'original_id',
+		),
+		'ThumbnailAsset' => array(
+			'className' => 'Assets.AssetsAsset',
+			'foreignKey' => 'small_id',
+		),
+		'LargeAsset' => array(
+			'className' => 'Assets.AssetsAsset',
+			'foreignKey' => 'large_id',
+		),
 	);
 
 	public $findMethods = array(
@@ -134,12 +146,7 @@ class Photo extends GalleryAppModel {
 
 	public function beforeDelete($cascade = true) {
 		$photo = $this->findById($this->id);
-		unlink(WWW_ROOT . $photo['Photo']['small']);
-		unlink(WWW_ROOT . $photo['Photo']['large']);
-		if (Configure::read('Gallery.deleteOriginal') === true) {
-			unlink(WWW_ROOT . $photo['Photo']['original']);
-		}
-		return true;
+		return $this->AssetsAttachment->delete($photo['AssetsAttachment']['id']);
 	}
 
 	public function beforeSave($options = array()){
@@ -206,11 +213,6 @@ class Photo extends GalleryAppModel {
 			App::import('Vendor', 'Gallery.qqFileUploader', array('file' => 'qqFileUploader.php'));
 			$uploader = new qqFileUploader();
 			$result = $uploader->handleUpload($this->sourceDir);
-			if (!empty($result['file'])) {
-				$sourceFile = $this->sourceDir . $result['file'];
-				$copyFile = $this->dir . $result['file'];
-				copy($sourceFile, $copyFile);
-			}
 		} else {
 			// file probably already processed
 			if (!empty($data['Photo']['large'])) {
@@ -228,62 +230,26 @@ class Photo extends GalleryAppModel {
 			copy($sourceFile, $copyFile);
 		}
 
-		$this->_createWebFriendlyImage($result);
-		$this->_createThumbnail($result);
+		$large = $this->_createWebFriendlyImage($result['attachment_id']);
+		$thumbnail = $this->_createThumbnail($result['attachment_id']);
 
-		$data['Photo']['small'] = $this->albumDir . 'thumb_' . $result['file'];
-		$data['Photo']['large'] = $this->albumDir . $result['file'];
-		$data['Photo']['original'] = $this->albumDir . 'source' . DS . $result['file'];
+		$data['Photo']['small_id'] = $thumbnail['AssetsAsset']['id'];
+		$data['Photo']['large_id'] = $large['AssetsAsset']['id'];
+		$data['Photo']['original_id'] = $result['asset_id'];
+		$data['Photo']['attachment_id'] = $result['attachment_id'];
 		return $data;
 	}
 
-	protected function _createThumbnail($result) {
-		$output = WWW_ROOT . $this->albumDir . 'thumb_' . $result['file'];
-		$imagine = $this->imagineObject();
-		$image = $imagine->open($this->dir . $result['file']);
-		$size = $image->getSize();
-		$width = $size->getWidth();
-		$height = $size->getHeight();
-
-		if (empty($this->thumb_height) && !empty($this->thumb_width)) {
-			$scale = $this->thumb_width / $width;
-			$newSize = $size->scale($scale);
-		} elseif (empty($this->thumb_width) && !empty($this->thumb_height)) {
-			$scale = $this->thumb_height / $height;
-			$newSize = $size->scale($scale);
-		} else {
-			$scaleWidth = $this->thumb_width / $width;
-			$scaleHeight = $this->thumb_height / $height;
-			$scale = $scaleWidth > $scaleHeight ? $scaleWidth: $scaleHeight;
-			$newSize = $size->scale($scale);
-		}
-		$image->resize($newSize);
-		$saved = $image->save($output);
-		unset($image);
-		if ($saved) {
-			return $output;
-		}
-		return false;
+	protected function _createThumbnail($attachmentId) {
+		return $this->AssetsAttachment->createResized(
+			$attachmentId, $this->thumb_width, $this->thumb_height
+		);
 	}
 
-	protected function _createWebFriendlyImage($result) {
-		$imagine = $this->imagineObject();
-		$output = WWW_ROOT . $this->albumDir . $result['file'];
-		$image = $imagine->open($this->dir . $result['file']);
-		$size = $image->getSize();
-		$width = $size->getWidth();
-		$height = $size->getHeight();
-		if ($width > $this->max_width){
-			$scale = $this->max_width / $width;
-			$newSize = $size->scale($scale);
-			$image->resize($newSize);
-		}
-		$saved = $image->save($output);
-		unset($image);
-		if ($saved) {
-			return $output;
-		}
-		return false;
+	protected function _createWebFriendlyImage($attachmentId) {
+		return $this->AssetsAttachment->createResized(
+			$attachmentId, $this->max_width, null
+		);
 	}
 
 }

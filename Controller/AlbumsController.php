@@ -179,43 +179,21 @@ class AlbumsController extends GalleryAppController {
 		$this->set('title_for_layout',__d('gallery',"Manage your photos in album"));
 
 		$album = $this->Album->find('first', array(
+			'contain' => array(
+				'Photo' => array(
+					'OriginalAsset', 'LargeAsset', 'ThumbnailAsset',
+				),
+			),
 			'conditions' => array(
 				'Album.id' => $id
 			),
 			'recursive' => -1,
 		));
-
-		if ($album) {
-			$photos = $this->Album->Photo->find('all', array(
-				'recursive' => -1,
-				'fields' => array('*', 'Album.*'),
-				'joins' => array(
-					array(
-						'alias' => $this->Album->alias,
-						'table' => $this->Album->useTable,
-						'conditions' => array(
-							'Album.id' => $album['Album']['id'],
-						),
-					),
-					array(
-						'alias' => $this->Album->Photo->AlbumsPhoto->alias,
-						'table' => $this->Album->Photo->AlbumsPhoto->useTable,
-						'conditions' => array(
-							'AlbumsPhoto.photo_id = Photo.id',
-							'AlbumsPhoto.album_id' => $album['Album']['id'],
-						),
-					),
-				),
-				'order' => 'AlbumsPhoto.weight asc',
-			));
-			$albumsPhotos = array();
-			foreach ($photos as $photo) {
-				$albumsPhotos[] = array_merge($photo['Photo'], array(
-					'AlbumsPhoto' => $photo['AlbumsPhoto'],
-				));
-			}
-			$album['Photo'] = $albumsPhotos;
+		if (isset($album['Photo'])) {
+			$photos = Hash::sort($album['Photo'], '{n}.AlbumsPhoto.weight', 'asc');
+			$album['Photo'] = $photos;
 		}
+
 		$this->set('album', $album);
 	}
 

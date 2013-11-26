@@ -79,3 +79,10 @@ CroogoNav::add('extensions.children.gallery', array(
 if (!CakePlugin::loaded('Imagine')) {
 	CakePlugin::load('Imagine', array('bootstrap' => true));
 }
+
+App::uses('StorageManager', 'Assets.Lib');
+StorageManager::config('Gallery', array(
+	'adapterOptions' => array(WWW_ROOT . 'galleries', true),
+	'adapterClass' => '\Gaufrette\Adapter\Local',
+	'class' => '\Gaufrette\Filesystem',
+));

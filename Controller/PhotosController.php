@@ -39,6 +39,11 @@ class PhotosController extends GalleryAppController {
 			'url',
 		);
 		$this->Prg->commonProcess();
+
+		$this->paginate['contain'] = array(
+			'OriginalAsset', 'ThumbnailAsset', 'LargeAsset',
+		);
+
 		$this->paginate['conditions'] = $this->Photo->parseCriteria($this->passedArgs);
 		$photos = $this->paginate();
 		$this->set(compact('photos', 'searchFields'));
@@ -58,6 +63,8 @@ class PhotosController extends GalleryAppController {
 				$this->Session->setFlash(__d('gallery', 'Photo cannot be saved.'));
 			}
 		}
+		$this->Photo->recursive = -1;
+		$this->Photo->contain(array('OriginalAsset', 'ThumbnailAsset', 'LargeAsset'));
 		$this->request->data = $this->Photo->read(null, $id);
 		$albums = $this->Photo->Album->find('list');
 		$this->set(compact('albums'));

@@ -48,18 +48,18 @@ $this->end();
 		<?php if(isset($album['Photo'])): ?>
 			<?php foreach($album['Photo'] as $photo): ?>
 				<?php
-				$filename = basename($photo['large']);
+				$filename = basename($photo['LargeAsset']['path']);
 				$filename = $this->Html->link(
 					$this->Text->truncate($filename, 40),
-					'/' . $photo['original'],
+					$photo['OriginalAsset']['path'],
 					array('target' => '_blank', 'title' => $filename)
 				);
 				?>
 				<div class="album-photo">
 					<?php
 					echo $this->Html->link(
-						$this->Html->image('/'. $photo['small'], array('class' => 'img-polaroid')),
-						'/'. $photo['large'],
+						$this->Html->image($photo['ThumbnailAsset']['path'], array('class' => 'img-polaroid')),
+						$photo['LargeAsset']['path'],
 						array(
 							'rel' => 'gallery-' . $photo['AlbumsPhoto']['album_id'],
 							'class' => 'thickbox',
@@ -143,8 +143,8 @@ function createUploader(){
 	var containerTemplate = _.template(
 		'<div class="album-photo">' +
 		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
-		'		href="/<%= Photo.large %>">' +
-		'		<img src="/<%= Photo.small %>" class="img-polaroid">' +
+		'		href="<%= LargeAsset.path %>">' +
+		'		<img src="<%= ThumbnailAsset.path %>" class="img-polaroid">' +
 		'	</a>' +
 		'	<div class="photo-actions">' +
 		'		<a class="remove" href="javascript:void(0);" rel="<%= Photo.id %>"><%= sRemove %></a>' +
@@ -153,9 +153,9 @@ function createUploader(){
 		'		<a class="down" href="/admin/gallery/photos/movedown/<%= Photo.id %>"><%= sDown %></a>' +
 		'	</div>' +
 		'	<div class="path">' +
-		'		<a target="_blank" title="<%= Photo.original %>"' +
-		'			href="/<%= Photo.original %>">' +
-		'			...<%= Photo.original.substr(-40) %>' +
+		'		<a target="_blank" title="<%= OriginalAsset.path %>"' +
+		'			href="<%= OriginalAsset.path %>">' +
+		'			...<%= OriginalAsset.path.substr(-40) %>' +
 		'		</a>' +
 		'	</div>' +
 		'</div>'
@@ -174,6 +174,9 @@ function createUploader(){
 			var sDown = '<?php echo __d('gallery', 'down'); ?>';
 			var args = {
 				Photo: json.Photo,
+				OriginalAsset: json.OriginalAsset,
+				ThumbnailAsset: json.ThumbnailAsset,
+				LargeAsset: json.LargeAsset,
 				sRemove: sRemove,
 				sEdit: sEdit,
 				sUp: sUp,
