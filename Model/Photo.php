@@ -30,7 +30,7 @@ class Photo extends GalleryAppModel {
  * Behaviors
  */
 	public $actsAs = array(
-		'Params',
+		'Croogo.Params',
 		'Imagine.Imagine',
 		'Search.Searchable',
 	);

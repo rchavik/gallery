@@ -1,13 +1,18 @@
 <?php
+
+App::uses('Controller', 'Controller');
+App::uses('ComponentCollection', 'Controller');
+App::uses('GalleryComponent', 'Gallery.Controller/Component');
+
 class GalleryShell extends Shell {
 
 	var $tasks = array('GenerateFile');
 	var $Gallery = '';
 
-	function __construct($dispatch) {
-		App::import('Component', 'Gallery.Gallery');
-		$this->Gallery = new GalleryComponent;
-		parent::__construct($dispatch);
+	public function __construct($stdout = null, $stderr = null, $stdin = null) {
+		$collection = new ComponentCollection();
+		$this->Gallery = new GalleryComponent($collection);
+		parent::__construct($stdout, $stderr, $stdin);
 	}
 
 	function help() {

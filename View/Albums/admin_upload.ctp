@@ -33,6 +33,7 @@ $this->start('actions');
 		),
 		array(
 			'button' => 'default',
+			'escape' => false,
 		),
 		__('You will lose existing order for this album. Continue?')
 	);

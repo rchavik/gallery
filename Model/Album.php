@@ -16,7 +16,7 @@ App::uses('GalleryAppModel', 'Gallery.Model');
 class Album extends GalleryAppModel {
 
 	public $actsAs = array(
-		'Params',
+		'Croogo.Params',
 		'Search.Searchable',
 	);
 

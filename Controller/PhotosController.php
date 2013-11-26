@@ -42,7 +42,7 @@ class PhotosController extends GalleryAppController {
 		$this->paginate['conditions'] = $this->Photo->parseCriteria($this->passedArgs);
 		$photos = $this->paginate();
 		$this->set(compact('photos', 'searchFields'));
-		if (isset($this->request->query['chooser'])) {
+		if (!empty($this->request->query['chooser'])) {
 			$this->layout = 'admin_popup';
 			$this->render('admin_chooser');
 		}

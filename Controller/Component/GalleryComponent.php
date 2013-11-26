@@ -1,9 +1,12 @@
 <?php
-class GalleryComponent extends Component {
-	 
-	var $controller = null;
 
-	function recursedir($path, $print = false) {
+App::uses('Component', 'Controller');
+
+class GalleryComponent extends Component {
+
+	public $controller = null;
+
+	public function recursedir($path, $print = false) {
 		$dir = 'source';
 		if ($handle = opendir($path)) {
 			while ($file = readdir($handle)){
@@ -28,7 +31,7 @@ class GalleryComponent extends Component {
 		return true;
 	}
 
-	function _dataProcess($path, $file, $extend = array()) {
+	protected function _dataProcess($path, $file, $extend = array()) {
 		$extends = array('source');
 		$split = explode('/', $path);
 		$splitPath = end($split);
@@ -57,7 +60,7 @@ class GalleryComponent extends Component {
 		}
 	}
 
-	function _imgProcess($path, $file) {
+	protected function _imgProcess($path, $file) {
 		$imgpath = $path . DS . $file;
 		$imgtype = exif_imagetype($imgpath);
 
@@ -90,7 +93,7 @@ class GalleryComponent extends Component {
 		}
 	}
 
-	function _optimize_jpeg($file) {
+	protected function _optimize_jpeg($file) {
 		$jpegConfig = Configure::read('Gallery.quality');
 		if (!$jpegConfig || !is_numeric($jpegConfig)) {
 			return false;
@@ -117,7 +120,7 @@ class GalleryComponent extends Component {
 		return true;
 	}
 
-	function _optimize_png($file) {
+	protected function _optimize_png($file) {
 		$pngConfig = Configure::read('Gallery.quality');
 		if (!$pngConfig || !is_numeric($pngConfig)) {
 			return false;
@@ -167,7 +170,7 @@ class GalleryComponent extends Component {
 		return $total;
 	}
 
-	function _sizeFormat($size) {
+	protected function _sizeFormat($size) {
 		if($size < 1024) {
 			return $size." bytes";
 
@@ -183,7 +186,6 @@ class GalleryComponent extends Component {
 			$size=round($size/(1024*1024*1024),1);
 			return $size." GB";
 		}
-
 	}
+
 }
-?>
