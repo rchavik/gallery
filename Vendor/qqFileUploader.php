@@ -27,6 +27,16 @@ class qqUploadedFileXhr {
 		return true;
 	}
 
+	public function getTempfile() {
+		$input = fopen("php://input", "r");
+		$tmpName = tempnam('/tmp', 'qq');
+		$temp = fopen($tmpName, 'w');
+
+		$realSize = stream_copy_to_stream($input, $temp);
+		fclose($input);
+		return $tmpName;
+	}
+
 	public function getName() {
 		return $_GET['qqfile'];
 	}
@@ -112,9 +122,8 @@ class qqFileUploader {
 			return array('error' => 'File is too large');
 		}
 
-		$pathinfo = pathinfo($this->file->getName());
-		$filename = $pathinfo['filename'];
-		//$filename = md5(uniqid());
+		$filename = $this->file->getName();
+		$pathinfo = pathinfo($filename);
 		$ext = $pathinfo['extension'];
 
 		if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
@@ -129,8 +138,50 @@ class qqFileUploader {
 			}
 		}
 
-		if ($this->file->save($uploadDirectory . $filename . '.' . $ext)) {
-			return array('file' => $filename . '.' . $ext, 'success' => true);
+		$tmpName = $this->file->getTempfile();
+		$hash = sha1_file($tmpName);
+
+		$Attachment = ClassRegistry::init('Assets.AssetsAttachment');
+		$attachment = $Attachment->create(array(
+			'title' => $this->file->getName(),
+			'slug' => Inflector::slug(strtolower($filename)),
+			'body' => $filename,
+			'status' => true,
+			'sticky' => false,
+			'plugin' => 'Gallery',
+			'hash' => $hash,
+		));
+
+		$attachment['AssetsAsset'] = array(
+			'file' => array(
+				'name' => $this->file->getName(),
+				'type' => $ext,
+				'size' => $this->file->getSize(),
+				'tmp_name' => $tmpName,
+			),
+			'model' => 'AssetsAttachment',
+			'extension' => $ext,
+			'hash' => $hash,
+			'adapter' => 'Gallery',
+			'uploadDirectory' => basename(dirname($uploadDirectory)),
+		);
+
+		$uploadDirectory = dirname($uploadDirectory);
+
+		$saved = ($Attachment->saveAll($attachment));
+		if (file_exists($tmpName)) {
+			unlink($tmpName);
+		}
+		if ($saved) {
+			$Attachment->contain(array('AssetsAsset'));
+			$attachment = $Attachment->findById($Attachment->id);
+			$uploadedPath = $attachment['AssetsAsset']['path'];
+			return array(
+				'file' => $uploadedPath,
+				'attachment_id' => $attachment['AssetsAttachment']['id'],
+				'asset_id' => $attachment['AssetsAsset']['id'],
+				'success' => true,
+			);
 		} else {
 			return array('error' => 'Could not save uploaded file.' .
 				'The upload was cancelled, or server error encountered');
