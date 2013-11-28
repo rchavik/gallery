@@ -34,9 +34,10 @@ $this->assign('actions', ' ');
 			);
 			$actions[] = $this->Croogo->adminRowActions($attachment['Photo']['id']);
 
-				$thumbnail = $this->Html->link(
+			$thumbnail = $this->Html->link(
 				$this->Html->image($attachment['ThumbnailAsset']['path'], array(
 					'class' => 'img-polaroid',
+					'style' => 'max-width: 300px',
 				)),
 				$attachment['LargeAsset']['path'],
 				array('class' => 'thickbox', 'escape' => false)
