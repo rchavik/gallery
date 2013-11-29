@@ -64,7 +64,7 @@ class PhotosController extends GalleryAppController {
 			}
 		}
 		$this->Photo->recursive = -1;
-		$this->Photo->contain(array('OriginalAsset', 'ThumbnailAsset', 'LargeAsset'));
+		$this->Photo->contain(array('Album', 'OriginalAsset', 'ThumbnailAsset', 'LargeAsset'));
 		$this->request->data = $this->Photo->read(null, $id);
 		$albums = $this->Photo->Album->find('list');
 		$this->set(compact('albums'));
