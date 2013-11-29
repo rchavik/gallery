@@ -242,13 +242,17 @@ class Photo extends GalleryAppModel {
 
 	protected function _createThumbnail($attachmentId) {
 		return $this->AssetsAttachment->createResized(
-			$attachmentId, $this->thumb_width, $this->thumb_height
+			$attachmentId, $this->thumb_width, $this->thumb_height, array(
+				'uploadsDir' => 'galleries',
+			)
 		);
 	}
 
 	protected function _createWebFriendlyImage($attachmentId) {
 		return $this->AssetsAttachment->createResized(
-			$attachmentId, $this->max_width, null
+			$attachmentId, $this->max_width, null, array(
+				'uploadsDir' => 'galleries',
+			)
 		);
 	}
 
