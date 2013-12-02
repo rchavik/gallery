@@ -65,7 +65,7 @@ class GalleryHelper extends AppHelper {
  *
  * @return void
  */
-	public function afterRender() {
+	public function afterRender($viewFile) {
 		if (!empty($this->_View)) {
 			if (Configure::read('Site.status') == 0 ||
 			    Configure::read('Gallery.assets') === false ||
@@ -77,7 +77,7 @@ class GalleryHelper extends AppHelper {
 		}
 	}
 
-	public function beforeRender() {
+	public function beforeRender($viewFile) {
 		if (isset($this->_View->params['admin'])) {
 			$this->Html->css('/gallery/css/gallery', null, array('inline' => false));
 			$this->Html->script('Gallery.gallery', array('inline' => false));
