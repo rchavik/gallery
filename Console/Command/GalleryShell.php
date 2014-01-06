@@ -6,7 +6,7 @@ App::uses('GalleryComponent', 'Gallery.Controller/Component');
 
 class GalleryShell extends Shell {
 
-	var $tasks = array('GenerateFile');
+	var $tasks = array('GenerateFile', 'Gallery.ToHbtm');
 	var $Gallery = '';
 
 	public function __construct($stdout = null, $stderr = null, $stdin = null) {
@@ -36,6 +36,21 @@ EOF;
 		}
 		$this->Gallery->recursedir($file);
 		$this->out('OK');
+	}
+
+	function hbtm() {
+		$this->out(__d('cake console', 'Convert to HBTM'));
+		$this->hr();
+		$action = strtoupper($this->in(__d('cake console', 'Proccess database relation to HBTM?'), array('Y', 'N', 'Q')));
+		switch($action) {
+			case 'Y':
+				$this->ToHbtm->execute();
+				break;
+			case 'N';
+			case 'Q';
+			exit();
+			break;
+		}
 	}
 }
 ?>
