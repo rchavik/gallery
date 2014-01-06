@@ -71,7 +71,6 @@
 }
 
 .photofy_overlay .photofy_overlayContent {
-	width: 660px;
 	height: 340px;
 	margin: 0 auto;
 	top: 49px !important;
@@ -79,15 +78,10 @@
 }
 
 .photofy_overlay .photofy_overlay_html {
-	width: 415px;
-	padding: 10px !important;
+	padding: 50px !important;
 }
 
 .photofy_overlay .photofy_overlayImage {
-	width: 200px;
-	left: 450px !important;
-	height: 250px;
-	top: 20px !important;
 }
 
 .photofy_overlay .photofy_overlayImage img {
@@ -100,7 +94,6 @@
 	color: #ffffff;
 	font-family: 'TitilliumText22LBold',sans-serif;
 }
-
 
 .detail-movie-title {
 	font-size: 24px;
