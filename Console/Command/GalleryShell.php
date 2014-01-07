@@ -18,7 +18,8 @@ class GalleryShell extends Shell {
 	function help() {
 		$helptext =<<<EOF
 Usage:
-	cake gallery optimize <id>
+	cake gallery.gallery optimize <id>
+	cake gallery.gallery hbtm<id>
 EOF;
 		$this->out($helptext);
 	}
