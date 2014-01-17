@@ -32,20 +32,6 @@ class AlbumsController extends GalleryAppController {
 		'description' => array('type' => 'like'),
 	);
 
-	public $jslibs = array(
-		'DDSlider' => 'DDSlider',
-		'fancybox' => 'FancyBox',
-		'galleria' => 'Galleria',
-		'nivo-slider' => 'Slideshow (Nivo Slider)',
-		'orbit' => 'Orbit',
-		'pikachoose' => 'PikaChoose',
-		'jquery-photofy' => 'jquery-photofy',
-		'Photoswipe' => 'Photoswipe',
-		'jquery-kenburn' => 'jquery-kenburn',
-		'camera' => 'Camera (Responsive Slider)',
-		'layer-slider' => 'Layer Slider',
-	);
-
 	public function beforeFilter() {
 		parent::beforeFilter();
 		if ($this->action == 'admin_upload_photo' && $this->request->is('ajax')) {
@@ -95,7 +81,7 @@ class AlbumsController extends GalleryAppController {
 				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.'));
 			}
 		}
-		$this->set('types', $this->jslibs);
+		$this->set('types', json_decode(Configure::read('Gallery.jslibs'), true));
 	}
 
 	function admin_edit($id = null) {

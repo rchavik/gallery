@@ -58,6 +58,8 @@ if (empty($this->data['Album']['title'])) {
 				));
 				echo $this->Form->input('type', array(
 					'placeholder' => __d('gallery', 'Type'),
+					'empty' => true,
+					'default' => key($types),
 				));
 			?>
 			</div>

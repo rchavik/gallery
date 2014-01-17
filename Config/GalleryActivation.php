@@ -23,6 +23,8 @@ class GalleryActivation {
  * @return void
  */
 	public function onActivation(&$controller) {
+		$CroogoPlugin = new CroogoPlugin();
+		$result = $CroogoPlugin->migrate('Gallery');
 		// ACL: set ACOs with permissions
 		$controller->Croogo->addAco('Gallery/Albums/index', array('registered', 'public'));
 		$controller->Croogo->addAco('Gallery/Albums/view', array('registered', 'public'));
@@ -40,7 +42,30 @@ class GalleryActivation {
 		$controller->Setting->write('Gallery.max_width_thumbnail', '120', array('editable' => 1, 'title' => 'Thumbnail max. width'));
 		$controller->Setting->write('Gallery.max_height_thumbnail', '80', array('editable' => 1, 'title' => 'Thumbnail max. height'));
 		$controller->Setting->write('Gallery.quality', '90', array('editable' => '1', 'title' => 'Quality',));
-		$controller->Setting->write('Gallery.jslibs', 'galleria,nivo-slider,DDSlider,pikachoose,fancybox,orbit,jquery-photofy,jquery-kenburn', array('editable' => '1', 'title' => 'Libraries'));
+
+		$supportedLibs = array(
+			'galleria',
+			'nivo-slider',
+			'DDSlider',
+			'pikachoose',
+			'fancybox',
+			'orbit',
+			'jquery-photofy',
+			'jquery-kenburn',
+		);
+
+		$activeLib = json_encode(array('fancybox'));
+		$description = 'Select libraries whose asset will be automatically included in page';
+		$params = json_encode(array_combine($supportedLibs, $supportedLibs));
+
+		$controller->Setting->write('Gallery.jslibs', $activeLib, array(
+			'editable' => '1',
+			'title' => 'Libraries',
+			'description' => $description,
+			'input_type' => 'multiple',
+			'params' => "multiple=checkbox
+options=$params",
+		));
 	}
 
 	public function beforeDeactivation(&$controller) {

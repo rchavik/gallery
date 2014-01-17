@@ -34,7 +34,7 @@ class GalleryHelper extends AppHelper {
 
 	public function __construct(View $View, $settings = array()) {
 		$jslibs = Configure::read('Gallery.jslibs');
-		$jslibs = explode(',', $jslibs);
+		$jslibs = (array)json_decode($jslibs, true);
 		$helpers = array();
 		foreach ($jslibs as $jslib) {
 			$class = $this->__helperClassName($jslib);
