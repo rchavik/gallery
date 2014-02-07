@@ -1,6 +1,7 @@
 <?php
 
 App::uses('GalleryAppController', 'Gallery.Controller');
+App::uses('Galleries', 'Gallery.Lib');
 
 /**
  * Albums Controller
@@ -33,6 +34,7 @@ class AlbumsController extends GalleryAppController {
 	);
 
 	public function beforeFilter() {
+		$this->jslibs = Galleries::activeLibs();
 		parent::beforeFilter();
 		if ($this->action == 'admin_upload_photo' && $this->request->is('ajax')) {
 			$this->Security->csrfCheck = false;
@@ -81,7 +83,7 @@ class AlbumsController extends GalleryAppController {
 				$this->Session->setFlash(__d('gallery','Album could not be saved. Please try again.'));
 			}
 		}
-		$this->set('types', json_decode(Configure::read('Gallery.jslibs'), true));
+		$this->set('types', $this->jslibs);
 	}
 
 	function admin_edit($id = null) {

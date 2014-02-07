@@ -1,4 +1,7 @@
 <?php
+
+App::uses('Galleries', 'Gallery.Lib');
+
 /**
  * Example Activation
  *
@@ -43,20 +46,11 @@ class GalleryActivation {
 		$controller->Setting->write('Gallery.max_height_thumbnail', '80', array('editable' => 1, 'title' => 'Thumbnail max. height'));
 		$controller->Setting->write('Gallery.quality', '90', array('editable' => '1', 'title' => 'Quality',));
 
-		$supportedLibs = array(
-			'galleria',
-			'nivo-slider',
-			'DDSlider',
-			'pikachoose',
-			'fancybox',
-			'orbit',
-			'jquery-photofy',
-			'jquery-kenburn',
-		);
+		$supportedLibs = Galleries::$supportedLibs;
 
 		$activeLib = json_encode(array('fancybox'));
 		$description = 'Select libraries whose asset will be automatically included in page';
-		$params = json_encode(array_combine($supportedLibs, $supportedLibs));
+		$params = json_encode($supportedLibs);
 
 		$controller->Setting->write('Gallery.jslibs', $activeLib, array(
 			'editable' => '1',
