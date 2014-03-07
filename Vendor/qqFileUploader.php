@@ -158,6 +158,7 @@ class qqFileUploader {
 				'type' => $ext,
 				'size' => $this->file->getSize(),
 				'tmp_name' => $tmpName,
+				'error' => UPLOAD_ERR_OK,
 			),
 			'model' => 'AssetsAttachment',
 			'extension' => $ext,
