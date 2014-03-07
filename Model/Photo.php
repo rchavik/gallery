@@ -201,7 +201,14 @@ class Photo extends GalleryAppModel {
  */
 	protected function _upload($data){
 		$this->Album->recursive = -1;
-		$album = $this->Album->read(null, $data['Album']['Album'][0]);
+		if (!empty($data['Album']['Album']['0'])) {
+			$albumId = $data['Album']['Album']['0'];
+		}
+		if (!empty($data['Album'][0]['album_id'])) {
+			$albumId = $data['Album'][0]['album_id'];
+		}
+
+		$album = $this->Album->read(null, $albumId);
 
 		if (empty($this->thumb_width) || empty($this->thumb_height) ||
 		    empty($this->thumb_quality) || empty($this->max_height) || empty($this->max_width)) {
