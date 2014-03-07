@@ -1,0 +1,18 @@
+{
+	"name": "xintesa/gallery",
+	"type": "croogo-plugin",
+	"description": "Croogo Gallery Plugin",
+	"homepage": "http://github.com/xintesa/gallery",
+	"authors": [
+		{
+			"name": "Rachman Chavik",
+			"email": "contact@xintesa.com",
+			"homepage": "http://xintesa.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"composer/installers": "*",
+		"croogo/croogo": "~2.0"
+	}
+}
