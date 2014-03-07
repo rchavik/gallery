@@ -80,9 +80,15 @@ if (!CakePlugin::loaded('Imagine')) {
 	CakePlugin::load('Imagine', array('bootstrap' => true));
 }
 
-App::uses('StorageManager', 'Assets.Lib');
-StorageManager::config('Gallery', array(
-	'adapterOptions' => array(WWW_ROOT . 'galleries', true),
-	'adapterClass' => '\Gaufrette\Adapter\Local',
-	'class' => '\Gaufrette\Filesystem',
-));
+if (CakePlugin::loaded('Assets')) {
+	App::uses('StorageManager', 'Assets.Lib');
+	if (class_exists('StorageManager')) {
+		StorageManager::config('Gallery', array(
+			'adapterOptions' => array(WWW_ROOT . 'galleries', true),
+			'adapterClass' => '\Gaufrette\Adapter\Local',
+			'class' => '\Gaufrette\Filesystem',
+		));
+	} else {
+		CakeLog::critical('StorageManager class not found. Gallery plugin now requires Assets plugin');
+	}
+}
