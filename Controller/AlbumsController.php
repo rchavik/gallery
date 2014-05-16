@@ -36,7 +36,9 @@ class AlbumsController extends GalleryAppController {
 	public function beforeFilter() {
 		$this->jslibs = Galleries::activeLibs();
 		parent::beforeFilter();
-		if ($this->action == 'admin_upload_photo' && $this->request->is('ajax')) {
+
+		$noCsrf = array('admin_upload_photo', 'admin_delete_photo');
+		if (in_array($this->action, $noCsrf) && $this->request->is('ajax')) {
 			$this->Security->csrfCheck = false;
 		}
 	}

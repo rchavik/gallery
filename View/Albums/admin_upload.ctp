@@ -70,9 +70,7 @@ $this->end();
 					?>
 					</div>
 
-					<?php echo $this->element('Gallery.admin/album_actions', array('photo' => $photo)); ?>
-
-					<div class="path">
+					<div class="path span6">
 					<?php
 						$filename = basename($photo['LargeAsset']['path']);
 						$filename = $this->Html->link(
@@ -91,6 +89,7 @@ $this->end();
 						<?php echo $this->Text->truncate(strip_tags($photo['description']), 120); ?></div>
 					<?php endif; ?>
 
+					<?php echo $this->element('Gallery.admin/album_actions', array('photo' => $photo)); ?>
 				</div>
 				<?php endforeach; ?>
 			<?php endif; ?>
@@ -116,22 +115,27 @@ $this->end();
 <script>
 function createUploader(){
 	var containerTemplate = _.template(
-		'<div class="album-photo">' +
-		'	<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
-		'		href="<%= LargeAsset.path %>">' +
-		'		<img src="<%= ThumbnailAsset.path %>" class="img-polaroid">' +
-		'	</a>' +
-		'	<div class="photo-actions">' +
-		'		<a class="remove" href="javascript:void(0);" rel="<%= Photo.id %>"><%= sRemove %></a>' +
-		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><%= sEdit %></a>' +
-		'		<a class="up" href="/admin/gallery/photos/moveup/<%= Photo.id %>"><%= sUp %></a>' +
-		'		<a class="down" href="/admin/gallery/photos/movedown/<%= Photo.id %>"><%= sDown %></a>' +
+		'<div class="album-photo clearfix">' +
+		'	<div class="span3">' +
+		'		<a class="thickbox" rel="gallery-<%= Photo.album_id %>"' +
+		'			href="<%= LargeAsset.path %>">' +
+		'			<img src="<%= ThumbnailAsset.path %>" class="img-polaroid">' +
+		'		</a>' +
 		'	</div>' +
-		'	<div class="path">' +
+
+		'	<div class="path span6">' +
+		'		Filename: ' +
 		'		<a target="_blank" title="<%= OriginalAsset.path %>"' +
 		'			href="<%= OriginalAsset.path %>">' +
-		'			...<%= OriginalAsset.path.substr(-40) %>' +
+		'			<%= OriginalAsset.path.slice(OriginalAsset.path.lastIndexOf("/") + 1) %>' +
 		'		</a>' +
+		'	</div>' +
+
+		'	<div class="photo-actions span3">' +
+		'		<a class="remove" href="javascript:void(0);" rel="<%= Photo.id %>"><i class="icon-trash icon-small"></i> <%= sRemove %></a>' +
+		'		<a class="edit" href="/admin/gallery/photos/edit/<%= Photo.id %>"><i class="icon-edit icon-small"></i> <%= sEdit %></a>' +
+		'		<a class="up" href="/admin/gallery/photos/moveup/<%= Photo.id %>"><i class="icon-chevron-up icon-small"></i> <%= sUp %></a>' +
+		'		<a class="down" href="/admin/gallery/photos/movedown/<%= Photo.id %>"><i class="icon-chevron-down icon-small"></i> <%= sDown %></a>' +
 		'	</div>' +
 		'</div>'
 	);
@@ -169,13 +173,18 @@ $(function(){
 	createUploader();
 	$('.remove').live('click', function(){
 		var obj = $(this);
-		$.getJSON('<?php echo $this->Html->url('/admin/gallery/albums/delete_photo/');?>'+obj.attr('rel'), function(r) {
-			if (r['status'] == 1) {
-				obj.parents('.album-photo').fadeOut('fast', function(){
-					$(this).remove();
-				});
-			} else {
-				alert(r['msg']);
+		var url = '<?php echo $this->Html->url('/admin/gallery/albums/delete_photo/');?>'+obj.attr('rel');
+		$.ajax(url, {
+			type: 'POST',
+			success: function(data, textStatus, jqXHR) {
+				var json = $.parseJSON(data);
+				if (json['status'] == 1) {
+					obj.parents('.album-photo').fadeOut('fast', function() {
+						$(this).remove();
+					});
+				} else {
+					alert(json['msg']);
+				}
 			}
 		});
 	});

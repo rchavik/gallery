@@ -33,14 +33,7 @@
 }
 
 .album-photo {
-	float: left;
-	padding: 10px;
-	position:relative;
-	width: 46%;
-	font-size: 0.8em;
-	border: 1px solid #ddd;	
-	margin: 0 8px 8px 0;
-	border-radius: 4px;
+	padding: 10px 5px;
 }
 
 .album-photo.hover,
@@ -50,22 +43,16 @@
 
 .album-photo img {
 	float: left;
+	margin-bottom: 10px;
 }
 
 .album-photo .path {
-	margin: 0 4px;
-	float: left;
-}
-
-.album-photo .description {
-	float: left;
-	width: 50%;
-	padding: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .photo-actions {
 	text-align: right;
 	float: right;
-	margin: 0 0 14px;
-	width: 200px;
 }
