@@ -100,15 +100,17 @@ if (empty($this->data['Album']['title'])) {
 			$this->Form->input('status', array(
 				'label' => __d('gallery', 'Status'),
 				'class' => false,
-			)) .
+			));
 
-			$this->Form->input('created', array(
+		if ($this->request->param('action') == 'admin_edit'):
+			echo $this->Form->input('created', array(
 				'type' => 'text',
 				'placeholder' => __('Created'),
-				'readonly' => true,
-			)) .
+				'class' => 'input-datetime',
+			));
+		endif;
 
-			$this->Html->endBox();
+		echo $this->Html->endBox();
 
 		echo $this->Croogo->adminBoxes();
 	?>
