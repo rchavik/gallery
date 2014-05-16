@@ -70,8 +70,12 @@ class Album extends GalleryAppModel {
 		if ($state == 'before') {
 			$query = Hash::merge($query, array(
 				'recursive' => -1,
-				'fields' => array('*', 'Photo.*'),
 				'order' => 'AlbumsPhoto.weight asc',
+				'contain' => array(
+					'Photo' => array(
+						'OriginalAsset', 'LargeAsset', 'ThumbnailAsset',
+					),
+				),
 				'joins' => array(
 					array(
 						'alias' => $this->AlbumsPhoto->alias,
@@ -94,7 +98,7 @@ class Album extends GalleryAppModel {
 			if (isset($results[0]['Album']['id'])) {
 				$album = array('Album' => $results[0]['Album']);
 				$photos = Hash::extract($results, '{n}.Photo');
-				$album['Photo'] = $photos;
+				$album['Photo'] = $photos[0];
 				$results = $album;
 			}
 			if (isset($results[0]['Album'])) {

@@ -26,8 +26,8 @@ class FancyboxHelper extends AppHelper {
 	}
 
 	public function photo($album, $photo) {
-		$urlLarge = $this->Html->url('/' . $photo['large']);
-		$urlSmall = $this->Html->url('/' . $photo['small']);
+		$urlLarge = $this->Html->url($photo['LargeAsset']['path']);
+		$urlSmall = $this->Html->url($photo['ThumbnailAsset']['path']);
 		$imgTag = $this->Html->image($urlSmall);
 		return $this->Html->tag('a', $imgTag, array(
 			'href' => $urlLarge,
