@@ -130,7 +130,11 @@ class AlbumsController extends GalleryAppController {
 		$this->Album->Behaviors->attach('Containable');
 		$this->paginate = array(
 			'conditions' => array('Album.status' => 1),
-			'contain' => array('Photo' => array('limit' => 1)),
+			'contain' => array(
+				'Photo' => array(
+					'ThumbnailAsset',
+				),
+			),
 			'limit' => Configure::read('Gallery.album_limit_pagination'),
 			'order' => 'Album.position ASC',
 		);
