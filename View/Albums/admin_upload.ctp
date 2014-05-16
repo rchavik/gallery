@@ -12,16 +12,22 @@ $editUrl = $this->Html->link($album['Album']['title'], array(
 $this->Html
 	->addCrumb('', '/admin', array('icon' => 'home'))
 	->addCrumb('Gallery')
-	->addCrumb(__d('gallery', 'Albums'), array('admin' => true, 'plugin' => 'gallery', 'controller' => 'albums', 'action' => 'index'));
+	->addCrumb(__d('gallery', 'Albums'), array(
+		'admin' => true,
+		'plugin' => 'gallery',
+		'controller' => 'albums',
+		'action' => 'index'
+	));
 
-if (empty($album)) {
+if (empty($album)):
 	$this->Html->addCrumb(__d('gallery', 'Add'), $this->here);
-} else {
+else:
 	$this->Html
-		->addCrumb($album['Album']['title'], array('action' => 'edit', $album['Album']['id']))
+		->addCrumb($album['Album']['title'], array(
+			'action' => 'edit', $album['Album']['id'],
+		))
 		->addCrumb(__d('gallery', 'Photos'), $this->here);
-
-}
+endif;
 
 $this->start('actions');
 	echo $this->Form->postLink(__('Reset weight'),
@@ -45,17 +51,12 @@ $this->end();
 	<div id="upload" class="span12">
 	</div>
 	<div id="return" class="span12">
+
 		<?php if(isset($album['Photo'])): ?>
+
 			<?php foreach($album['Photo'] as $photo): ?>
-				<?php
-				$filename = basename($photo['LargeAsset']['path']);
-				$filename = $this->Html->link(
-					$this->Text->truncate($filename, 40),
-					$photo['OriginalAsset']['path'],
-					array('target' => '_blank', 'title' => $filename)
-				);
-				?>
-				<div class="album-photo">
+				<div class="album-photo clearfix">
+					<div class="span3">
 					<?php
 					echo $this->Html->link(
 						$this->Html->image($photo['ThumbnailAsset']['path'], array('class' => 'img-polaroid')),
@@ -67,60 +68,34 @@ $this->end();
 						)
 					);
 					?>
-					<div class="photo-actions">
-					<?php
-						echo $this->Html->link(__d('gallery', 'remove', true),
-							'javascript:;',
-							array(
-								'rel' => $photo['id'],
-								'class' => 'remove',
-							)
-						);
-					?>
-					<?php
-						echo $this->Html->link('edit', array(
-							'controller' => 'photos',
-							'action' => 'edit',
-							$photo['id'],
-							), array(
-								'class' => 'edit',
-							)
-						);
-					?>
-					<?php
-						echo $this->Html->link('up', array(
-							'controller' => 'photos',
-							'action' => 'moveup',
-							$photo['AlbumsPhoto']['id'],
-							), array(
-								'class' => 'up',
-							)
-						);
-					?>
-					<?php
-						echo $this->Html->link('down', array(
-							'controller' => 'photos',
-							'action' => 'movedown',
-							$photo['AlbumsPhoto']['id'],
-							), array(
-								'class' => 'up',
-							)
-						);
-					?>
 					</div>
+
+					<?php echo $this->element('Gallery.admin/album_actions', array('photo' => $photo)); ?>
+
 					<div class="path">
-					<?php echo $filename; ?>
+					<?php
+						$filename = basename($photo['LargeAsset']['path']);
+						$filename = $this->Html->link(
+							$this->Text->truncate($filename, 120),
+							$photo['OriginalAsset']['path'],
+							array('target' => '_blank', 'title' => $filename)
+						);
+						echo __('Filename: %s', $filename);
+					?>
 					</div>
+
 					<?php if (!empty($photo['title'])): ?>
 					<div class="description">
 						<?php echo $this->Html->tag('strong', $this->Text->truncate(strip_tags($photo['title']), 100)); ?>
 						<br />
 						<?php echo $this->Text->truncate(strip_tags($photo['description']), 120); ?></div>
 					<?php endif; ?>
-					</div>
-			<?php endforeach; ?>
-		<?php endif; ?>
+
+				</div>
+				<?php endforeach; ?>
+			<?php endif; ?>
 	</div>
+
 	<div class='pagelist' style='text-align: center;'>
 	<?php echo $this->Html->link('prev ', '#', array(
 		'class' => 'gallery-prev',
@@ -189,7 +164,7 @@ function createUploader(){
 }
 
 // in your app create uploader as soon as the DOM is ready
-// don't wait for the window to load  
+// don't wait for the window to load
 $(function(){
 	createUploader();
 	$('.remove').live('click', function(){
